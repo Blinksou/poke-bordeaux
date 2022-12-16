@@ -1,9 +1,12 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 /* eslint-disable */
 
 @Component({
-  selector: 'poke-bordeaux-nx-welcome',
+  selector: 'app-nx-welcome',
+  standalone: true,
+  imports: [CommonModule],
   template: `
     <!--
      * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -433,7 +436,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
         <div id="welcome">
           <h1>
             <span> Hello there, </span>
-            Welcome poke 👋
+            Welcome app 👋
           </h1>
         </div>
 

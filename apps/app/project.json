@@ -1,22 +1,22 @@
 {
-  "name": "poke",
+  "name": "app",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/poke/src",
-  "prefix": "poke-bordeaux",
+  "sourceRoot": "apps/app/src",
+  "prefix": "app",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/poke",
-        "index": "apps/poke/src/index.html",
-        "main": "apps/poke/src/main.ts",
+        "outputPath": "dist/apps/app",
+        "index": "apps/app/src/index.html",
+        "main": "apps/app/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/poke/tsconfig.app.json",
+        "tsConfig": "apps/app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/poke/src/favicon.ico", "apps/poke/src/assets"],
-        "styles": ["apps/poke/src/styles.scss"],
+        "assets": ["apps/app/src/favicon.ico", "apps/app/src/assets"],
+        "styles": ["apps/app/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -50,10 +50,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "poke:build:production"
+          "browserTarget": "app:build:production"
         },
         "development": {
-          "browserTarget": "poke:build:development"
+          "browserTarget": "app:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -61,21 +61,21 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "poke:build"
+        "browserTarget": "app:build"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/poke/**/*.ts", "apps/poke/**/*.html"]
+        "lintFilePatterns": ["apps/app/**/*.ts", "apps/app/**/*.html"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/poke/jest.config.ts",
+        "jestConfig": "apps/app/jest.config.ts",
         "passWithNoTests": true
       }
     }

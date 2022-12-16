@@ -1,19 +1,19 @@
 {
-  "name": "poke-e2e",
+  "name": "app-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/poke-e2e/src",
+  "sourceRoot": "apps/app-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/poke-e2e/cypress.config.ts",
-        "devServerTarget": "poke:serve:development",
+        "cypressConfig": "apps/app-e2e/cypress.config.ts",
+        "devServerTarget": "app:serve:development",
         "testingType": "e2e"
       },
       "configurations": {
         "production": {
-          "devServerTarget": "poke:serve:production"
+          "devServerTarget": "app:serve:production"
         }
       }
     },
@@ -21,10 +21,10 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/poke-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/app-e2e/**/*.{js,ts}"]
       }
     }
   },
   "tags": [],
-  "implicitDependencies": ["poke"]
+  "implicitDependencies": ["app"]
 }

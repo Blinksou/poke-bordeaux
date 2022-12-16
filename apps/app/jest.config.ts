@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'poke',
+  displayName: 'app',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -9,7 +9,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/apps/poke',
+  coverageDirectory: '../../coverage/apps/app',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
