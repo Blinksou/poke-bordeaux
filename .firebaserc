@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "poke-bordeaux"
+  },
+  "targets": {
+    "poke-bordeaux": {
+      "hosting": {
+        "app": [
+          "poke-bordeaux"
+        ]
+      }
+    }
+  }
+}
