@@ -1,0 +1,3 @@
+<div class="avatar" [ngClass]="{'avatar-empty': url === null}">
+  <img *ngIf="url" src="{{url}}" />
+</div>
