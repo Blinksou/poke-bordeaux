@@ -1,3 +1,12 @@
-<div>
+<div id="hunt-page">
+  <h2>Hunt</h2>
+  <button mat-button color="primary">Hunt</button>
+  <div id="hunt-page-energy">
+    <img src="/assets/icons/energy.svg" />
+    <span
+      >{{ energy }} / {{ maxEnergy }}, next in
+      {{ durationBeforeNextEnery }}</span
+    >
+  </div>
   <app-pokeball-list></app-pokeball-list>
 </div>

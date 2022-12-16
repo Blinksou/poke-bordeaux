@@ -1,0 +1,16 @@
+#hunt-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  button {
+    border-radius: 20px;
+    padding: 20px 30px;
+    font-size: 1rem;
+  }
+
+  #hunt-page-energy {
+    display: flex;
+    align-items: center;
+  }
+}
