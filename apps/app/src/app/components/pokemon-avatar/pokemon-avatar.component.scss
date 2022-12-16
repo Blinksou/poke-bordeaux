@@ -1,0 +1,17 @@
+.avatar {
+  border-radius: 50%;
+  height: 72px;
+  text-align: center;
+  width: 72px;
+
+  &-empty {
+    background-color: #e0e0e0;
+  }
+}
+
+img {
+  object-fit: cover;
+  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+}
