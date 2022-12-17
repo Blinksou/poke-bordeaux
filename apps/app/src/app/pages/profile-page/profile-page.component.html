@@ -1,1 +1,9 @@
-<p>profile-page works!</p>
+<main role="main">
+
+  <app-profile-page-header [profile]="profile.infos"></app-profile-page-header>
+
+  <app-profile-options (toggleOptionEvent)="toggleOption($event)" [options]="profile.options"></app-profile-options>
+
+  <app-profile-statistics [stats]="profile.stats"></app-profile-statistics>
+
+</main>

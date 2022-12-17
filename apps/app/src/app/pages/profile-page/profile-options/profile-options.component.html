@@ -1,0 +1,16 @@
+<section class="options">
+  <ul>
+    <li>
+      <label>
+        <mat-slide-toggle (click)="toggleOption({allowTrading: !options.allowTrading})" [checked]="options.allowTrading" color="primary" aria-label="Allow trading"></mat-slide-toggle>
+        <span>Allow trading</span>
+      </label>
+    </li>
+    <li>
+      <label>
+        <mat-slide-toggle (click)="toggleOption({allowOthersToViewActivity: !options.allowOthersToViewActivity})" [checked]="options.allowOthersToViewActivity" color="primary" aria-label="Allow others to view activity"></mat-slide-toggle>
+        <span>Allow others to view activity</span>
+      </label>
+    </li>
+  </ul>
+</section>

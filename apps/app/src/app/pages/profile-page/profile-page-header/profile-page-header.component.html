@@ -1,0 +1,18 @@
+<header>
+  <div>
+    <mat-icon fontIcon="badge"></mat-icon>
+    <h1 class="profile-name">{{ profile.name | titlecase }}</h1>
+  </div>
+  <mat-grid-list cols="3">
+    <mat-grid-tile colspan="1">
+      <div class="trainer-avatar">
+        <img [src]="profile.avatar" [alt]="profile.name + ' avatar' |lowercase">
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <p>
+        {{ profile.description }}
+      </p>
+    </mat-grid-tile>
+  </mat-grid-list>
+</header>
