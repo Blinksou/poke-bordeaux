@@ -1,33 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 import { ProfilePageHeaderComponent } from './profile-page-header/profile-page-header.component';
 import { ProfileOptionsComponent } from './profile-options/profile-options.component';
 import { ProfileStatisticsComponent } from './profile-statistics/profile-statistics.component';
+import { Profile } from './model/profile-page.model';
 
-export interface Profile {
-  id: string;
-  infos: {
-    description: string;
-    avatar: string;
-    name: string;
-  };
-  options: {
-    allowTrading: boolean;
-    allowOthersToViewActivity: boolean;
-  };
-  stats: {
-    capturedPokemons: number;
-    thrownPokeballs: number;
-    tradingFulfilled: number;
-  };
-}
 @Component({
   selector: 'app-profile-page',
   standalone: true,
   imports: [
     CommonModule,
-    MatIconModule,
     ProfilePageHeaderComponent,
     ProfileOptionsComponent,
     ProfileStatisticsComponent,
@@ -56,4 +38,8 @@ export class ProfilePageComponent {
       tradingFulfilled: 38,
     },
   };
+
+  toggleOption(option: PickOne<Profile['options']>) {
+    this.profile.options = { ...this.profile.options, ...option };
+  }
 }
