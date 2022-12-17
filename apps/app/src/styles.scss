@@ -87,3 +87,12 @@ body {
   background: mat.get-color-from-palette($app-primary, 900);
   margin: 0;
 }
+
+ul{
+  list-style: none;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+}
