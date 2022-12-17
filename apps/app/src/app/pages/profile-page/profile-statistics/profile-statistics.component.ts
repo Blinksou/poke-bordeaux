@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Profile } from '../profile-page.component';
 import { MatIconModule } from '@angular/material/icon';
+import { Profile } from '../model/profile-page.model';
 
 @Component({
   selector: 'app-profile-statistics',
