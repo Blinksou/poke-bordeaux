@@ -1,42 +1,51 @@
-<main style="padding: 1rem">
+<main>
   <header>
     <h1 class="profile-name">Profile Name</h1>
+    <mat-grid-list cols="3">
+      <mat-grid-tile colspan="1">
+        <div class="trainer-avatar">
+          <img src="https://picsum.photos/400" alt="trainer avatar">
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="2">
+        <p style="padding-left: 1rem">
+          ♪ I wanna be the very best,
+          like no one ever was
+          To catch them is my real test
+          To train them is my cause ♪
+        </p>
+      </mat-grid-tile>
+    </mat-grid-list>
   </header>
 
-  <mat-grid-list cols="3">
-    <mat-grid-tile colspan="1">
-      <img src="https://picsum.photos/300" alt="avatar utilisateur" style="height: 200px">
-    </mat-grid-tile>
-    <mat-grid-tile colspan="2">
-      <div style="padding-left: 1rem">
-        ♪ I wanna be the very best,
-        like no one ever was
-        To catch them is my real test
-        To train them is my cause ♪
-      </div>
-    </mat-grid-tile>
-  </mat-grid-list>
-
-  <section style="margin-top: 2rem">
+  <section class="options">
     <ul>
-      <li style="display: flex; align-items: center">
-        <mat-slide-toggle color="primary" aria-label="Allow trading"></mat-slide-toggle>
-        <p style="margin-left: 1rem">Allow trading</p>
+      <li>
+        <label>
+          <mat-slide-toggle color="primary" aria-label="Allow trading"></mat-slide-toggle>
+          <span>Allow trading</span>
+        </label>
       </li>
-      <li style="display: flex; align-items: center">
-        <mat-slide-toggle color="primary" aria-label="Allow others to view activity"></mat-slide-toggle>
-        <p style="margin-left: 1rem">Allow others to view activity</p>
+      <li>
+        <label>
+          <mat-slide-toggle color="primary" aria-label="Allow others to view activity"></mat-slide-toggle>
+          <span>Allow others to view activity</span>
+        </label>
       </li>
     </ul>
   </section>
 
   <section class="statistics">
-    <h2 style="text-align: center">Statistics</h2>
-    <ul style="max-width: 20rem; margin: auto; list-style: none; padding-left: 0;">
-      <li>Captured pokemons:</li>
-      <li>Thrown Pokeballs:</li>
-      <li>Trading fulfilled:</li>
+    <header>
+      <mat-icon aria-hidden="false" aria-label="Statistics" fontIcon="description"></mat-icon>
+      <h2>Statistics</h2>
+    </header>
+    <ul>
+      <li>
+        <p>Captured pokemons : <b>504</b></p>
+      </li>
+      <li>Thrown Pokeballs : <b>1,520</b></li>
+      <li>Trading fulfilled : <b>38</b></li>
     </ul>
   </section>
-
 </main>
