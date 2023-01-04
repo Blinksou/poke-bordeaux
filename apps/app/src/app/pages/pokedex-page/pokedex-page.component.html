@@ -1,1 +1,13 @@
-<p>pokedex-page works!</p>
+<div class="search-filters">
+    <form class="example-form">
+        <mat-form-field class="example-full-width">
+            <mat-label>Search...</mat-label>
+            <mat-icon matPrefix mat-button>search</mat-icon>
+            <input type="tel" matInput placeholder="Search" name= "search" [(ngModel)]= "search">
+        </mat-form-field>
+        <br/>
+        {{search}}
+    </form>
+    <mat-icon mat-button>filter_list</mat-icon>
+</div>
+
