@@ -4,6 +4,7 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { HuntPageComponent } from './pages/hunt-page/hunt-page.component';
 import { PokedexPageComponent } from './pages/pokedex-page/pokedex-page.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 export const appRoutes: Route[] = [
   {
@@ -13,6 +14,10 @@ export const appRoutes: Route[] = [
   {
     path: 'profile',
     component: ProfilePageComponent,
+  },
+  {
+    path: 'login',
+    component: LoginPageComponent,
   },
   {
     path: 'register',

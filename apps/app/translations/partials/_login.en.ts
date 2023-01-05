@@ -10,5 +10,6 @@ export const loginMessages = {
         email: 'Please enter a valid email address',
       },
     },
+    registerText: 'No account ?',
   },
 };
