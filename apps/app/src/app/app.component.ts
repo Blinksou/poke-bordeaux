@@ -6,6 +6,8 @@ import { en } from '../../translations/en';
 import { fr } from '../../translations/fr';
 import { BottomNavigationComponent } from './components/bottom-navigation/bottom-navigation.component';
 import { PokemonAvatarComponent } from './components/pokemon-avatar/pokemon-avatar.component';
+import { AuthService } from './services/auth.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -14,6 +16,7 @@ import { PokemonAvatarComponent } from './components/pokemon-avatar/pokemon-avat
     HeaderComponent,
     BottomNavigationComponent,
     PokemonAvatarComponent,
+    NgIf,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,7 +25,10 @@ import { PokemonAvatarComponent } from './components/pokemon-avatar/pokemon-avat
 export class AppComponent {
   title = 'app';
 
-  constructor(private readonly translate: TranslateService) {
+  constructor(
+    private readonly translate: TranslateService,
+    public readonly authService: AuthService
+  ) {
     translate.setTranslation('en', en);
     translate.setTranslation('fr', fr);
 

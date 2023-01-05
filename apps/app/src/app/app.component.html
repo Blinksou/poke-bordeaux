@@ -3,8 +3,9 @@
 <!--<a routerLink="/profile" routerLinkActive="active">Profile</a>-->
 <!--<a routerLink="/register" routerLinkActive="active">Register</a>-->
 
-<app-bottom-navigation></app-bottom-navigation>
-
+<div *ngIf="authService.isLoggedIn">
+  <app-bottom-navigation></app-bottom-navigation>
+</div>
 <router-outlet></router-outlet>
 
 <!--<app-pokemon-avatar-->
