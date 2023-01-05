@@ -1,14 +1,13 @@
 import { RouterModule } from '@angular/router';
 import { Component } from '@angular/core';
 import { HeaderComponent } from './components/header/header.component';
-import { PokemonAvatarComponent } from './components/pokemon-avatar/pokemon-avatar.component';
 import { TranslateService } from '@ngx-translate/core';
 import { en } from '../../translations/en';
 import { fr } from '../../translations/fr';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, HeaderComponent, PokemonAvatarComponent],
+  imports: [RouterModule, HeaderComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

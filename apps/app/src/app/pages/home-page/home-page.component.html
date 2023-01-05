@@ -1,34 +1,10 @@
-<div *ngIf="!authService.isLoggedIn">
-  <h2>{{'login.title' | translate}}</h2>
-
-  <div class="flex justify-center flex-row">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div>
-        <mat-form-field>
-          <mat-label>{{'login.form.loginLabel'|translate}}</mat-label>
-          <input matInput formControlName="login">
-          <mat-error *ngIf="login!.hasError('required')">
-            {{'login.form.errors.required'|translate}}
-          </mat-error>
-          <mat-error *ngIf="login!.hasError('email')">
-            {{'login.form.errors.email'|translate}}
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-      <div>
-        <mat-form-field>
-          <mat-label>{{'login.form.passwordLabel'|translate}}</mat-label>
-          <input matInput formControlName="password">
-          <mat-error *ngIf="password!.hasError('required')">
-            {{'login.form.errors.required'|translate}}
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-      <button class="btn btn-secondary" type="submit" [disabled]="loginForm.invalid">
-        {{'login.form.confirmLabel'|translate}}
-      </button>
-    </form>
+<div class="grid h-screen place-items-center">
+  <div class="flex flex-col">
+    <a class="btn btn-secondary" routerLink="/login">
+      {{ 'login.title' | translate }}
+    </a>
+    <a class="btn btn-secondary mt-5" routerLink="/signup">
+      {{ 'register.title' | translate }}
+    </a>
   </div>
 </div>
