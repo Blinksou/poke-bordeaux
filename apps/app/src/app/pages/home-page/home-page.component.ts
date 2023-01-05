@@ -1,15 +1,27 @@
-import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatInputModule} from "@angular/material/input";
-import {MatButtonModule} from "@angular/material/button";
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
+    TranslateModule,
+  ],
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss']
+  styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent {
   loginForm = this.fb.group({
@@ -17,10 +29,7 @@ export class HomePageComponent {
     password: new FormControl<string>('', [Validators.required]),
   });
 
-  constructor(
-    private readonly fb: FormBuilder
-  ) {
-  }
+  constructor(private readonly fb: FormBuilder) {}
 
   get login() {
     return this.loginForm.get('login');
@@ -33,5 +42,4 @@ export class HomePageComponent {
   onSubmit() {
     console.log(this.loginForm.value);
   }
-
 }
