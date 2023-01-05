@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Filters</h2>
+<div mat-dialog-content class="mat-typography">
+    <h3>Types</h3>
+    <mat-grid-list cols="4" rowHeight="1:1">
+        <mat-grid-tile *ngFor="let type of typesList">
+            {{ type.name }}
+        </mat-grid-tile>
+    </mat-grid-list>
+    <div mat-dialog-actions>
+        <button mat-button mat-dialog-close>No</button>
+        <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+    </div>
+</div>
