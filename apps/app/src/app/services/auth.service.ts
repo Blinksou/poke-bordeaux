@@ -3,8 +3,9 @@ import {
   Auth,
   authState,
   signInWithEmailAndPassword,
+  User,
 } from '@angular/fire/auth';
-import { catchError, first, from, map, NEVER, Observable, tap } from 'rxjs';
+import { catchError, first, from, map, NEVER, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -12,9 +13,10 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   isLoggedIn: Observable<boolean> = authState(this.auth).pipe(
-    tap(console.log),
     map((user) => !!user)
   );
+
+  user: Observable<User | null> = authState(this.auth);
 
   constructor(private readonly auth: Auth, private readonly router: Router) {}
 
