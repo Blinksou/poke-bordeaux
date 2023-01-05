@@ -6,7 +6,9 @@
 <div *ngIf="authService.isLoggedIn">
   <app-bottom-navigation></app-bottom-navigation>
 </div>
-<router-outlet></router-outlet>
 
+<main class="max-w-screen-md mx-auto mt-6">
+  <router-outlet></router-outlet>
+</main>
 <!--<app-pokemon-avatar-->
 <!--  url="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"></app-pokemon-avatar>-->
