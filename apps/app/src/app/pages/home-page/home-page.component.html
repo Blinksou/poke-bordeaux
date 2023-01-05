@@ -1,1 +1,22 @@
-<p>home-page works!</p>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <div>
+    <mat-label>Login</mat-label>
+    <input matInput formControlName="login">
+    <mat-error *ngIf="login!.hasError('required') && login!.touched">
+      Un login est requis
+    </mat-error>
+    <mat-error *ngIf="login!.hasError('email') && login!.touched">
+      Le login doit être une adresse email valide
+    </mat-error>
+  </div>
+
+  <div>
+    <mat-label>Mot de passe</mat-label>
+    <input matInput formControlName="password">
+    <mat-error *ngIf="password!.hasError('required') && password!.touched">
+      Un mot de passe est requis
+    </mat-error>
+  </div>
+
+  <button mat-raised-button style="background: white" type="submit" [disabled]="loginForm.invalid">Se connecter</button>
+</form>
