@@ -4,10 +4,17 @@ import { HeaderComponent } from './components/header/header.component';
 import { TranslateService } from '@ngx-translate/core';
 import { en } from '../../translations/en';
 import { fr } from '../../translations/fr';
+import { BottomNavigationComponent } from './components/bottom-navigation/bottom-navigation.component';
+import { PokemonAvatarComponent } from './components/pokemon-avatar/pokemon-avatar.component';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, HeaderComponent],
+  imports: [
+    RouterModule,
+    HeaderComponent,
+    BottomNavigationComponent,
+    PokemonAvatarComponent,
+  ],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
