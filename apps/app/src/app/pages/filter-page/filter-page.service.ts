@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { PokeApi } from '../../../interfaces';
 
 const httpOptions = {
@@ -15,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PokedexPageService {
+export class FilterPageService {
 
   constructor(private http: HttpClient) {}
 

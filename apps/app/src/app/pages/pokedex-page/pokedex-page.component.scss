@@ -8,14 +8,20 @@
 
 .example-form {
     width: 80%;
+    height: 50px;
+}
 
+.filter {
+    margin-left: 10px;
+    height: 55px;
+}
+
+.filter button {
+    border: none;
+    height: 100%;
+    background-color: white;
 }
 
 .example-full-width {
     width: 100%;
-}
-
-.filter mat-icon {
-    margin-left: 15px;
-    margin-top: 15px;
 }
