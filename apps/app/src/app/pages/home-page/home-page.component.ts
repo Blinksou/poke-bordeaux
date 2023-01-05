@@ -9,6 +9,7 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home-page',
@@ -29,7 +30,10 @@ export class HomePageComponent {
     password: new FormControl<string>('', [Validators.required]),
   });
 
-  constructor(private readonly fb: FormBuilder) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    public readonly authService: AuthService
+  ) {}
 
   get login() {
     return this.loginForm.get('login');
@@ -39,7 +43,10 @@ export class HomePageComponent {
     return this.loginForm.get('password');
   }
 
-  onSubmit() {
-    console.log(this.loginForm.value);
+  async onSubmit() {
+    this.authService.signIn(
+      this.login?.value || '',
+      this.password?.value || ''
+    );
   }
 }
