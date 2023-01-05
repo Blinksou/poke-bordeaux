@@ -35,8 +35,8 @@ function createCompareValidator(
     MatInputModule,
     MatButtonModule,
   ],
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
+  templateUrl: './signup-page.component.html',
+  styleUrls: ['./signup-page.component.scss'],
 })
 export class SignupComponent {
   signupForm: FormGroup;
