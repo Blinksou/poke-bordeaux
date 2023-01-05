@@ -1,9 +1,9 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div>
-    <mat-label>Login</mat-label>
+    <mat-label>Email</mat-label>
     <input matInput formControlName="login">
     <mat-error *ngIf="login!.hasError('required') && login!.touched">
-      Un login est requis
+      Un email est requis
     </mat-error>
     <mat-error *ngIf="login!.hasError('email') && login!.touched">
       Le login doit être une adresse email valide
