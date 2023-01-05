@@ -2,6 +2,6 @@
   <app-header-logo [isLoggedIn]="authService.isLoggedIn"></app-header-logo>
   <div class="logo-container">
     <h2 class="logo-title">Bordeaux</h2>
-    <h3 class="logo-subtitle" *ngIf="subtitle">{{subtitle}}</h3>
+    <h3 class="logo-subtitle" *ngIf="!authService.isLoggedIn && subtitle">{{subtitle}}</h3>
   </div>
 </ng-container>
