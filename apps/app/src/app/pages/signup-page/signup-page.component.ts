@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../services/auth.service';
 
 function createCompareValidator(
   controlOne: AbstractControl | null,
@@ -45,7 +46,10 @@ export class SignupComponent {
     return this.signupForm.get('email');
   }
 
-  constructor(private readonly fb: FormBuilder) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly authService: AuthService
+  ) {
     this.signupForm = fb.group({
       email: new FormControl<string>('', [
         Validators.required,
@@ -63,7 +67,9 @@ export class SignupComponent {
   }
 
   signupAction() {
-    console.log(this.signupForm.value);
-    console.log(this.signupForm);
+    this.authService.signUp(
+      this.signupForm.get('email')?.value,
+      this.signupForm.get('password')?.value
+    );
   }
 }
