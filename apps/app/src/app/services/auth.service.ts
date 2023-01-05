@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   Auth,
   authState,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   User,
 } from '@angular/fire/auth';
@@ -34,6 +35,20 @@ export class AuthService {
         console.log('LOGGED IN', result.user);
 
         this.router.navigateByUrl('/');
+      });
+  }
+
+  signUp(email: string, password: string) {
+    from(createUserWithEmailAndPassword(this.auth, email, password))
+      .pipe(
+        catchError(async (err) => {
+          console.error('ERROR WHILE SIGNING UP', err);
+          return NEVER;
+        }),
+        first()
+      )
+      .subscribe((result) => {
+        this.router.navigateByUrl('/login');
       });
   }
 
