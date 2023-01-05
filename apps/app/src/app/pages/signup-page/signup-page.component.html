@@ -1,0 +1,40 @@
+<div class="login-page">
+  <div class="login-form">
+    <mat-card>
+      <mat-card-title>
+        <h1>Signup</h1>
+      </mat-card-title>
+      <mat-card-content style="width: 300px">
+        <form [formGroup]="signupForm" (ngSubmit)="signupAction()">
+          <div>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email">
+              <mat-error *ngIf="email?.errors?.['email']">Email must be an email</mat-error>
+              <mat-error *ngIf="email?.errors?.['required']">Email is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password">
+              <mat-error>Password is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Confirm Password</mat-label>
+              <input matInput type="password" formControlName="repeatedPassword">
+            </mat-form-field>
+            <div *ngIf="signupForm?.errors?.['match_error']">
+              <mat-error>Your password does not match</mat-error>
+            </div>
+          </div>
+          <div>
+            <button mat-raised-button color="primary" [disabled]="signupForm.invalid" type="submit">Sign up</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

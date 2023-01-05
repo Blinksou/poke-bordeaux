@@ -1,6 +1,6 @@
+import { SignupComponent } from './pages/signup-page/signup-page.component';
 import { Route } from '@angular/router';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { HuntPageComponent } from './pages/hunt-page/hunt-page.component';
 import { PokedexPageComponent } from './pages/pokedex-page/pokedex-page.component';
@@ -16,12 +16,12 @@ export const appRoutes: Route[] = [
     component: ProfilePageComponent,
   },
   {
-    path: 'login',
-    component: LoginPageComponent,
+    path: 'signup',
+    component: SignupComponent,
   },
   {
-    path: 'register',
-    component: RegisterPageComponent,
+    path: 'login',
+    component: LoginPageComponent,
   },
   {
     path: 'hunt',
