@@ -5,10 +5,16 @@ import { PokemonAvatarComponent } from './components/pokemon-avatar/pokemon-avat
 import { TranslateService } from '@ngx-translate/core';
 import { en } from '../../translations/en';
 import { fr } from '../../translations/fr';
+import { BottomNavigationComponent } from './components/bottom-navigation/bottom-navigation.component';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, HeaderComponent, PokemonAvatarComponent],
+  imports: [
+    RouterModule,
+    HeaderComponent,
+    BottomNavigationComponent,
+    PokemonAvatarComponent,
+  ],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
