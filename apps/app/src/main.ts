@@ -10,11 +10,13 @@ import { getAuth, provideAuth } from "@angular/fire/auth";
 import { getFirestore, provideFirestore } from "@angular/fire/firestore";
 import { getStorage, provideStorage } from "@angular/fire/storage";
 import { ServiceWorkerModule } from "@angular/service-worker";
+import { HttpClientModule } from "@angular/common/http";
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
     importProvidersFrom(
+      HttpClientModule,
       BrowserAnimationsModule,
       ServiceWorkerModule.register("ngsw-worker.js", {
         enabled: !isDevMode(),
