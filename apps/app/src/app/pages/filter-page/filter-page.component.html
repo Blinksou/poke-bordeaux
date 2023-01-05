@@ -6,8 +6,13 @@
             {{ type.name }}
         </mat-grid-tile>
     </mat-grid-list>
-    <div mat-dialog-actions>
-        <button mat-button mat-dialog-close>No</button>
-        <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
-    </div>
+    <form class="example-form" #form="ngForm" (ngSubmit)="alertFormValues(form.form)">
+        <mat-slide-toggle class="toggle" ngModel name="hideknown">Hide known, not owned</mat-slide-toggle>
+        <mat-slide-toggle class="toggle" ngModel name="hideunknown">Hide unknown</mat-slide-toggle>
+        <div class="btns" mat-dialog-actions>
+            <button mat-raised-button type="submit">Apply</button>
+            <button mat-button mat-dialog-close>Reset</button>
+        </div>
+    </form>
+
 </div>
