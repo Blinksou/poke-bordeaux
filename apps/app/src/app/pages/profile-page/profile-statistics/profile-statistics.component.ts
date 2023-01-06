@@ -11,5 +11,5 @@ import { UserProfile } from '../../../model/user';
   styleUrls: ['./profile-statistics.component.scss'],
 })
 export class ProfileStatisticsComponent {
-  @Input() stats: UserProfile['stats'] | Record<string, never> = {};
+  @Input() stats: UserProfile['stats'] | undefined;
 }

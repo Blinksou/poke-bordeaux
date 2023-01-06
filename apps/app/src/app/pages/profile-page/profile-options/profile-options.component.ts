@@ -11,8 +11,10 @@ import { UserProfile } from '../../../model/user';
   styleUrls: ['./profile-options.component.scss'],
 })
 export class ProfileOptionsComponent {
-  @Input() options: UserProfile['options'] | Record<string, never> = {};
-  @Output() toggleOptionEvent = new EventEmitter<PickOne<UserProfile['options']>>();
+  @Input() options: UserProfile['options'] | undefined;
+  @Output() toggleOptionEvent = new EventEmitter<
+    PickOne<UserProfile['options']>
+  >();
   toggleOption($event: PickOne<UserProfile['options']>) {
     this.toggleOptionEvent.emit($event);
   }
