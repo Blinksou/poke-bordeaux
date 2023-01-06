@@ -1,7 +1,7 @@
-import { EnergyState } from './energyState.interface';
+import { IncrementableCounter } from './incrementableCounter.interface';
 import { PokeballsState } from './pokeballsState.interface';
 
 export interface HuntState {
-  energyState: EnergyState;
+  energyState: IncrementableCounter;
   pokeballsState: PokeballsState;
 }

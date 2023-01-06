@@ -20,14 +20,13 @@ import {
 import { PokeballType } from '../../enums/hunt/PokeballType.enum';
 
 /** INTERFACES */
-import { EnergyState } from '../../interfaces/hunt/energyState.interface';
 import { Hunt } from './model/hunt.model';
 import { HuntState } from '../../interfaces/hunt/huntState.interface';
-import { PokeballState } from '../../interfaces/hunt/pokeballState.interface';
 import { PokeballsState } from '../../interfaces/hunt/pokeballsState.interface';
 
 /** RXJS */
 import { from, map, Observable } from 'rxjs';
+import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter.interface';
 
 /*
   CALCULS TO SAVE DATES
@@ -56,7 +55,7 @@ import { from, map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class HuntService {
-  private determineEnergyState(savedDate: Date): EnergyState {
+  private determineEnergyState(savedDate: Date): IncrementableCounter {
     const currentDate = new Date(Date.now());
     const difference = currentDate.getTime() - savedDate.getTime();
     const energiesCount = Math.floor(difference / energyTimeGenerationInMs);
@@ -71,7 +70,7 @@ export class HuntService {
   private determinePokeballState(
     savedDate: Date,
     pokeballType: PokeballType
-  ): PokeballState {
+  ): IncrementableCounter {
     const currentDate = new Date(Date.now());
     const difference = currentDate.getTime() - savedDate.getTime();
 
@@ -104,7 +103,7 @@ export class HuntService {
     return {
       userId: '1',
       energiesDate: new Date(
-        Date.now() - defaultEnergiesNumber * energyTimeGenerationInMs
+        Date.now() - (defaultEnergiesNumber * energyTimeGenerationInMs + 20000)
       ),
       pokeballs: {
         pokeball: new Date(
@@ -155,5 +154,15 @@ export class HuntService {
         };
       })
     );
+  }
+
+  incrementEnergyState(energyState: IncrementableCounter) {
+    if (energyState.count < defaultEnergiesNumber) {
+      energyState.count = energyState.count + 1;
+    }
+
+    energyState.nextGenerationInMs = energyTimeGenerationInMs;
+
+    return energyState;
   }
 }

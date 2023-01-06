@@ -1,9 +1,11 @@
 <div id="hunt-page">
   <h2>Hunt</h2>
   <button mat-button color="primary">Hunt</button>
-  <div id="hunt-page-energy">
-    <img src="/assets/icons/energy.svg" />
-    <span>energy state component</span>
-  </div>
+  <app-energy-state
+    *ngIf="energyState$"
+    (incrementEnergyState)="(incrementEnergyState)"
+    [energyState]="energyState"
+  ></app-energy-state>
+
   <app-pokeball-list></app-pokeball-list>
 </div>

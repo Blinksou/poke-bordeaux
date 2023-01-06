@@ -1,4 +1,4 @@
-export interface EnergyState {
+export interface IncrementableCounter {
   count: number;
   nextGenerationInMs: number;
 }
