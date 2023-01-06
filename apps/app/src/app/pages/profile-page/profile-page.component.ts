@@ -39,9 +39,24 @@ export class ProfilePageComponent {
   }
 
   toggleOption(option: PickOne<UserProfile['options']>) {
-    if (this.profile) {
-      this.profile.options = { ...this.profile.options, ...option };
-    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    this.profile.options = { ...this.profile.options, ...option };
+
+    this.authService
+      .getUser()
+      ?.pipe(first())
+      .subscribe(async (user) => {
+        if (this.profile) {
+          await this.userService.updateUserInFirestore(user.uid, {
+            ...this.profile,
+            options: {
+              ...this.profile?.options,
+              ...option,
+            },
+          });
+        }
+      });
   }
 
   handleDescriptionEdition(description: string) {
