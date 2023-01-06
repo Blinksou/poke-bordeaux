@@ -1,0 +1,12 @@
+<div *ngIf="pokeball" class="pokeball relative z-0" type="button">
+  <img
+    src="/assets/pokeball/{{ pokeball.name }}.png"
+    alt="Pokeball"
+    class="w-full h-full object-contain"
+  />
+  <div
+    class="absolute bottom-0 right-0 z-10 bg-secondary rounded-full w-6 h-6 text-white flex justify-center items-center"
+  >
+    <span style="font-size: 9px">{{ pokeball.count }}</span>
+  </div>
+</div>
