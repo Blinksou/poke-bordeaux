@@ -9,7 +9,6 @@ import { BottomNavigationItemComponent } from './bottom-navigation-item/bottom-n
   standalone: true,
   imports: [CommonModule, BottomNavigationItemComponent],
   templateUrl: './bottom-navigation.component.html',
-  styleUrls: ['./bottom-navigation.component.scss'],
 })
 export class BottomNavigationComponent {
   items: BottomNavigationItems = bottomNavigationIcons;

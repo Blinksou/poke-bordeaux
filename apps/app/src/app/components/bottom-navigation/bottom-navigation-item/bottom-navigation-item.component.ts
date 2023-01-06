@@ -8,7 +8,6 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './bottom-navigation-item.component.html',
-  styleUrls: ['./bottom-navigation-item.component.scss'],
 })
 export class BottomNavigationItemComponent {
   @Input() item: BottomNavigationItem | null = null;
@@ -16,7 +15,6 @@ export class BottomNavigationItemComponent {
   constructor(private readonly router: Router) {}
 
   get iconPath(): string {
-    console.log('this.router.url', this.router.url);
     return `assets/bottom-navigation${
       this.router.url === this.item?.path ? '/active' : ''
     }/${this.item?.icon}.svg`;
