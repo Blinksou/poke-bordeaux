@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProfilePageHeaderComponent } from './profile-page-header/profile-page-header.component';
 import { ProfileOptionsComponent } from './profile-options/profile-options.component';
 import { ProfileStatisticsComponent } from './profile-statistics/profile-statistics.component';
-import { Profile } from './model/profile-page.model';
+import { UserProfile } from '../../model/user';
 
 @Component({
   selector: 'app-profile-page',
@@ -18,8 +18,7 @@ import { Profile } from './model/profile-page.model';
   styleUrls: ['./profile-page.component.scss'],
 })
 export class ProfilePageComponent {
-  public profile: Profile = {
-    id: '510',
+  public profile: UserProfile = {
     infos: {
       description: `♪ I wanna be the very best,
           like no one ever was
@@ -39,7 +38,7 @@ export class ProfilePageComponent {
     },
   };
 
-  toggleOption(option: PickOne<Profile['options']>) {
+  toggleOption(option: PickOne<UserProfile['options']>) {
     this.profile.options = { ...this.profile.options, ...option };
   }
 }

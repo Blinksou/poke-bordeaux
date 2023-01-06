@@ -11,13 +11,19 @@ export class UserService {
 
   async createUserInFirestore(user: User) {
     return await setDoc(doc(this.firestore, 'users', user.uid), {
-      bio: '♪ I wanna be the very best, like no one ever was To catch them is my real test To train them is my cause ♪',
-      username: user.email,
-      doesAllowTrading: true,
-      doesAllowViewActivity: true,
+      infos: {
+        description:
+          '♪ I wanna be the very best, like no one ever was To catch them is my real test To train them is my cause ♪',
+        avatar: '',
+        name: user.email,
+      },
+      options: {
+        allowTrading: true,
+        allowOthersToViewActivity: true,
+      },
       stats: {
-        thrownPokeballs: 0,
         capturedPokemons: 0,
+        thrownPokeballs: 0,
         tradingFulfilled: 0,
       },
     });

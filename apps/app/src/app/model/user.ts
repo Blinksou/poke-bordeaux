@@ -1,11 +1,16 @@
 export type UserProfile = {
-  username: string;
-  bio: string;
-  doesAllowTrading: boolean;
-  doesAllowViewActivity: boolean;
+  infos: {
+    description: string;
+    avatar: string;
+    name: string;
+  };
+  options: {
+    allowTrading: boolean;
+    allowOthersToViewActivity: boolean;
+  };
   stats: {
-    thrownPokeballs: number;
     capturedPokemons: number;
+    thrownPokeballs: number;
     tradingFulfilled: number;
   };
 };

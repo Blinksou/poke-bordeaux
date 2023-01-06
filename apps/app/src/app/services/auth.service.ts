@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   signIn(email: string, password: string) {
-    from(signInWithEmailAndPassword(this.auth, email || '', password || ''))
+    from(signInWithEmailAndPassword(this.auth, email, password))
       .pipe(
         catchError(async () => {
           this.displayFailedPopup();
