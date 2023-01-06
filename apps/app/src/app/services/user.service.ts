@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '@angular/fire/auth';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import { UserProfile } from '../model/user';
 
 @Injectable({
   providedIn: 'root',
@@ -23,10 +24,10 @@ export class UserService {
   }
 
   async getUserFromFirestore(uid: string) {
-    return doc(this.firestore, 'users', uid);
+    return getDoc(doc(this.firestore, 'users', uid));
   }
 
-  async updateUserInFirestore(uid: string, data: never) {
+  async updateUserInFirestore(uid: string, data: UserProfile) {
     return await setDoc(doc(this.firestore, 'users', uid), data);
   }
 }
