@@ -1,8 +1,17 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HuntService } from './hunt.service';
-import { format } from 'date-fns';
+
+/** COMPONENTS */
 import { PokeballListComponent } from './pokeball-list/pokeball-list.component';
+
+/** INTERFACES */
+import { HuntState } from '../../interfaces/hunt/huntState.interface';
+
+/** SERVICES */
+import { HuntService } from './hunt.service';
+
+/** RXJS */
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-hunt-page',
@@ -12,16 +21,9 @@ import { PokeballListComponent } from './pokeball-list/pokeball-list.component';
   styleUrls: ['./hunt-page.component.scss'],
 })
 export class HuntPageComponent {
-  energy = 0;
-  maxEnergy = 0;
-  durationBeforeNextEnery: string | null = null;
+  energyState$: Observable<HuntState>;
 
   constructor(private readonly huntService: HuntService) {
-    const { energy, maxEnergy, durationBeforeNextEnery } =
-      this.huntService.getEnergyInformations();
-
-    this.energy = energy;
-    this.maxEnergy = maxEnergy;
-    this.durationBeforeNextEnery = format(durationBeforeNextEnery, `m'm' s's'`);
+    this.energyState$ = this.huntService.getHuntState('lol');
   }
 }
