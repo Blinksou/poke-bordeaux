@@ -1,16 +1,3 @@
-import {bootstrapApplication} from "@angular/platform-browser";
-import {provideRouter, withEnabledBlockingInitialNavigation} from "@angular/router";
-import {AppComponent} from "./app/app.component";
-import {appRoutes} from "./app/app.routes";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {importProvidersFrom, isDevMode} from "@angular/core";
-import {initializeApp, provideFirebaseApp} from "@angular/fire/app";
-import {environment} from "./environments/environment";
-import {getAuth, provideAuth} from "@angular/fire/auth";
-import {getFirestore, provideFirestore} from "@angular/fire/firestore";
-import {getStorage, provideStorage} from "@angular/fire/storage";
-import {ServiceWorkerModule} from "@angular/service-worker";
-import {TranslateModule} from "@ngx-translate/core";
 import { bootstrapApplication } from "@angular/platform-browser";
 import { provideRouter, withEnabledBlockingInitialNavigation } from "@angular/router";
 import { AppComponent } from "./app/app.component";
@@ -23,6 +10,7 @@ import { getAuth, provideAuth } from "@angular/fire/auth";
 import { getFirestore, provideFirestore } from "@angular/fire/firestore";
 import { getStorage, provideStorage } from "@angular/fire/storage";
 import { ServiceWorkerModule } from "@angular/service-worker";
+import {TranslateModule} from "@ngx-translate/core";
 import { HttpClientModule } from "@angular/common/http";
 
 bootstrapApplication(AppComponent, {
