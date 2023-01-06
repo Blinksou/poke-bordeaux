@@ -13,4 +13,23 @@
         </button>
     </div>
 </div>
+<div class="pokedex-content">
+    <mat-grid-list cols="4" rowHeight="1:1">
+        <mat-grid-tile>
+            <app-pokemon-avatar border='owned'></app-pokemon-avatar>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <app-pokemon-avatar border='captured'></app-pokemon-avatar>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <app-pokemon-avatar border='owned' [quantity]=2></app-pokemon-avatar>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <app-pokemon-avatar border='notowned'></app-pokemon-avatar>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <app-pokemon-avatar border='notowned'></app-pokemon-avatar>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
 

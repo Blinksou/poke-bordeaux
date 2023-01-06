@@ -1,3 +1,5 @@
-<div class="avatar" [ngClass]="{'avatar-empty': url === null}">
-  <img *ngIf="url" src="{{url}}" />
-</div>
+  <div *ngIf='quantity > 1' class="quantity" matBadge="2"></div>
+  <button class="avatar" [ngClass]="{'avatar-empty': url === null, 'avatar-owned': border === 'owned' , 'avatar-notowned': border === 'notowned', 'avatar-captured': border === 'captured'}" mat-raised-button matTooltip="Info about the action">
+    <img *ngIf="url" src="{{url}}" />
+  </button>
+  <mat-icon class="favorite" *ngIf="border === 'notowned'">favorite_border</mat-icon>

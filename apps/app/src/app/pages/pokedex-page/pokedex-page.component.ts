@@ -5,13 +5,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { FilterPageComponent } from '../filter-page/filter-page.component';
+import { PokemonAvatarComponent } from '../../components/pokemon-avatar/pokemon-avatar.component';
 
 
 @Component({
   selector: 'app-pokedex-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatDialogModule],
+  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatDialogModule, PokemonAvatarComponent, MatGridListModule],
   templateUrl: './pokedex-page.component.html',
   styleUrls: ['./pokedex-page.component.scss'],
 })
