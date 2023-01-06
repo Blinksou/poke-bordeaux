@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,4 +13,21 @@ import { UserProfile } from '../../../model/user';
 })
 export class ProfilePageHeaderComponent {
   @Input() profile: UserProfile['infos'] | Record<string, never> = {};
+  @ViewChild('profileDescription', { static: false }) profileDescDiv:
+    | ElementRef
+    | undefined;
+
+  onPenClick() {
+    const element = this.profileDescDiv?.nativeElement;
+    element.setAttribute('contenteditable', true);
+    element.style.backgroundColor = '#ffffff';
+    element.style.color = '#000000';
+  }
+
+  onDescriptionChange(event: any) {
+    const content = event.target.textContent;
+    event.target.setAttribute('contenteditable', false);
+    event.target.style.backgroundColor = '';
+    event.target.style.color = '';
+  }
 }
