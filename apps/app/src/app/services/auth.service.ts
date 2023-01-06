@@ -6,8 +6,9 @@ import {
   signInWithEmailAndPassword,
   User,
 } from '@angular/fire/auth';
-import { catchError, first, from, map, NEVER, Observable } from 'rxjs';
+import { catchError, filter, first, from, map, NEVER, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +18,17 @@ export class AuthService {
     map((user) => !!user)
   );
 
-  user: Observable<User | null> = authState(this.auth);
+  constructor(
+    private readonly auth: Auth,
+    private readonly router: Router,
+    private readonly userService: UserService
+  ) {}
 
-  constructor(private readonly auth: Auth, private readonly router: Router) {}
+  getUser() {
+    if (!this.isLoggedIn) return null;
+
+    return authState(this.auth).pipe(filter((user): user is User => !!user));
+  }
 
   signIn(email: string, password: string) {
     from(signInWithEmailAndPassword(this.auth, email || '', password || ''))
@@ -47,8 +56,11 @@ export class AuthService {
         }),
         first()
       )
-      .subscribe((result) => {
-        this.router.navigateByUrl('/login');
+      .subscribe(async (result) => {
+        if (!('user' in result)) return;
+
+        await this.userService.createUserInFirestore(result.user);
+        await this.router.navigateByUrl('/login');
       });
   }
 
