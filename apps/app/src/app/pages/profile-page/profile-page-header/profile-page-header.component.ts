@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,7 +19,8 @@ import { UserProfile } from '../../../model/user';
   styleUrls: ['./profile-page-header.component.scss'],
 })
 export class ProfilePageHeaderComponent {
-  @Input() profile: UserProfile['infos'] | Record<string, never> = {};
+  @Input() profile: UserProfile['infos'] | undefined;
+  @Output() descriptionEdited = new EventEmitter<string>();
   @ViewChild('profileDescription', { static: false }) profileDescDiv:
     | ElementRef
     | undefined;
@@ -29,5 +37,6 @@ export class ProfilePageHeaderComponent {
     event.target.setAttribute('contenteditable', false);
     event.target.style.backgroundColor = '';
     event.target.style.color = '';
+    this.descriptionEdited.emit(content);
   }
 }
