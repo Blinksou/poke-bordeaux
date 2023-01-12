@@ -70,7 +70,7 @@ export class HuntService {
     const nextTimeGeneration = difference % energyTimeGenerationInMs;
 
     return {
-      count: energiesCount,
+      count: energiesCount > defaultEnergiesNumber ? defaultEnergiesNumber : energiesCount,
       nextGenerationInMs: nextTimeGeneration,
     };
   }
