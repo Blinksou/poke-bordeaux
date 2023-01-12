@@ -22,11 +22,11 @@ import { PokeballType } from '../../enums/hunt/PokeballType.enum';
 /** INTERFACES */
 import { Hunt } from './model/hunt.model';
 import { HuntState } from '../../interfaces/hunt/huntState.interface';
+import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter.interface';
 import { PokeballsState } from '../../interfaces/hunt/pokeballsState.interface';
 
 /** RXJS */
 import { from, map, Observable } from 'rxjs';
-import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter.interface';
 
 /*
   CALCULS TO SAVE DATES
@@ -56,7 +56,7 @@ import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter
 })
 export class HuntService {
   private determineEnergyState(savedDate: Date): IncrementableCounter {
-    const currentDate = new Date(Date.now());
+    const currentDate = new Date();
     const difference = currentDate.getTime() - savedDate.getTime();
     const energiesCount = Math.floor(difference / energyTimeGenerationInMs);
     const nextTimeGeneration = difference % energyTimeGenerationInMs;
@@ -99,12 +99,10 @@ export class HuntService {
     };
   }
 
-  async getHunt(userId: string): Promise<Hunt> {
+  private async getHunt(userId: string): Promise<Hunt> {
     return {
       userId: '1',
-      energiesDate: new Date(
-        Date.now() - (defaultEnergiesNumber * energyTimeGenerationInMs + 20000)
-      ),
+      energiesDate: new Date(Date.now() - 5 * energyTimeGenerationInMs),
       pokeballs: {
         pokeball: new Date(
           Date.now() - defaultPokeballsNumber * pokeballTimeGenerationInMs
@@ -122,7 +120,11 @@ export class HuntService {
     };
   }
 
-  getHuntState(userId: string): Observable<HuntState> {
+  public async updateHunt(updatedHunt: Hunt): Promise<Hunt> {
+    return updatedHunt;
+  }
+
+  public getHuntState(userId: string): Observable<HuntState> {
     const huntFromFirestore = from(this.getHunt(userId));
 
     return huntFromFirestore.pipe(
@@ -156,13 +158,35 @@ export class HuntService {
     );
   }
 
-  incrementEnergyState(energyState: IncrementableCounter) {
+  public incrementEnergyState(energyState: IncrementableCounter) {
     if (energyState.count < defaultEnergiesNumber) {
       energyState.count = energyState.count + 1;
     }
 
     energyState.nextGenerationInMs = energyTimeGenerationInMs;
-
     return energyState;
+  }
+
+  public decrementEnergyState(
+    energyState: IncrementableCounter
+  ): IncrementableCounter {
+    if (energyState.count <= 0) return energyState;
+
+    from(this.getHunt('<userId>')).pipe(
+      map((hunt) => {
+        hunt.energiesDate = new Date(
+          hunt.energiesDate.getTime() +
+            energyTimeGenerationInMs -
+            energyState.nextGenerationInMs
+        );
+
+        this.updateHunt(hunt);
+      })
+    );
+
+    return {
+      ...energyState,
+      count: energyState.count - 1,
+    };
   }
 }

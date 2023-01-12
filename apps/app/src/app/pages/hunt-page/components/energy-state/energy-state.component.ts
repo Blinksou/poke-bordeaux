@@ -1,10 +1,20 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+/** CONSTANTS */
+import { defaultEnergiesNumber } from '../../constants/defaultNumbers.constant';
+
+/** DATE-FNS */
+import { formatDuration, intervalToDuration } from 'date-fns';
 
 /** INTERFACES */
 import { IncrementableCounter } from '../../../../interfaces/hunt/incrementableCounter.interface';
-import { defaultEnergiesNumber } from '../../constants/defaultNumbers.constant';
-import { formatDuration, intervalToDuration } from 'date-fns';
 
 @Component({
   selector: 'app-energy-state',
@@ -13,21 +23,24 @@ import { formatDuration, intervalToDuration } from 'date-fns';
   templateUrl: './energy-state.component.html',
   styleUrls: ['./energy-state.component.scss'],
 })
-export class EnergyStateComponent {
+export class EnergyStateComponent implements OnChanges {
   @Input() energyState!: IncrementableCounter;
   @Output() incrementEnergyState = new EventEmitter<IncrementableCounter>();
 
   maxEnergies = defaultEnergiesNumber;
   nextGenerationIn = '';
 
-  constructor() {
-    if (this.energyState) {
+  ngOnChanges(): void {
+    if (this.energyState.count < this.maxEnergies) {
       const duration = intervalToDuration({
         start: new Date(Date.now() + this.energyState.nextGenerationInMs),
         end: new Date(),
       });
 
-      this.nextGenerationIn = formatDuration(duration);
+      const formattedDuration = formatDuration(duration);
+      this.nextGenerationIn = formattedDuration !== '' ? formattedDuration : '0s';
+    } else {
+      this.nextGenerationIn = 'you are full of energy !';
     }
   }
 }

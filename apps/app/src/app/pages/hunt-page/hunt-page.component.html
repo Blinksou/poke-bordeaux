@@ -1,6 +1,8 @@
 <div id="hunt-page">
   <h2>Hunt</h2>
-  <button mat-button color="primary">Hunt</button>
+  <button (click)="decrementEnergyState()" mat-button color="primary">
+    Hunt
+  </button>
   <app-energy-state
     *ngIf="energyState$"
     (incrementEnergyState)="(incrementEnergyState)"
