@@ -5,7 +5,7 @@ import { ProfileOptionsComponent } from './profile-options/profile-options.compo
 import { ProfileStatisticsComponent } from './profile-statistics/profile-statistics.component';
 import { UserProfile } from '../../model/user';
 import { AuthService } from '../../services/auth.service';
-import { first } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -21,58 +21,40 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./profile-page.component.scss'],
 })
 export class ProfilePageComponent {
-  public profile: UserProfile | undefined;
+  profile$: Observable<UserProfile | null>;
 
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService
   ) {
-    authService
-      .getUser()
-      ?.pipe(first())
-      .subscribe(async (user) => {
-        const userProfile = await this.userService.getUserFromFirestore(
-          user.uid
-        );
-        this.profile = userProfile.data() as UserProfile;
-      });
+    this.profile$ = userService.getUser();
   }
 
   toggleOption(option: PickOne<UserProfile['options']>) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    this.profile.options = { ...this.profile.options, ...option };
-
-    this.authService
-      .getUser()
-      ?.pipe(first())
-      .subscribe(async (user) => {
-        if (this.profile) {
-          await this.userService.updateUserInFirestore(user.uid, {
-            ...this.profile,
-            options: {
-              ...this.profile?.options,
-              ...option,
-            },
-          });
-        }
-      });
+    this.profile$.subscribe(async (user) => {
+      if (user) {
+        await this.userService.updateUserInFirestore(user.id, {
+          ...user,
+          options: {
+            ...user.options,
+            ...option,
+          },
+        });
+      }
+    });
   }
 
   handleDescriptionEdition(description: string) {
-    this.authService
-      .getUser()
-      ?.pipe(first())
-      .subscribe(async (user) => {
-        if (this.profile) {
-          await this.userService.updateUserInFirestore(user.uid, {
-            ...this.profile,
-            infos: {
-              ...this.profile.infos,
-              description,
-            },
-          });
-        }
-      });
+    this.profile$.subscribe(async (user) => {
+      if (user) {
+        await this.userService.updateUserInFirestore(user.id, {
+          ...user,
+          infos: {
+            ...user.infos,
+            description,
+          },
+        });
+      }
+    });
   }
 }
