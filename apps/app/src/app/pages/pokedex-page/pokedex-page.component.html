@@ -14,22 +14,33 @@
     </div>
 </div>
 <div class="pokedex-content">
-    <mat-grid-list cols="4" rowHeight="1:1">
-        <mat-grid-tile>
-            <app-pokemon-avatar border='owned'></app-pokemon-avatar>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <app-pokemon-avatar border='captured'></app-pokemon-avatar>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <app-pokemon-avatar border='owned' [quantity]=2></app-pokemon-avatar>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <app-pokemon-avatar border='notowned'></app-pokemon-avatar>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <app-pokemon-avatar border='notowned'></app-pokemon-avatar>
-        </mat-grid-tile>
-    </mat-grid-list>
+    <div class="grid grid-cols-4 justify-items-center">
+        <app-pokemon-avatar
+            border='owned'
+            [pokemon]="pokemon"
+            (mouseenter)="setSelectedPokemon(pokemon)"
+            (mouseleave)="unselectPokemon()"
+            *ngFor="let pokemon of pokemons"
+        ></app-pokemon-avatar>
+    </div>
+        <div
+            *ngIf="selectedPokemon"
+            class="text-center mt-5 p-3 rounded-md bg-secondary"
+        >
+        <mat-grid-list cols="2" rowHeight="2:1">
+            <mat-grid-tile>
+                <app-pokemon-avatar 
+                    [pokemon]="selectedPokemon"
+                ></app-pokemon-avatar>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <div>
+                    <p>{{selectedPokemon.name}}</p>
+                    <p>{{selectedPokemon.type}}</p>
+                    <p>{{selectedPokemon.quantity}} owned</p>
+                </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+    </div>
 </div>
 

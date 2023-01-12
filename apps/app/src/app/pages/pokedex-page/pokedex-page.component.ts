@@ -8,6 +8,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { FilterPageComponent } from '../filter-page/filter-page.component';
 import { PokemonAvatarComponent } from '../../components/pokemon-avatar/pokemon-avatar.component';
+import { Pokemon } from '../../components/pokemon-avatar/model/pokemon';
 
 
 @Component({
@@ -22,6 +23,30 @@ export class PokedexPageComponent {
   constructor(public dialog: MatDialog) {}
 
   @Input() search: string | undefined;
+  @Input() pokemons: Pokemon[] | null = [
+    {
+      name: 'Pikachu',
+      type: 'Electric',
+      image: '',
+      quantity: 1
+    },
+    {
+      name: 'Bulbizarre',
+      type: 'Terre',
+      image: '',
+      quantity: 3
+    }
+  ] 
+
+  selectedPokemon: Pokemon | null = null;
+
+  setSelectedPokemon(p: Pokemon) {
+    this.selectedPokemon = p;
+  }
+
+  unselectPokemon() {
+    this.selectedPokemon = null;
+  }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(FilterPageComponent, {
