@@ -1,3 +1,12 @@
-<div class="avatar" [ngClass]="{'avatar-empty': url === null}">
-  <img *ngIf="url" src="{{url}}" />
+<div *ngIf='pokemon'>
+  <div *ngIf='pokemon.quantity > 1' class="quantity" matBadge="{{pokemon.quantity}}"></div>
+  <button class="avatar" [ngClass]="{'avatar-empty': pokemon.image === '', 'avatar-owned': border === 'owned' , 'avatar-notowned': border === 'notowned', 'avatar-captured': border === 'captured'}">
+    <img *ngIf="pokemon.image" src="{{pokemon.image}}" />
+  </button>
+  <div
+    class="absolute bottom-0 right-0 z-10 bg-secondary rounded-full w-6 h-6 text-white flex justify-center items-center"
+  >
+    <span style="font-size: 9px"></span>
+  </div>
+  <mat-icon class="favorite" *ngIf="border === 'notowned'">favorite_border</mat-icon>
 </div>

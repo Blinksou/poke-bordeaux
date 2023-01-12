@@ -7,6 +7,19 @@
   &-empty {
     background-color: #e0e0e0;
   }
+
+  &-owned {
+    border: 2px solid rgb(212, 86, 86);
+  }
+
+  &-notowned {
+    border: none;
+  }
+
+  &-captured {
+    border: 2px solid rgb(212, 86, 86);
+    border-style: dashed;
+  }
 }
 
 img {
@@ -14,4 +27,18 @@ img {
   border-radius: 50%;
   width: 72px;
   height: 72px;
+}
+
+.quantity {
+  z-index: 1;
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 65px;
+}
+
+.favorite {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: grey;
 }
