@@ -1,6 +1,7 @@
-import { Hunt } from "../pages/hunt-page/model/hunt.model";
+import { Hunt } from '../pages/hunt-page/model/hunt.model';
 
 export type UserProfile = {
+  id: string;
   infos: {
     description: string;
     avatar: string;
