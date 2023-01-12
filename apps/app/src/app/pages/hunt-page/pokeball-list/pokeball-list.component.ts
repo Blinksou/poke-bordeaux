@@ -39,12 +39,10 @@ export class PokeballListComponent {
   selectedPokeball: Pokeball | null = null;
 
   setSelectedPokeball(p: Pokeball) {
-    console.log('mdr');
     this.selectedPokeball = p;
   }
 
   unselectPokeball() {
-    console.log('mdr');
     this.selectedPokeball = null;
   }
 }

@@ -4,6 +4,9 @@ import { ProfilePageHeaderComponent } from './profile-page-header/profile-page-h
 import { ProfileOptionsComponent } from './profile-options/profile-options.component';
 import { ProfileStatisticsComponent } from './profile-statistics/profile-statistics.component';
 import { UserProfile } from '../../model/user';
+import { energyTimeGenerationInMs, hyperballTimeGenerationInMs, masterballTimeGenerationInMs, pokeballTimeGenerationInMs, superballTimeGenerationInMs } from '../hunt-page/constants/generationTimes.constant';
+import { defaultHyperballsNumber, defaultMasterballsNumber, defaultPokeballsNumber, defaultSuperballsNumber } from '../hunt-page/constants/defaultNumbers.constant';
+import { Timestamp } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-profile-page',
@@ -36,6 +39,23 @@ export class ProfilePageComponent {
       thrownPokeballs: 1520,
       tradingFulfilled: 38,
     },
+    hunt: {
+      energiesDate: Timestamp.fromDate(new Date(Date.now() - 5 * energyTimeGenerationInMs)),
+      pokeballs: {
+        pokeball: Timestamp.fromDate(new Date(
+          Date.now() - defaultPokeballsNumber * pokeballTimeGenerationInMs
+        )),
+        superball: Timestamp.fromDate(new Date(
+          Date.now() - defaultSuperballsNumber * superballTimeGenerationInMs
+        )),
+        hyperball: Timestamp.fromDate(new Date(
+          Date.now() - defaultMasterballsNumber * masterballTimeGenerationInMs
+        )),
+        masterball: Timestamp.fromDate(new Date(
+          Date.now() - defaultHyperballsNumber * hyperballTimeGenerationInMs
+        )),
+      },
+    }
   };
 
   toggleOption(option: PickOne<UserProfile['options']>) {

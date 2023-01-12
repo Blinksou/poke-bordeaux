@@ -1,10 +1,12 @@
+/** FIRESTORE */
+import { Timestamp } from "@angular/fire/firestore";
+
 export interface Hunt {
-  userId: string;
-  energiesDate: Date;
+  energiesDate: Timestamp;
   pokeballs: {
-    pokeball: Date;
-    superball: Date;
-    hyperball: Date;
-    masterball: Date;
+    pokeball: Timestamp;
+    superball: Timestamp;
+    hyperball: Timestamp;
+    masterball: Timestamp;
   };
 }

@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
+/** AUTHENTICATION */
 import {
   Auth,
   authState,
@@ -6,9 +9,12 @@ import {
   signInWithEmailAndPassword,
   User,
 } from '@angular/fire/auth';
-import { catchError, filter, first, from, map, NEVER, Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { UserService } from './user.service';
+
+/** FIRESTORE */
+import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+
+/** RXJS */
+import { catchError, first, from, map, NEVER, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,18 +23,13 @@ export class AuthService {
   isLoggedIn: Observable<boolean> = authState(this.auth).pipe(
     map((user) => !!user)
   );
+  $user: Observable<User | null> = authState(this.auth);
 
   constructor(
     private readonly auth: Auth,
     private readonly router: Router,
-    private readonly userService: UserService
+    private readonly firestore: Firestore
   ) {}
-
-  getUser() {
-    if (!this.isLoggedIn) return null;
-
-    return authState(this.auth).pipe(filter((user): user is User => !!user));
-  }
 
   signIn(email: string, password: string) {
     from(signInWithEmailAndPassword(this.auth, email, password))
@@ -41,7 +42,6 @@ export class AuthService {
       )
       .subscribe((result) => {
         if (!('user' in result)) return;
-        console.log('LOGGED IN', result.user);
 
         this.router.navigateByUrl('/');
       });
@@ -59,12 +59,32 @@ export class AuthService {
       .subscribe(async (result) => {
         if (!('user' in result)) return;
 
-        await this.userService.createUserInFirestore(result.user);
+        await this.createUserInFirestore(result.user);
         await this.router.navigateByUrl('/login');
       });
   }
 
   private displayFailedPopup() {
     return undefined;
+  }
+
+  private async createUserInFirestore(user: User) {
+    return await setDoc(doc(this.firestore, 'users', user.uid), {
+      infos: {
+        description:
+          '♪ I wanna be the very best, like no one ever was To catch them is my real test To train them is my cause ♪',
+        avatar: '',
+        name: user.email,
+      },
+      options: {
+        allowTrading: true,
+        allowOthersToViewActivity: true,
+      },
+      stats: {
+        capturedPokemons: 0,
+        thrownPokeballs: 0,
+        tradingFulfilled: 0,
+      },
+    });
   }
 }

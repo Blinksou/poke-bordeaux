@@ -14,7 +14,8 @@ import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter
 import { HuntService } from './hunt.service';
 
 /** RXJS */
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-hunt-page',
@@ -24,16 +25,15 @@ import { map, Observable } from 'rxjs';
   styleUrls: ['./hunt-page.component.scss'],
 })
 export class HuntPageComponent {
-  energyState$: Observable<IncrementableCounter>;
+  energyState$: Observable<IncrementableCounter> | null = null;
   energyState!: IncrementableCounter;
 
-  constructor(private readonly huntService: HuntService) {
-    this.energyState$ = this.huntService
-      .getHuntState('<userId>')
-      .pipe(map((hunt) => hunt.energyState));
+  constructor(private readonly huntService: HuntService, private readonly userService: UserService) {
 
-    this.energyState$.subscribe((energyState) => {
-      this.energyState = energyState;
+    this.huntService.getHuntState().subscribe((huntState) => {
+      if(huntState === null) return;
+
+      this.energyState = huntState.energyState;
 
       setInterval(() => {
         this.energyState = {

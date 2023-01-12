@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Profile } from '../model/profile-page.model';
+import { UserProfile } from '../../../model/user';
 
 @Component({
   selector: 'app-profile-options',
@@ -11,9 +11,9 @@ import { Profile } from '../model/profile-page.model';
   styleUrls: ['./profile-options.component.scss'],
 })
 export class ProfileOptionsComponent {
-  @Input() options: Profile['options'] | Record<string, never> = {};
-  @Output() toggleOptionEvent = new EventEmitter<PickOne<Profile['options']>>();
-  toggleOption($event: PickOne<Profile['options']>) {
+  @Input() options: UserProfile['options'] | Record<string, never> = {};
+  @Output() toggleOptionEvent = new EventEmitter<PickOne<UserProfile['options']>>();
+  toggleOption($event: PickOne<UserProfile['options']>) {
     this.toggleOptionEvent.emit($event);
   }
 }

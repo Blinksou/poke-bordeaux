@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { Profile } from '../model/profile-page.model';
+import { UserProfile } from '../../../model/user';
 
 @Component({
   selector: 'app-profile-page-header',
@@ -12,5 +12,5 @@ import { Profile } from '../model/profile-page.model';
   styleUrls: ['./profile-page-header.component.scss'],
 })
 export class ProfilePageHeaderComponent {
-  @Input() profile: Profile['infos'] | Record<string, never> = {};
+  @Input() profile: UserProfile['infos'] | Record<string, never> = {};
 }

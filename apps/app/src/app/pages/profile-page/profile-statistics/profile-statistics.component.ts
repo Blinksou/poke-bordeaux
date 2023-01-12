@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { Profile } from '../model/profile-page.model';
+import { UserProfile } from '../../../model/user';
 
 @Component({
   selector: 'app-profile-statistics',
@@ -11,5 +11,5 @@ import { Profile } from '../model/profile-page.model';
   styleUrls: ['./profile-statistics.component.scss'],
 })
 export class ProfileStatisticsComponent {
-  @Input() stats: Profile['stats'] | Record<string, never> = {};
+  @Input() stats: UserProfile['stats'] | Record<string, never> = {};
 }

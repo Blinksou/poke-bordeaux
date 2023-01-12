@@ -8,6 +8,7 @@ import { BottomNavigationComponent } from './components/bottom-navigation/bottom
 import { PokemonAvatarComponent } from './components/pokemon-avatar/pokemon-avatar.component';
 import { AuthService } from './services/auth.service';
 import { NgIf } from '@angular/common';
+import { UserService } from './services/user.service';
 
 @Component({
   standalone: true,
@@ -26,7 +27,8 @@ export class AppComponent {
 
   constructor(
     private readonly translate: TranslateService,
-    public readonly authService: AuthService
+    public readonly authService: AuthService,
+    public readonly userService: UserService
   ) {
     translate.setTranslation('en', en);
     translate.setTranslation('fr', fr);

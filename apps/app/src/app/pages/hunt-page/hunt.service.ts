@@ -3,10 +3,6 @@ import { Injectable } from '@angular/core';
 /** CONSTANTS */
 import {
   defaultEnergiesNumber,
-  defaultHyperballsNumber,
-  defaultMasterballsNumber,
-  defaultPokeballsNumber,
-  defaultSuperballsNumber,
 } from './constants/defaultNumbers.constant';
 import {
   energyTimeGenerationInMs,
@@ -26,7 +22,13 @@ import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter
 import { PokeballsState } from '../../interfaces/hunt/pokeballsState.interface';
 
 /** RXJS */
-import { from, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+
+/** SERVICES */
+import { UserService } from '../../services/user.service';
+
+/** FIRESTORE */
+import { Firestore, Timestamp } from '@angular/fire/firestore';
 
 /*
   CALCULS TO SAVE DATES
@@ -55,9 +57,15 @@ import { from, map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class HuntService {
-  private determineEnergyState(savedDate: Date): IncrementableCounter {
+
+  constructor(
+    private readonly firestore: Firestore,
+    private readonly userService: UserService
+  ){}
+
+  private determineEnergyState(savedDate: Timestamp): IncrementableCounter {
     const currentDate = new Date();
-    const difference = currentDate.getTime() - savedDate.getTime();
+    const difference = currentDate.getTime() - savedDate.toMillis();
     const energiesCount = Math.floor(difference / energyTimeGenerationInMs);
     const nextTimeGeneration = difference % energyTimeGenerationInMs;
 
@@ -68,11 +76,11 @@ export class HuntService {
   }
 
   private determinePokeballState(
-    savedDate: Date,
+    savedDate: Timestamp,
     pokeballType: PokeballType
   ): IncrementableCounter {
     const currentDate = new Date(Date.now());
-    const difference = currentDate.getTime() - savedDate.getTime();
+    const difference = currentDate.getTime() - savedDate.toMillis();
 
     let timeGeneration = 0;
     switch (pokeballType) {
@@ -99,36 +107,28 @@ export class HuntService {
     };
   }
 
-  private async getHunt(userId: string): Promise<Hunt> {
-    return {
-      userId: '1',
-      energiesDate: new Date(Date.now() - 5 * energyTimeGenerationInMs),
-      pokeballs: {
-        pokeball: new Date(
-          Date.now() - defaultPokeballsNumber * pokeballTimeGenerationInMs
-        ),
-        superball: new Date(
-          Date.now() - defaultSuperballsNumber * superballTimeGenerationInMs
-        ),
-        hyperball: new Date(
-          Date.now() - defaultMasterballsNumber * masterballTimeGenerationInMs
-        ),
-        masterball: new Date(
-          Date.now() - defaultHyperballsNumber * hyperballTimeGenerationInMs
-        ),
-      },
-    };
-  }
-
-  public async updateHunt(updatedHunt: Hunt): Promise<Hunt> {
+  private async updateHunt(updatedHunt: Hunt): Promise<Hunt> {
     return updatedHunt;
   }
 
-  public getHuntState(userId: string): Observable<HuntState> {
-    const huntFromFirestore = from(this.getHunt(userId));
+  private getHunt(): Observable<Hunt | null> {
+    return this.userService.getUser().pipe(
+      map((user) => {
+        if (user) {
+          return user.hunt;
+        }
 
-    return huntFromFirestore.pipe(
-      map((hunt) => {
+        return null;
+      })
+    )
+  }
+
+  public getHuntState(): Observable<HuntState | null> {
+    return this.userService.getUser().pipe(
+      map((userProfile) => {
+        if (!userProfile) return null;
+        
+        const hunt = userProfile.hunt;
         const energyState = this.determineEnergyState(hunt.energiesDate);
 
         const pokeballsState: PokeballsState = {
@@ -155,7 +155,7 @@ export class HuntService {
           pokeballsState,
         };
       })
-    );
+    )
   }
 
   public incrementEnergyState(energyState: IncrementableCounter) {
@@ -172,17 +172,23 @@ export class HuntService {
   ): IncrementableCounter {
     if (energyState.count <= 0) return energyState;
 
-    from(this.getHunt('<userId>')).pipe(
-      map((hunt) => {
-        hunt.energiesDate = new Date(
-          hunt.energiesDate.getTime() +
-            energyTimeGenerationInMs -
-            energyState.nextGenerationInMs
-        );
+    this.getHunt().subscribe((hunt) => {
+      if (hunt === null) {
+        throw new Error(`Impossible to decrement energy state, hunt was not found.`);
+      }
 
-        this.updateHunt(hunt);
-      })
-    );
+
+      const updatedHunt: Hunt = {
+        ...hunt,
+        energiesDate: new Timestamp(
+          new Date(hunt.energiesDate.seconds).getTime() +
+            energyTimeGenerationInMs -
+            energyState.nextGenerationInMs, 0
+        )
+      };
+
+      this.updateHunt(updatedHunt);
+    })
 
     return {
       ...energyState,

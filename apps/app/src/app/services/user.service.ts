@@ -1,36 +1,36 @@
 import { Injectable } from '@angular/core';
 import { User } from '@angular/fire/auth';
-import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import { doc, docData, Firestore, setDoc } from '@angular/fire/firestore';
+import { Observable, of, switchMap } from 'rxjs';
 import { UserProfile } from '../model/user';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private readonly firestore: Firestore) {}
+  constructor(private readonly firestore: Firestore, private readonly authService: AuthService) {}
 
-  async createUserInFirestore(user: User) {
-    return await setDoc(doc(this.firestore, 'users', user.uid), {
-      infos: {
-        description:
-          '♪ I wanna be the very best, like no one ever was To catch them is my real test To train them is my cause ♪',
-        avatar: '',
-        name: user.email,
-      },
-      options: {
-        allowTrading: true,
-        allowOthersToViewActivity: true,
-      },
-      stats: {
-        capturedPokemons: 0,
-        thrownPokeballs: 0,
-        tradingFulfilled: 0,
-      },
-    });
+  getUser(): Observable<UserProfile | null> {
+    return this.authService.$user.pipe(
+      switchMap((user) => {
+        if (user) {
+          return this.getUserFromFirestore(user.uid);
+        };
+
+        return of(null);
+      })
+    );
   }
 
-  async getUserFromFirestore(uid: string) {
-    return getDoc(doc(this.firestore, 'users', uid));
+  private getUserFromFirestore(uid: string): Observable<UserProfile> {
+    const userDocument = doc(this.firestore, `users/${uid}`);
+    
+    return docData(
+      userDocument, {
+        idField: 'id'
+      }
+    ) as Observable<UserProfile>
   }
 
   async updateUserInFirestore(uid: string, data: UserProfile) {

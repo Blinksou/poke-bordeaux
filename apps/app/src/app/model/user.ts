@@ -1,3 +1,5 @@
+import { Hunt } from "../pages/hunt-page/model/hunt.model";
+
 export type UserProfile = {
   infos: {
     description: string;
@@ -13,4 +15,5 @@ export type UserProfile = {
     thrownPokeballs: number;
     tradingFulfilled: number;
   };
+  hunt: Hunt;
 };
