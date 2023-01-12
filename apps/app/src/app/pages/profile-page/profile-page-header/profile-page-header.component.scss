@@ -1,5 +1,5 @@
 .profile-name{
-  font-size: 30px;
+  font-size: 21px;
   font-weight: bold;
   text-align: center;
 }
@@ -14,11 +14,8 @@ header {
 
 header > div {
   padding: 0;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
-  justify-content: center;
   column-gap: 15px;
 }
 
@@ -49,4 +46,8 @@ mat-icon{
   font-size: 40px;
   height: 2.5rem;
   width: 2.5rem;
+}
+
+.edit-btn mat-icon:hover {
+  color: lightgray;
 }
