@@ -3,14 +3,16 @@ export type BaseActivity<D> = {
   data: D;
 };
 
+export type TradeInfoActivityStatus = 'pending' | 'accepted' | 'declined';
+
 export type Asker = {
   askerId: string;
   askerPokemonId: string;
 };
 
 export type Target = {
-  targetId: string;
-  targetPokemonId: string;
+  userId: string;
+  userPokemonId: string;
 };
 
 export interface TradeAskActivity extends BaseActivity<Asker & Target> {
@@ -18,9 +20,7 @@ export interface TradeAskActivity extends BaseActivity<Asker & Target> {
 }
 
 export interface TradeInfoActivity
-  extends BaseActivity<
-    Asker & Target & { status: 'pending' | 'accepted' | 'rejected' }
-  > {
+  extends BaseActivity<Asker & Target & { status: TradeInfoActivityStatus }> {
   type: 'trade-info';
 }
 

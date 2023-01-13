@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
 import { NotLoggedComponent } from './not-logged/not-logged.component';
-import { LoggedComponent } from './logged/logged.component';
+import { ActivityComponent } from './activity-component/activity-component';
 
 @Component({
   selector: 'app-home-page',
@@ -18,7 +18,7 @@ import { LoggedComponent } from './logged/logged.component';
     TranslateModule,
     RouterLink,
     NotLoggedComponent,
-    LoggedComponent,
+    ActivityComponent,
   ],
   templateUrl: './home-page.component.html',
 })
