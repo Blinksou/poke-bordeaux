@@ -32,9 +32,10 @@ export class ProfilePageHeaderComponent {
     element.style.color = '#000000';
   }
 
+  // eslint-disable-next-line
   onDescriptionChange(event: any) {
-    const content = event.target.textContent;
-    event.target.setAttribute('contenteditable', false);
+    const content = event.target.textContent || this.profile?.description;
+    event.target.setAttribute('contenteditable', 'false');
     event.target.style.backgroundColor = '';
     event.target.style.color = '';
     this.descriptionEdited.emit(content);
