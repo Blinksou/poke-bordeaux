@@ -1,0 +1,14 @@
+<section class="border-2 border-black grid grid-cols-5 rounded rounded-md">
+  <section class="col-span-2 md:col-span-1 border-r-2 border-black min-h-[120px] px-5 py-3">
+    <img class="h-[120px]" src="assets/pokemon/132_1.svg"/>
+  </section>
+  <section class="col-span-3 md:col-span-4 px-5 py-3 flex flex-col justify-center">
+
+    <app-trade-ask-behaviour *ngIf="isTradeAskActivity()"></app-trade-ask-behaviour>
+
+    <app-trade-info-behaviour *ngIf="isTradeInfoActivity()"></app-trade-info-behaviour>
+
+    <app-capture-behaviour *ngIf="isCaptureActivity()"></app-capture-behaviour>
+
+  </section>
+</section>
