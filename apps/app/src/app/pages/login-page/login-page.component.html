@@ -1,4 +1,4 @@
-<h2>{{'login.title' | translate}}</h2>
+<h2 class="text-center mb-2">{{'login.title' | translate}}</h2>
 
 <div class="flex justify-center flex-row">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -18,7 +18,7 @@
     <div>
       <mat-form-field>
         <mat-label>{{'login.form.passwordLabel'|translate}}</mat-label>
-        <input matInput formControlName="password">
+        <input matInput formControlName="password" type="password">
         <mat-error *ngIf="password!.hasError('required')">
           {{'login.form.errors.required'|translate}}
         </mat-error>

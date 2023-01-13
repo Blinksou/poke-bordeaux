@@ -11,5 +11,10 @@ export const loginMessages = {
       },
     },
     registerText: 'Pas encore de compte ?',
+    error: {
+      title: 'Connexion',
+      message: 'Une erreur est survenue lors de la connexion',
+      confirm: 'Fermer',
+    },
   },
 };

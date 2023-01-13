@@ -11,5 +11,10 @@ export const loginMessages = {
       },
     },
     registerText: 'No account ?',
+    error: {
+      title: 'Login',
+      message: 'An error occurred while logging in',
+      confirm: 'Close',
+    },
   },
 };

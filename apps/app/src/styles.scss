@@ -7,6 +7,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  height: 100%;
+}
+
 .pokeball {
   @apply w-14 h-14;
 }
@@ -28,38 +32,38 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $app-primary: mat.define-palette(
-  (
-    50: #ebe1e4,
-    100: #ccb3bb,
-    200: #ab818e,
-    300: #894e60,
-    400: #6f283e,
-    500: #56021c,
-    600: #4f0219,
-    700: #450114,
-    800: #3c0111,
-    900: #2b0109,
-    A100: #ff6575,
-    A200: #ff3247,
-    A400: #fe001a,
-    A700: #e50018,
-    contrast: (
-      50: #000000,
-      100: #000000,
-      200: #000000,
-      300: #ffffff,
-      400: #ffffff,
-      500: #ffffff,
-      600: #ffffff,
-      700: #ffffff,
-      800: #ffffff,
-      900: #ffffff,
-      A100: #000000,
-      A200: #ffffff,
-      A400: #ffffff,
-      A700: #ffffff,
-    ),
-  )
+    (
+      50: #ebe1e4,
+      100: #ccb3bb,
+      200: #ab818e,
+      300: #894e60,
+      400: #6f283e,
+      500: #56021c,
+      600: #4f0219,
+      700: #450114,
+      800: #3c0111,
+      900: #2b0109,
+      A100: #ff6575,
+      A200: #ff3247,
+      A400: #fe001a,
+      A700: #e50018,
+      contrast: (
+        50: #000000,
+        100: #000000,
+        200: #000000,
+        300: #ffffff,
+        400: #ffffff,
+        500: #ffffff,
+        600: #ffffff,
+        700: #ffffff,
+        800: #ffffff,
+        900: #ffffff,
+        A100: #000000,
+        A200: #ffffff,
+        A400: #ffffff,
+        A700: #ffffff,
+      ),
+    )
 );
 $app-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
@@ -80,14 +84,14 @@ $app-typography: mat.define-typography-config(
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $app-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $app-primary,
-      accent: $app-accent,
-      warn: $app-warn,
-    ),
-    typography: $app-typography,
-  )
+    (
+      color: (
+        primary: $app-primary,
+        accent: $app-accent,
+        warn: $app-warn,
+      ),
+      typography: $app-typography,
+    )
 );
 
 // Include theme styles for core and each component used in your app.

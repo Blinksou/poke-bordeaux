@@ -10,6 +10,7 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
+import { LoginErrorDialogComponent } from './login-error-dialog/login-error-dialog.component';
 
 @Component({
   selector: 'app-login-page',
@@ -20,6 +21,7 @@ import { RouterLink } from '@angular/router';
     TranslateModule,
     ReactiveFormsModule,
     RouterLink,
+    LoginErrorDialogComponent,
   ],
   templateUrl: './login-page.component.html',
 })

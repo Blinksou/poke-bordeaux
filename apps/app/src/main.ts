@@ -1,17 +1,21 @@
-import { bootstrapApplication } from "@angular/platform-browser";
-import { provideRouter, withEnabledBlockingInitialNavigation } from "@angular/router";
-import { AppComponent } from "./app/app.component";
-import { appRoutes } from "./app/app.routes";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { importProvidersFrom, isDevMode } from "@angular/core";
-import { initializeApp, provideFirebaseApp } from "@angular/fire/app";
-import { environment } from "./environments/environment";
-import { getAuth, provideAuth } from "@angular/fire/auth";
-import { getFirestore, provideFirestore } from "@angular/fire/firestore";
-import { getStorage, provideStorage } from "@angular/fire/storage";
-import { ServiceWorkerModule } from "@angular/service-worker";
-import {TranslateModule} from "@ngx-translate/core";
-import { HttpClientModule } from "@angular/common/http";
+import { bootstrapApplication } from '@angular/platform-browser';
+import {
+  provideRouter,
+  withEnabledBlockingInitialNavigation,
+} from '@angular/router';
+import { AppComponent } from './app/app.component';
+import { appRoutes } from './app/app.routes';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { importProvidersFrom, isDevMode } from '@angular/core';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { environment } from './environments/environment';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -19,16 +23,18 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       HttpClientModule,
       BrowserAnimationsModule,
+      MatDialogModule,
       TranslateModule.forRoot(),
-      ServiceWorkerModule.register("ngsw-worker.js", {
+      ServiceWorkerModule.register('ngsw-worker.js', {
         enabled: !isDevMode(),
         // Register the ServiceWorker as soon as the application is stable
         // or after 30 seconds (whichever comes first).
-        registrationStrategy: "registerWhenStable:30000"
+        registrationStrategy: 'registerWhenStable:30000',
       }),
       provideFirebaseApp(() => initializeApp(environment.firebase)),
       provideAuth(() => getAuth()),
       provideFirestore(() => getFirestore()),
-      provideStorage(() => getStorage()))
-  ]
+      provideStorage(() => getStorage())
+    ),
+  ],
 }).catch((err) => console.error(err));

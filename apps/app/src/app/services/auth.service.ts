@@ -15,6 +15,9 @@ import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 
 /** RXJS */
 import { catchError, first, from, map, NEVER, Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginErrorDialogComponent } from '../pages/login-page/login-error-dialog/login-error-dialog.component';
+import { SignupErrorDialogComponent } from '../pages/signup-page/signup-error-dialog/signup-error-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -28,14 +31,15 @@ export class AuthService {
   constructor(
     private readonly auth: Auth,
     private readonly router: Router,
-    private readonly firestore: Firestore
+    private readonly firestore: Firestore,
+    private readonly dialog: MatDialog
   ) {}
 
   signIn(email: string, password: string) {
     from(signInWithEmailAndPassword(this.auth, email, password))
       .pipe(
         catchError(async () => {
-          this.displayFailedPopup();
+          this.displayFailedSignInPopup();
           return NEVER;
         }),
         first()
@@ -51,7 +55,7 @@ export class AuthService {
     from(createUserWithEmailAndPassword(this.auth, email, password))
       .pipe(
         catchError(async (err) => {
-          console.error('ERROR WHILE SIGNING UP', err);
+          this.displayFailedSignUpPopup();
           return NEVER;
         }),
         first()
@@ -64,8 +68,12 @@ export class AuthService {
       });
   }
 
-  private displayFailedPopup() {
-    return undefined;
+  private displayFailedSignInPopup() {
+    return this.dialog.open(LoginErrorDialogComponent);
+  }
+
+  private displayFailedSignUpPopup() {
+    return this.dialog.open(SignupErrorDialogComponent);
   }
 
   private async createUserInFirestore(user: User) {
