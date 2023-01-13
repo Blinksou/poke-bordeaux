@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivityCardComponent } from '../../../components/activity-card/activity-card.component';
 
 @Component({
-  selector: 'app-logged',
+  selector: 'app-activity-component',
   standalone: true,
   imports: [CommonModule, ActivityCardComponent],
-  templateUrl: './logged.component.html',
+  templateUrl: './activity-component.html',
 })
-export class LoggedComponent {
+export class ActivityComponent {
   activities = [
     {
       type: 'trade-info',
