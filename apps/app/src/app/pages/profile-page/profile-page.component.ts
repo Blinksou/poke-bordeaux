@@ -55,4 +55,18 @@ export class ProfilePageComponent {
       }
     });
   }
+
+  handleAvatarEdition(avatar: string) {
+    this.profile$.subscribe(async (user) => {
+      if (user) {
+        await this.userService.updateUserInFirestore(user.id, {
+          ...user,
+          infos: {
+            ...user.infos,
+            avatar: avatar,
+          },
+        });
+      }
+    });
+  }
 }
