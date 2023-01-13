@@ -1,5 +1,5 @@
 <div *ngIf='pokemon'>
-  <div *ngIf='pokemon.quantity > 1' class="quantity" matBadge="{{pokemon.quantity}}"></div>
+  <!--<div *ngIf='pokemon.quantity > 1' class="quantity" matBadge="{{pokemon.quantity}}"></div>-->
   <button class="avatar" [ngClass]="{'avatar-empty': pokemon.image === '', 'avatar-owned': border === 'owned' , 'avatar-notowned': border === 'notowned', 'avatar-captured': border === 'captured'}">
     <img *ngIf="pokemon.image" src="{{pokemon.image}}" />
   </button>

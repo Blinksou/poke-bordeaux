@@ -35,9 +35,13 @@
             </mat-grid-tile>
             <mat-grid-tile>
                 <div>
-                    <p>{{selectedPokemon.name}}</p>
-                    <p>{{selectedPokemon.type}}</p>
-                    <p>{{selectedPokemon.quantity}} owned</p>
+                    <p class="capitalize">{{selectedPokemon.name}}</p>
+                    <ul>
+                        <li *ngFor="let t of selectedPokemon.types">
+                            <p>{{ t.name }}</p>
+                        </li>
+                    </ul>
+                    <!--<p>{{selectedPokemon.quantity}} owned</p>-->
                 </div>
             </mat-grid-tile>
           </mat-grid-list>
