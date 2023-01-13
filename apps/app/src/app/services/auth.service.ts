@@ -64,7 +64,7 @@ export class AuthService {
         if (!('user' in result)) return;
 
         await this.createUserInFirestore(result.user);
-        await this.router.navigateByUrl('/login');
+        await this.router.navigateByUrl('/');
       });
   }
 
