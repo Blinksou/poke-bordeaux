@@ -17,6 +17,7 @@ import { RouterLink } from '@angular/router';
     RouterLink,
   ],
   templateUrl: './home-page.component.html',
+  styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent {
   constructor(public readonly authService: AuthService) {}

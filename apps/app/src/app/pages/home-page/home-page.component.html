@@ -1,9 +1,42 @@
 <div class="grid h-screen place-items-center" *ngIf="(authService.isLoggedIn | async) === false">
+
+  <img
+    src="/assets/pokemon/82_1.svg"
+    class="pokemon-82"
+  />
+
+  <img
+    src="/assets/pokemon/132_1.svg"
+    class="pokemon-132"
+  />
+
+
+  <img
+    src="/assets/pokemon/286_1.svg"
+    class="pokemon-286"
+  />
+
+  <img
+    src="/assets/pokemon/482_1.svg"
+    class="pokemon-482"
+  />
+
+  <img
+    src="/assets/pokemon/900_1.svg"
+    class="pokemon-900"
+  />
+
+  <img
+    src="/assets/pokemon/850_1.svg"
+    class="pokemon-850"
+  />
+
+
   <div class="flex flex-col">
-    <a class="btn btn-secondary" routerLink="/login">
+    <a class="btn btn-primary" routerLink="/login">
       {{ 'login.title' | translate }}
     </a>
-    <a class="btn btn-secondary mt-5" routerLink="/signup">
+    <a class="btn btn-primary mt-5" routerLink="/signup">
       {{ 'register.title' | translate }}
     </a>
   </div>

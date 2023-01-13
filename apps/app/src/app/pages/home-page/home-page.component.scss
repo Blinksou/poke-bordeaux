@@ -1,0 +1,69 @@
+@function toRem($value) {
+  $remValue: ($value / 16) + rem;
+  @return $remValue;
+}
+
+.pokemon {
+  &-82 {
+    position: absolute;
+    width: toRem(60);
+    height: toRem(66);
+
+    //  Middle of page
+    left: calc(50% - 30px);
+    top: calc(50% - 33px);
+  }
+
+  &-132 {
+    position: absolute;
+    width: toRem(75);
+    height: toRem(75);
+
+    // Left of page
+    left: calc(50% - 200px);
+    top: calc(50% + 150px);
+  }
+
+  &-286 {
+    position: absolute;
+    width: toRem(109);
+    height: toRem(109);
+
+
+    // Right of page
+    left: calc(50% + 150px);
+    top: calc(50% + 150px);
+  }
+
+  &-482 {
+    position: absolute;
+    width: toRem(80);
+    height: toRem(80);
+
+    // Bottom left of page
+    left: calc(50% - 200px);
+    top: calc(50% + 300px);
+  }
+
+
+  &-900 {
+    position: absolute;
+    width: toRem(66);
+    height: toRem(66);
+
+    // Bottom right of page
+    left: calc(50% + 150px);
+    top: calc(50% + 300px);
+  }
+
+
+  &-850 {
+    position: absolute;
+    width: toRem(88);
+    height: toRem(88);
+
+    // Middle bottom of page
+    left: calc(50% - 44px);
+    top: calc(50% + 300px);
+  }
+}

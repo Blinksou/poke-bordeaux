@@ -16,10 +16,14 @@ html, body {
 }
 
 .btn {
-  @apply font-semibold py-2 px-4 rounded shadow;
+  @apply font-semibold py-3 px-12 rounded rounded-lg shadow;
 
   &-secondary {
-    @apply bg-white hover:bg-gray-100 text-gray-800 border border-gray-400;
+    @apply bg-secondary transform duration-300 hover:opacity-90 text-white border border-black;
+  }
+
+  &-primary {
+    @apply bg-primary transform duration-300 hover:opacity-90 text-white border border-black;
   }
 }
 
@@ -104,7 +108,7 @@ $app-theme: mat.define-light-theme(
 body {
   font-family: 'Inter', 'Roboto', 'Helvetica', sans-serif;
   color: white;
-  background: mat.get-color-from-palette($app-primary, 900);
+  background: #AA7B8A;
   margin: 0;
 }
 
