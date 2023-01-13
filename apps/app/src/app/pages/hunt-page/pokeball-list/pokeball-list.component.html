@@ -2,16 +2,16 @@
   <div class="grid grid-cols-4 justify-items-center">
     <app-pokeball
       [pokeball]="pokeball"
-      (mouseenter)="setSelectedPokeball(pokeball)"
-      (mouseleave)="unselectPokeball()"
+      (click)="selectPokeball(pokeball)"
       *ngFor="let pokeball of pokeballs"
+      class="cursor-pointer"
     ></app-pokeball>
   </div>
   <div
-    *ngIf="selectedPokeball"
+    *ngIf="selectedBall"
     class="text-center mt-5 p-3 rounded-md bg-secondary"
   >
-    <p>Capture: {{ selectedPokeball.capturePercentage }}% chance</p>
+    <p>Capture: {{ selectedBall.capturePercentage }}% chance</p>
     <p>Next ball in : X min X s</p>
   </div>
 </div>

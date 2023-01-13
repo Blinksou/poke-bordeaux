@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Pokeball } from '../../../components/pokeball/model/pokeball';
 import { PokeballComponent } from '../../../components/pokeball/pokeball.component';
@@ -36,13 +36,11 @@ export class PokeballListComponent {
       nextBallDate: new Date(),
     },
   ];
-  selectedPokeball: Pokeball | null = null;
+  @Input() selectedBall: Pokeball | null = null;
+  @Output() selectBall = new EventEmitter<Pokeball>();
 
-  setSelectedPokeball(p: Pokeball) {
-    this.selectedPokeball = p;
-  }
-
-  unselectPokeball() {
-    this.selectedPokeball = null;
+  selectPokeball($event: Pokeball) {
+    console.log('emit');
+    this.selectBall.emit($event);
   }
 }

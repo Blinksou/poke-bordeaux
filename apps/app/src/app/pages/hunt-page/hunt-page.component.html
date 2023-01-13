@@ -1,13 +1,28 @@
 <div id="hunt-page">
-  <h2>Hunt</h2>
-  <button (click)="decrementEnergyState()" mat-button color="primary">
-    Hunt
-  </button>
-  <app-energy-state
-    *ngIf="energyState"
-    (incrementEnergyState)="(incrementEnergyState)"
-    [energyState]="energyState"
-  ></app-energy-state>
+  <h2>Hunt page</h2>
 
-  <app-pokeball-list></app-pokeball-list>
+  <div *ngIf="step === 'HUNT'">
+    <app-energy-state
+      *ngIf="energyState"
+      (incrementEnergyState)="(incrementEnergyState)"
+      [energyState]="energyState"
+    ></app-energy-state>
+    <button mat-raised-button (click)="decrementEnergyState()">Hunt</button>
+  </div>
+
+  <div *ngIf="step === 'BALL_SELECTION'">
+    <p>Pokeball Selection</p>
+    <app-pokeball-list
+      (selectBall)="selectBall($event)"
+      [selectedBall]="selectedBall"
+    ></app-pokeball-list>
+    <button mat-raised-button (click)="capture()" [disabled]="!selectedBall">
+      CAPTURE
+    </button>
+    <button mat-raised-button (click)="giveUp()">GIVE UP</button>
+  </div>
+
+  <div *ngIf="step === 'RESULT'">
+    <p>Result</p>
+  </div>
 </div>
