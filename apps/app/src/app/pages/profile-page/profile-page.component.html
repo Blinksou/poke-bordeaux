@@ -1,6 +1,6 @@
 <main role="main" *ngIf="profile$ | async; let profile;">
 
-  <app-profile-page-header [profile]="profile.infos" (descriptionEdited)="handleDescriptionEdition($event)"></app-profile-page-header>
+  <app-profile-page-header [profile]="profile.infos" (descriptionEdited)="handleDescriptionEdition($event)" (avatarEdited)="handleAvatarEdition($event)"></app-profile-page-header>
 
   <app-profile-options (toggleOptionEvent)="toggleOption($event)" [options]="profile.options"></app-profile-options>
 
