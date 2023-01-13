@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /** COMPONENTS */
-import { PokeballListComponent } from './pokeball-list/pokeball-list.component';
-
-/** COMPONENTS */
 import { EnergyStateComponent } from './components/energy-state/energy-state.component';
+import { PokeballListComponent } from './pokeball-list/pokeball-list.component';
 
 /** INTERFACES */
 import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter.interface';
@@ -28,6 +26,7 @@ export class HuntPageComponent {
 
     this.huntService.huntState$.subscribe((huntState) => {
       if(huntState === null) return;
+      console.log('coucou')
 
       this.energyState = huntState.energyState;
     });

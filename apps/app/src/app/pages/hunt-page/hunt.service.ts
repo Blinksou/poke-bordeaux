@@ -15,6 +15,10 @@ import {
 /** ENUMS */
 import { PokeballType } from '../../enums/hunt/PokeballType.enum';
 
+/** FIRESTORE */
+import { doc, Firestore, setDoc, Timestamp } from '@angular/fire/firestore';
+import { UserProfile } from '@angular/fire/auth';
+
 /** INTERFACES */
 import { HuntState } from '../../interfaces/hunt/huntState.interface';
 import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter.interface';
@@ -25,10 +29,6 @@ import { map, Observable, of, take } from 'rxjs';
 
 /** SERVICES */
 import { UserService } from '../../services/user.service';
-
-/** FIRESTORE */
-import { doc, Firestore, setDoc, Timestamp } from '@angular/fire/firestore';
-import { UserProfile } from '@angular/fire/auth';
 
 /*
   CALCULS TO SAVE DATES
@@ -109,7 +109,7 @@ export class HuntService {
     const currentDate = new Date();
     const difference = currentDate.getTime() - savedDate.toMillis();
     const energiesCount = Math.floor(difference / energyTimeGenerationInMs);
-    const nextTimeGeneration = Math.abs(difference % energyTimeGenerationInMs);
+    const nextTimeGeneration = energyTimeGenerationInMs - Math.abs(difference % energyTimeGenerationInMs);
 
     return {
       count: this.determineEnergiesNumber(energiesCount),
@@ -167,16 +167,11 @@ export class HuntService {
       let newEnergiesDates: Timestamp;
       if (energyState.count === defaultEnergiesNumber) {
         newEnergiesDates = Timestamp.fromDate(
-          new Date(user.hunt.energiesDate.seconds * 1000 +
-            energyTimeGenerationInMs
+          new Date(new Date().getTime() - (defaultEnergiesNumber-1) * energyTimeGenerationInMs)
           )
-        )
       } else {
         newEnergiesDates = Timestamp.fromDate(
-          new Date(user.hunt.energiesDate.seconds * 1000 +
-            energyTimeGenerationInMs -
-            energyState.nextGenerationInMs
-          )
+          new Date(user.hunt.energiesDate.seconds * 1000 + energyTimeGenerationInMs)
         )
       }
 
@@ -189,7 +184,7 @@ export class HuntService {
       };
 
       const userDocument = doc(this.firestore, `users/${user.id}`);
-      setDoc(userDocument, updatedUser, {merge: true});
+      setDoc(userDocument, updatedUser);
 
       return user;
     });
