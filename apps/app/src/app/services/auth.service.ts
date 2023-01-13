@@ -7,6 +7,7 @@ import {
   authState,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
   User,
 } from '@angular/fire/auth';
 
@@ -66,6 +67,11 @@ export class AuthService {
         await this.createUserInFirestore(result.user);
         await this.router.navigateByUrl('/');
       });
+  }
+
+  async signOut() {
+    await signOut(this.auth);
+    await this.router.navigateByUrl('/login');
   }
 
   private displayFailedSignInPopup() {

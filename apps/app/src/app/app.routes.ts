@@ -7,6 +7,7 @@ import { PokedexPageComponent } from './pages/pokedex-page/pokedex-page.componen
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { IsNotSignedInGuard } from './guards/is-not-signed-in.guard';
 import { IsSignedInGuard } from './guards/is-signed-in.guard';
+import { SignoutPageComponent } from './pages/signout-page/signout-page.component';
 
 export const appRoutes: Route[] = [
   {
@@ -36,6 +37,11 @@ export const appRoutes: Route[] = [
   {
     path: 'pokedex',
     component: PokedexPageComponent,
+    canActivate: [IsSignedInGuard],
+  },
+  {
+    path: 'signout',
+    component: SignoutPageComponent,
     canActivate: [IsSignedInGuard],
   },
   {
