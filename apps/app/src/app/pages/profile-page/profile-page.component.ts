@@ -4,7 +4,6 @@ import { ProfilePageHeaderComponent } from './profile-page-header/profile-page-h
 import { ProfileOptionsComponent } from './profile-options/profile-options.component';
 import { ProfileStatisticsComponent } from './profile-statistics/profile-statistics.component';
 import { UserProfile } from '../../model/user';
-import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 import { UserService } from '../../services/user.service';
 
@@ -24,10 +23,9 @@ export class ProfilePageComponent {
   profile$: Observable<UserProfile | null>;
 
   constructor(
-    private readonly authService: AuthService,
     private readonly userService: UserService
   ) {
-    this.profile$ = userService.getUser();
+    this.profile$ = userService.user$;
   }
 
   toggleOption(option: PickOne<UserProfile['options']>) {

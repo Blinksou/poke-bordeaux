@@ -12,10 +12,7 @@ import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter
 
 /** SERVICES */
 import { HuntService } from './hunt.service';
-
-/** RXJS */
-import { Observable } from 'rxjs';
-import { UserService } from '../../services/user.service';
+import { IntervalService } from '../../services/interval.service';
 
 @Component({
   selector: 'app-hunt-page',
@@ -25,27 +22,28 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./hunt-page.component.scss'],
 })
 export class HuntPageComponent {
-  energyState$: Observable<IncrementableCounter> | null = null;
   energyState!: IncrementableCounter;
 
-  constructor(private readonly huntService: HuntService, private readonly userService: UserService) {
+  constructor(private readonly huntService: HuntService, private readonly intervalService: IntervalService) {
 
-    this.huntService.getHuntState().subscribe((huntState) => {
+    this.huntService.huntState$.subscribe((huntState) => {
       if(huntState === null) return;
 
       this.energyState = huntState.energyState;
-
-      setInterval(() => {
-        this.energyState = {
-          ...this.energyState,
-          nextGenerationInMs: this.energyState.nextGenerationInMs - 1000,
-        };
-
-        if (this.energyState.nextGenerationInMs < 1000) {
-          this.incrementEnergyState(this.energyState);
-        }
-      }, 1000);
     });
+
+    this.intervalService.interval$.subscribe(() => {
+      if (!this.energyState) return;
+      
+      this.energyState = {
+        ...this.energyState,
+        nextGenerationInMs: this.energyState.nextGenerationInMs - 1000,
+      };
+
+      if (this.energyState.nextGenerationInMs < 1000) {
+        this.incrementEnergyState(this.energyState);
+      }
+    })
   }
 
   incrementEnergyState(energyState: IncrementableCounter) {
@@ -53,6 +51,6 @@ export class HuntPageComponent {
   }
 
   decrementEnergyState() {
-    this.energyState = this.huntService.decrementEnergyState(this.energyState);
+    this.huntService.decrementEnergyState(this.energyState);
   }
 }

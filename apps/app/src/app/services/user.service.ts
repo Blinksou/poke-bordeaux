@@ -8,12 +8,14 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class UserService {
+
+  user$: Observable<UserProfile | null> = this.getUser();
   constructor(
     private readonly firestore: Firestore,
     private readonly authService: AuthService
   ) {}
 
-  getUser(): Observable<UserProfile | null> {
+  private getUser(): Observable<UserProfile | null> {
     return this.authService.$user.pipe(
       switchMap((user) => {
         if (user) {
