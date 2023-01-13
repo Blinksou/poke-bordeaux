@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header-logo',
@@ -10,5 +9,5 @@ import { Observable } from 'rxjs';
   styleUrls: ['./header-logo.component.scss'],
 })
 export class HeaderLogoComponent {
-  @Input() isLoggedIn: Observable<boolean> | undefined;
+  @Input() isLoggedIn!: boolean | null;
 }

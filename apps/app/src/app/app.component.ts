@@ -7,8 +7,7 @@ import { fr } from '../../translations/fr';
 import { BottomNavigationComponent } from './components/bottom-navigation/bottom-navigation.component';
 import { PokemonAvatarComponent } from './components/pokemon-avatar/pokemon-avatar.component';
 import { AuthService } from './services/auth.service';
-import { NgIf } from '@angular/common';
-import { UserService } from './services/user.service';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -18,6 +17,7 @@ import { UserService } from './services/user.service';
     BottomNavigationComponent,
     PokemonAvatarComponent,
     NgIf,
+    AsyncPipe,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -27,8 +27,7 @@ export class AppComponent {
 
   constructor(
     private readonly translate: TranslateService,
-    public readonly authService: AuthService,
-    public readonly userService: UserService
+    public readonly authService: AuthService
   ) {
     translate.setTranslation('en', en);
     translate.setTranslation('fr', fr);

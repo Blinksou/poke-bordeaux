@@ -1,4 +1,4 @@
-<div class="grid h-screen place-items-center" *ngIf="!authService.isLoggedIn">
+<div class="grid h-screen place-items-center" *ngIf="(authService.isLoggedIn | async) === false">
   <div class="flex flex-col">
     <a class="btn btn-secondary" routerLink="/login">
       {{ 'login.title' | translate }}

@@ -4,6 +4,6 @@
   <router-outlet></router-outlet>
 </main>
 
-<div *ngIf="authService.isLoggedIn">
+<div *ngIf="authService.isLoggedIn | async">
   <app-bottom-navigation></app-bottom-navigation>
 </div>

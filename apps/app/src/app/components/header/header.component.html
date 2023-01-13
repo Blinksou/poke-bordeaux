@@ -1,8 +1,8 @@
 <ng-container>
-  <app-header-logo [isLoggedIn]="authService.isLoggedIn"></app-header-logo>
+  <app-header-logo [isLoggedIn]="authService.isLoggedIn | async"></app-header-logo>
   <div class="flex flex-col items-center">
     <h2 class="logo-title">Bordeaux</h2>
-    <h3 class="logo-subtitle" *ngIf="!authService.isLoggedIn && subtitle">
+    <h3 class="logo-subtitle" *ngIf="(authService.isLoggedIn | async) === false && subtitle">
       {{ subtitle }}
     </h3>
   </div>
