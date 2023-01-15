@@ -1,4 +1,4 @@
-import { Hunt } from '../pages/hunt-page/model/hunt.model';
+import { Hunt } from './hunt.model';
 
 export type UserProfile = {
   id: string;
