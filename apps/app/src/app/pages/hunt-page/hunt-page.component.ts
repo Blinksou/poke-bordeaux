@@ -73,6 +73,13 @@ export class HuntPageComponent {
 
   capture() {
     if (!this.selectedBall) return;
+
+    if (this.selectedBall.count < 1) {
+      alert(`You need to have at least 1 ${this.selectedBall.label} to use it !`);
+      return;
+    }
+    
+    console.log(this.selectedBall.count);
   }
 
   private setStep(step: HuntStep) {

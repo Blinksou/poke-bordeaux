@@ -2,7 +2,7 @@
   <img
     src="/assets/pokeball/{{ pokeball.name }}.png"
     alt="Pokeball"
-    class="w-full h-full object-contain"
+    class="w-full h-full object-contain {{isSelected ? 'opacity-100' : 'opacity-25'}}"
   />
   <div
     class="absolute bottom-0 right-0 z-10 bg-secondary rounded-full w-6 h-6 text-white flex justify-center items-center"

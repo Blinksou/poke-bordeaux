@@ -13,4 +13,5 @@ import { Pokeball } from '../../interfaces/hunt/pokeballsState.interface';
 })
 export class PokeballComponent {
   @Input() pokeball: Pokeball | null = null;
+  @Input() isSelected = false;
 }

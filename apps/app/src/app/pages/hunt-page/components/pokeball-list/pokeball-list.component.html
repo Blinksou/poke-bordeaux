@@ -5,6 +5,7 @@
       (click)="selectPokeball(pokeball)"
       *ngFor="let pokeball of pokeballs"
       class="cursor-pointer"
+      [isSelected]="pokeball.name === selectedBall?.name"
     ></app-pokeball>
   </div>
   <div
