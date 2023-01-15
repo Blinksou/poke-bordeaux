@@ -1,3 +1,6 @@
-<div class="flex justify-center mb-5">
-  Jessy traded a Grimer for James’s Koffing
-</div>
+<ng-container *ngIf="asker && target && askerPokemon && targetPokemon">
+  <div class="flex justify-center mb-5">
+    {{asker.infos.name}} traded a {{askerPokemon.name|titlecase}} for {{target.infos.name}}
+    's {{targetPokemon.name|titlecase}}.
+  </div>
+</ng-container>

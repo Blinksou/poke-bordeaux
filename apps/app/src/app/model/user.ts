@@ -18,3 +18,9 @@ export type UserProfile = {
   };
   hunt: Hunt;
 };
+
+export type UserBasicInfos = {
+  id: string;
+  name: string;
+  avatar: string;
+};

@@ -1,30 +1,24 @@
-export type BaseActivity<D> = {
-  type: 'trade-ask' | 'trade-info' | 'capture';
+export interface BaseActivity<D> {
+  type: ActivityType;
   data: D;
-};
+}
 
-export type TradeInfoActivityStatus = 'pending' | 'accepted' | 'declined';
+export type ActivityType = 'trade-info' | 'trade-ask' | 'capture';
 
-export type Asker = {
+export interface AskerPayload {
   askerId: string;
   askerPokemonId: string;
-};
+}
 
-export type Target = {
+export interface TargetPayload {
   userId: string;
   userPokemonId: string;
-};
-
-export interface TradeAskActivity extends BaseActivity<Asker & Target> {
-  type: 'trade-ask';
 }
 
-export interface TradeInfoActivity
-  extends BaseActivity<Asker & Target & { status: TradeInfoActivityStatus }> {
-  type: 'trade-info';
+export interface TradeInfoActivityPayload extends AskerPayload, TargetPayload {}
+
+export interface TradeAskActivityPayload extends AskerPayload, TargetPayload {
+  status: 'pending' | 'accepted' | 'declined';
 }
 
-export interface CaptureActivity
-  extends BaseActivity<{ userId: string; pokemonId: string }> {
-  type: 'capture';
-}
+export type CaptureActivityPayload = TargetPayload;

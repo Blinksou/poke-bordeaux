@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
-import { TradeAskActivity } from '../model/activity';
+import { BaseActivity, TradeAskActivityPayload } from '../model/activity';
 
 const COLLECTION_NAME = 'activities';
 
@@ -23,9 +23,10 @@ export class TradeService {
     targetId: string,
     targetPokemonId: string
   ) {
-    const trade: TradeAskActivity = {
+    const trade: BaseActivity<TradeAskActivityPayload> = {
       type: 'trade-ask',
       data: {
+        status: 'pending',
         askerId: this.userId,
         askerPokemonId: askerPokemonId,
         userId: targetId,
