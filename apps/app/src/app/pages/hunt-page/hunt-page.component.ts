@@ -78,8 +78,8 @@ export class HuntPageComponent {
       alert(`You need to have at least 1 ${this.selectedBall.label} to use it !`);
       return;
     }
-    
-    console.log(this.selectedBall.count);
+
+    this.huntService.decrementPokeballsState(this.selectedBall);
   }
 
   private setStep(step: HuntStep) {

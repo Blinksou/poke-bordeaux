@@ -11,6 +11,7 @@ import {
   hyperballTimeGenerationInMs,
   masterballTimeGenerationInMs,
 } from './constants/generationTimes.constant';
+import { hyperballChanceInPercentage, masterballChanceInPercentage, pokeballChanceInPercentage, superballChanceInPercentage } from './constants/pokeballsChance.constant';
 
 /** ENUMS */
 import { PokeballType } from '../../enums/hunt/PokeballType.enum';
@@ -24,13 +25,14 @@ import { HuntState } from '../../interfaces/hunt/huntState.interface';
 import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter.interface';
 import { Pokeball, PokeballsState } from '../../interfaces/hunt/pokeballsState.interface';
 
+/** MODELS */
+import { Pokeballs } from '../../model/hunt.model';
+
 /** RXJS */
 import { map, Observable, of, take } from 'rxjs';
 
 /** SERVICES */
 import { UserService } from '../../services/user.service';
-import { hyperballChanceInPercentage, masterballChanceInPercentage, pokeballChanceInPercentage, superballChanceInPercentage } from './constants/pokeballsChance.constant';
-import { Pokeballs } from '../../model/hunt.model';
 
 /*
   CALCULS TO SAVE DATES
@@ -180,7 +182,7 @@ export class HuntService {
     const difference = currentDate.getTime() - savedDate.toMillis();
 
     let timeGeneration = 0;
-    let name = '';
+    let name: 'pokeball' | 'superball' | 'hyperball' | 'masterball' = 'pokeball';
     let label = '';
     let captureChanceInPercentage = 0;
     switch (pokeballType) {
@@ -250,5 +252,49 @@ export class HuntService {
 
 
     return updatedPokeballsState;
+  }
+
+  public decrementPokeballsState(pokeballState: Pokeball) {
+    this.userService.user$.pipe(take(1)).subscribe((user) => {
+      if (!user) return;
+      if (pokeballState.count <= 0) return;
+
+      let timeGeneration = 0;
+      switch (pokeballState.name) {
+        case 'pokeball':
+          timeGeneration = pokeballTimeGenerationInMs;
+          break;
+        case 'superball':
+          timeGeneration = superballTimeGenerationInMs;
+          break;
+        case 'hyperball':
+          timeGeneration = hyperballTimeGenerationInMs;
+          break;
+        case 'masterball':
+          timeGeneration = masterballTimeGenerationInMs;
+          break;
+      }
+
+
+      const newPokeballDate = Timestamp.fromDate(
+        new Date(user.hunt.pokeballs[pokeballState.name].seconds * 1000 + timeGeneration)
+      );
+
+      const updatedUser: UserProfile = {
+        ...user,
+        hunt: {
+          ...user.hunt,
+          pokeballs: {
+            ...user.hunt.pokeballs,
+            [pokeballState.name]: newPokeballDate
+          }
+        }
+      };
+
+      const userDocument = doc(this.firestore, `users/${user.id}`);
+      setDoc(userDocument, updatedUser);
+
+      return user; 
+    })
   }
 }

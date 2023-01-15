@@ -2,7 +2,7 @@ export interface Pokeball {
   captureChanceInPercentage: number;
   count: number;
   label: string;
-  name: string;
+  name: 'pokeball' | 'superball' | 'hyperball' | 'masterball';
   nextGenerationInMs: number;
 }
 
