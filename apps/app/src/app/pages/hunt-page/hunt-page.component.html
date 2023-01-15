@@ -1,11 +1,11 @@
 <div id="hunt-page">
-  <h2>Hunt page</h2>
+  <h2>Hunt</h2>
 
   <div *ngIf="step === 'HUNT'">
-    <app-energy-state
-      *ngIf="energyState"
-      [energyState]="energyState"
-    ></app-energy-state>
+    <app-energies-state
+      *ngIf="energiesState"
+      [energiesState]="energiesState"
+    ></app-energies-state>
     <button mat-raised-button (click)="goToBallSelection()">Hunt</button>
   </div>
 

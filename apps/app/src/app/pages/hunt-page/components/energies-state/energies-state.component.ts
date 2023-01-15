@@ -15,22 +15,22 @@ import { IncrementableCounter } from '../../../../interfaces/hunt/incrementableC
 import getStringInterval from '../../../../utils/getStringInterval.util';
 
 @Component({
-  selector: 'app-energy-state',
+  selector: 'app-energies-state',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './energy-state.component.html',
-  styleUrls: ['./energy-state.component.scss'],
+  templateUrl: './energies-state.component.html',
+  styleUrls: ['./energies-state.component.scss'],
 })
 export class EnergyStateComponent implements OnChanges {
-  @Input() energyState!: IncrementableCounter;
+  @Input() energiesState!: IncrementableCounter;
 
   maxEnergies = defaultEnergiesNumber;
   nextGenerationIn = '';
 
   ngOnChanges(): void {
-    if (this.energyState.count < this.maxEnergies) {
+    if (this.energiesState.count < this.maxEnergies) {
       this.nextGenerationIn = getStringInterval(
-        new Date(Date.now() + this.energyState.nextGenerationInMs),
+        new Date(Date.now() + this.energiesState.nextGenerationInMs),
         new Date(),
       );
     } else {

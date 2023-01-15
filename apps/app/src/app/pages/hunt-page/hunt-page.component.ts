@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 /** COMPONENTS */
-import { EnergyStateComponent } from './components/energy-state/energy-state.component';
+import { EnergyStateComponent } from './components/energies-state/energies-state.component';
 import { PokeballListComponent } from './components/pokeball-list/pokeball-list.component';
 
 /** INTERFACES */
@@ -30,7 +30,7 @@ import { IntervalService } from '../../services/interval.service';
   styleUrls: ['./hunt-page.component.scss'],
 })
 export class HuntPageComponent {
-  energyState!: IncrementableCounter;
+  energiesState!: IncrementableCounter;
   pokeballsState!: PokeballsState;
   step: HuntStep = HuntStep.HUNT;
   selectedBall: Pokeball | null = null;
@@ -42,13 +42,13 @@ export class HuntPageComponent {
     this.huntService.huntState$.subscribe((huntState) => {
       if (huntState === null) return;
 
-      this.energyState = huntState.energyState;
+      this.energiesState = huntState.energiesState;
       this.pokeballsState = huntState.pokeballsState;
     });
 
     this.intervalService.interval$.subscribe(() => {
-      if (this.energyState) {
-        this.energyState = this.huntService.handleEnergyIncrementation(this.energyState);
+      if (this.energiesState) {
+        this.energiesState = this.huntService.handleEnergiesIncrementation(this.energiesState);
       };
 
       if (this.pokeballsState) {
@@ -58,7 +58,7 @@ export class HuntPageComponent {
   }
 
   goToBallSelection() {
-    this.huntService.decrementEnergyState(this.energyState);
+    this.huntService.decrementEnergiesState(this.energiesState);
     this.setStep(HuntStep.BALL_SELECTION);
   }
 

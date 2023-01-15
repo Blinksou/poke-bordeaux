@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EnergyStateComponent } from './energy-state.component';
+import { EnergyStateComponent } from './energies-state.component';
 
 describe('EnergyStateComponent', () => {
   let component: EnergyStateComponent;

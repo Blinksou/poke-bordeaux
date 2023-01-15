@@ -30,6 +30,7 @@ import { map, Observable, of, take } from 'rxjs';
 /** SERVICES */
 import { UserService } from '../../services/user.service';
 import { hyperballChanceInPercentage, masterballChanceInPercentage, pokeballChanceInPercentage, superballChanceInPercentage } from './constants/pokeballsChance.constant';
+import { Pokeballs } from '../../model/hunt.model';
 
 /*
   CALCULS TO SAVE DATES
@@ -69,44 +70,26 @@ export class HuntService {
         if (!userProfile) return null;
         
         const hunt = userProfile.hunt;
-        const energyState = this.determineEnergyState(hunt.energiesDate);
-
-        const pokeballsState: PokeballsState = [
-            this.determinePokeballState(
-              hunt.pokeballs.pokeball,
-              PokeballType.POKEBALL
-            ),
-            this.determinePokeballState(
-              hunt.pokeballs.superball,
-              PokeballType.SUPERBALL
-            ),
-            this.determinePokeballState(
-              hunt.pokeballs.hyperball,
-              PokeballType.HYPERBALL
-            ),
-            this.determinePokeballState(
-              hunt.pokeballs.masterball,
-              PokeballType.MASTERBALL
-            )
-        ];
+        const energiesState = this.determineEnergiesState(hunt.energiesDate);
+        const pokeballsState: PokeballsState = this.determinePokeballsState(hunt.pokeballs);
 
         return {
-          energyState,
+          energiesState,
           pokeballsState,
         };
       })
     )
   }
 
+  /** ENERGIES */
   private determineEnergiesNumber (energiesCount: number): number {
-
     if (energiesCount > defaultEnergiesNumber) return defaultEnergiesNumber;
     if (energiesCount < 0) return 0;
 
     return energiesCount;
   }
 
-  private determineEnergyState(savedDate: Timestamp): IncrementableCounter {
+  private determineEnergiesState(savedDate: Timestamp): IncrementableCounter {
     const currentDate = new Date();
     const difference = currentDate.getTime() - savedDate.toMillis();
     const energiesCount = Math.floor(difference / energyTimeGenerationInMs);
@@ -116,6 +99,77 @@ export class HuntService {
       count: this.determineEnergiesNumber(energiesCount),
       nextGenerationInMs: nextTimeGeneration,
     };
+  }
+
+  public handleEnergiesIncrementation (energiesState: IncrementableCounter): IncrementableCounter {
+    const updatedEnergiesState = {
+      ...energiesState,
+      nextGenerationInMs: energiesState.nextGenerationInMs - 1000,
+    };
+
+    if (
+      updatedEnergiesState.nextGenerationInMs < 1000 &&
+      updatedEnergiesState.count < defaultEnergiesNumber
+    ) {
+      updatedEnergiesState.count = updatedEnergiesState.count + 1;
+      updatedEnergiesState.nextGenerationInMs = energyTimeGenerationInMs;
+    }
+
+    return updatedEnergiesState;
+  }
+
+  public decrementEnergiesState(energiesState: IncrementableCounter): void {
+    this.userService.user$.pipe(take(1)).subscribe((user) => {
+      if (!user) return;
+
+      if (energiesState.count <= 0) return;
+      
+      let newEnergiesDates: Timestamp;
+      if (energiesState.count === defaultEnergiesNumber) {
+        newEnergiesDates = Timestamp.fromDate(
+          new Date(new Date().getTime() - (defaultEnergiesNumber-1) * energyTimeGenerationInMs)
+          )
+      } else {
+        newEnergiesDates = Timestamp.fromDate(
+          new Date(user.hunt.energiesDate.seconds * 1000 + energyTimeGenerationInMs)
+        )
+      }
+
+      const updatedUser: UserProfile = {
+        ...user,
+        hunt: {
+          ...user.hunt,
+          energiesDate: newEnergiesDates
+        }
+      };
+
+      const userDocument = doc(this.firestore, `users/${user.id}`);
+      setDoc(userDocument, updatedUser);
+
+      return user;
+    });
+  }
+
+  /** POKEBALLS */
+  private determinePokeballsState(pokeballs: Pokeballs): PokeballsState {
+    return [
+      this.determinePokeballState(
+        pokeballs.pokeball,
+        PokeballType.POKEBALL
+      ),
+      this.determinePokeballState(
+        pokeballs.superball,
+        PokeballType.SUPERBALL
+      ),
+      this.determinePokeballState(
+        pokeballs.hyperball,
+        PokeballType.HYPERBALL
+      ),
+      this.determinePokeballState(
+        pokeballs.masterball,
+        PokeballType.MASTERBALL
+      )
+    ];
   }
 
   private determinePokeballState(
@@ -168,23 +222,6 @@ export class HuntService {
     };
   }
 
-  public handleEnergyIncrementation (energyState: IncrementableCounter): IncrementableCounter {
-    const updatedEnergyState = {
-      ...energyState,
-      nextGenerationInMs: energyState.nextGenerationInMs - 1000,
-    };
-
-    if (
-      updatedEnergyState.nextGenerationInMs < 1000 &&
-      updatedEnergyState.count < defaultEnergiesNumber
-    ) {
-      updatedEnergyState.count = updatedEnergyState.count + 1;
-      updatedEnergyState.nextGenerationInMs = energyTimeGenerationInMs;
-    }
-
-    return updatedEnergyState;
-  }
-
   public handlePokeballsIncrementation (pokeballsState: PokeballsState): PokeballsState {
     const updatedPokeballsState = pokeballsState.map((pokeball) => {
       pokeball.nextGenerationInMs = pokeball.nextGenerationInMs - 1000;
@@ -213,37 +250,5 @@ export class HuntService {
 
 
     return updatedPokeballsState;
-  }
-
-  public decrementEnergyState(energyState: IncrementableCounter): void {
-    this.userService.user$.pipe(take(1)).subscribe((user) => {
-      if (!user) return;
-
-      if (energyState.count <= 0) return;
-      
-      let newEnergiesDates: Timestamp;
-      if (energyState.count === defaultEnergiesNumber) {
-        newEnergiesDates = Timestamp.fromDate(
-          new Date(new Date().getTime() - (defaultEnergiesNumber-1) * energyTimeGenerationInMs)
-          )
-      } else {
-        newEnergiesDates = Timestamp.fromDate(
-          new Date(user.hunt.energiesDate.seconds * 1000 + energyTimeGenerationInMs)
-        )
-      }
-
-      const updatedUser: UserProfile = {
-        ...user,
-        hunt: {
-          ...user.hunt,
-          energiesDate: newEnergiesDates
-        }
-      };
-
-      const userDocument = doc(this.firestore, `users/${user.id}`);
-      setDoc(userDocument, updatedUser);
-
-      return user;
-    });
   }
 }
