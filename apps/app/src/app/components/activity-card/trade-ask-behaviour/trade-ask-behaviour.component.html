@@ -1,10 +1,12 @@
-<div class="flex justify-center">
-  Misty wants to trade Ditto for your Charizard
-</div>
-
-<div class="mt-5 flex justify-center">
-  <div class="flex flex-row justify-between w-1/2">
-    <img class="cursor-pointer" src="assets/action/accept.svg">
-    <img class="cursor-pointer" src="assets/action/refuse.svg">
+<ng-container *ngIf="asker && askerPokemon && targetPokemon">
+  <div class="flex justify-center">
+    {{asker.infos.name}} wants to trade {{askerPokemon.name|titlecase}} for your {{targetPokemon.name|titlecase}}.
   </div>
-</div>
+
+  <div class="mt-5 flex justify-center">
+    <div class="flex flex-row justify-between w-1/2">
+      <img class="cursor-pointer" src="assets/action/accept.svg" (click)="accept()">
+      <img class="cursor-pointer" src="assets/action/refuse.svg" (click)="decline()">
+    </div>
+  </div>
+</ng-container>

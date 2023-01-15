@@ -13,27 +13,27 @@ export class ActivityComponent {
     {
       type: 'trade-info',
       data: {
-        askerId: '1',
+        askerId: 'iYUePp5VhPg1ZzHZ9NJHUwsEiM32',
         askerPokemonId: '1',
-        targetId: '2',
-        targetPokemonId: '2',
+        userId: 'JGno0wh8oEQwhv2FyVvv4b6N7fz2',
+        userPokemonId: '2',
       },
     },
     {
       type: 'trade-ask',
       data: {
-        askerId: '1',
+        askerId: 'JGno0wh8oEQwhv2FyVvv4b6N7fz2',
         askerPokemonId: '1',
-        targetId: '2',
-        targetPokemonId: '2',
+        userId: 'iYUePp5VhPg1ZzHZ9NJHUwsEiM32',
+        userPokemonId: '2',
         status: 'pending',
       },
     },
     {
       type: 'capture',
       data: {
-        userId: '1',
-        pokemonId: '1',
+        userId: 'iYUePp5VhPg1ZzHZ9NJHUwsEiM32',
+        userPokemonId: '1',
       },
     },
   ] as const;
