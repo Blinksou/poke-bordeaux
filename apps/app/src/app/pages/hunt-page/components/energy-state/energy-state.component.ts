@@ -8,11 +8,11 @@ import { CommonModule } from '@angular/common';
 /** CONSTANTS */
 import { defaultEnergiesNumber } from '../../constants/defaultNumbers.constant';
 
-/** DATE-FNS */
-import { formatDuration, intervalToDuration } from 'date-fns';
-
 /** INTERFACES */
 import { IncrementableCounter } from '../../../../interfaces/hunt/incrementableCounter.interface';
+
+/** UTILS */
+import getStringInterval from '../../../../utils/getStringInterval.util';
 
 @Component({
   selector: 'app-energy-state',
@@ -29,13 +29,10 @@ export class EnergyStateComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (this.energyState.count < this.maxEnergies) {
-      const duration = intervalToDuration({
-        start: new Date(Date.now() + this.energyState.nextGenerationInMs),
-        end: new Date(),
-      });
-
-      const formattedDuration = formatDuration(duration);
-      this.nextGenerationIn = formattedDuration !== '' ? formattedDuration : '0s';
+      this.nextGenerationIn = getStringInterval(
+        new Date(Date.now() + this.energyState.nextGenerationInMs),
+        new Date(),
+      );
     } else {
       this.nextGenerationIn = 'you are full of energy !';
     }

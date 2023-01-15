@@ -1,8 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+/** COMPONENTS */
 import { PokeballComponent } from '../../../../components/pokeball/pokeball.component';
+
+/** INTERFACES */
 import { PokeballsState, Pokeball } from '../../../../interfaces/hunt/pokeballsState.interface';
-import { formatDuration, intervalToDuration } from 'date-fns';
+
+/** UTILS */
+import getStringInterval from '../../../../utils/getStringInterval.util';
 
 @Component({
   selector: 'app-pokeball-list',
@@ -23,14 +29,10 @@ export class PokeballListComponent implements OnChanges{
 
   ngOnChanges(): void {
     if (this.selectedBall) {
-      const duration = intervalToDuration({
-        start: new Date(Date.now() + this.selectedBall.nextGenerationInMs),
-        end: new Date(),
-      });
-      const format = (duration.days && duration.days > 1) ? ['days', 'hours'] : ['hours', 'minutes', 'seconds'];
-
-      const formattedDuration = formatDuration(duration, {format: format});
-      this.nextGenerationIn = formattedDuration !== '' ? formattedDuration : '0s';
+      this.nextGenerationIn = getStringInterval(
+        new Date(Date.now() + this.selectedBall.nextGenerationInMs),
+        new Date(),
+      );
     }
   }
 }
