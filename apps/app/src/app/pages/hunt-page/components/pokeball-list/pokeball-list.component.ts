@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PokeballComponent } from '../../../components/pokeball/pokeball.component';
-import { PokeballsState, Pokeball } from '../../../interfaces/hunt/pokeballsState.interface';
+import { PokeballComponent } from '../../../../components/pokeball/pokeball.component';
+import { PokeballsState, Pokeball } from '../../../../interfaces/hunt/pokeballsState.interface';
 import { formatDuration, intervalToDuration } from 'date-fns';
 
 @Component({

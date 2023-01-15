@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 /** COMPONENTS */
 import { EnergyStateComponent } from './components/energy-state/energy-state.component';
-import { PokeballListComponent } from './pokeball-list/pokeball-list.component';
+import { PokeballListComponent } from './components/pokeball-list/pokeball-list.component';
 
 /** INTERFACES */
 import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter.interface';
