@@ -8,7 +8,7 @@ import { PokeballListComponent } from './pokeball-list/pokeball-list.component';
 
 /** INTERFACES */
 import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter.interface';
-import { Pokeball } from '../../components/pokeball/model/pokeball';
+import { PokeballsState, Pokeball } from '../../interfaces/hunt/pokeballsState.interface';
 
 /** CONSTANTS */
 import { HuntStep } from '../../enums/hunt/HuntStep.enum';
@@ -31,6 +31,7 @@ import { IntervalService } from '../../services/interval.service';
 })
 export class HuntPageComponent {
   energyState!: IncrementableCounter;
+  pokeballsState!: PokeballsState;
   step: HuntStep = HuntStep.HUNT;
   selectedBall: Pokeball | null = null;
 
@@ -42,32 +43,27 @@ export class HuntPageComponent {
       if (huntState === null) return;
 
       this.energyState = huntState.energyState;
+      this.pokeballsState = huntState.pokeballsState;
     });
 
     this.intervalService.interval$.subscribe(() => {
-      if (!this.energyState) return;
-
-      this.energyState = {
-        ...this.energyState,
-        nextGenerationInMs: this.energyState.nextGenerationInMs - 1000,
+      if (this.energyState) {
+        this.energyState = this.huntService.handleEnergyIncrementation(this.energyState);
       };
 
-      if (this.energyState.nextGenerationInMs < 1000) {
-        this.incrementEnergyState(this.energyState);
+      if (this.pokeballsState) {
+        this.pokeballsState = this.huntService.handlePokeballsIncrementation(this.pokeballsState);
       }
     });
   }
 
-  incrementEnergyState(energyState: IncrementableCounter) {
-    this.energyState = this.huntService.incrementEnergyState(energyState);
-  }
-
-  decrementEnergyState() {
+  goToBallSelection() {
     this.huntService.decrementEnergyState(this.energyState);
     this.setStep(HuntStep.BALL_SELECTION);
   }
 
   giveUp() {
+    this.selectedBall = null;
     this.setStep(HuntStep.HUNT);
   }
 
@@ -77,8 +73,6 @@ export class HuntPageComponent {
 
   capture() {
     if (!this.selectedBall) return;
-
-    console.log('capture');
   }
 
   private setStep(step: HuntStep) {

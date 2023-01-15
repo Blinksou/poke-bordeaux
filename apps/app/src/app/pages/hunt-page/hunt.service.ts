@@ -22,13 +22,14 @@ import { UserProfile } from '@angular/fire/auth';
 /** INTERFACES */
 import { HuntState } from '../../interfaces/hunt/huntState.interface';
 import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter.interface';
-import { PokeballsState } from '../../interfaces/hunt/pokeballsState.interface';
+import { Pokeball, PokeballsState } from '../../interfaces/hunt/pokeballsState.interface';
 
 /** RXJS */
 import { map, Observable, of, take } from 'rxjs';
 
 /** SERVICES */
 import { UserService } from '../../services/user.service';
+import { hyperballChanceInPercentage, masterballChanceInPercentage, pokeballChanceInPercentage, superballChanceInPercentage } from './constants/pokeballsChance.constant';
 
 /*
   CALCULS TO SAVE DATES
@@ -70,24 +71,24 @@ export class HuntService {
         const hunt = userProfile.hunt;
         const energyState = this.determineEnergyState(hunt.energiesDate);
 
-        const pokeballsState: PokeballsState = {
-          pokeball: this.determinePokeballState(
-            hunt.pokeballs.pokeball,
-            PokeballType.POKEBALL
-          ),
-          superBall: this.determinePokeballState(
-            hunt.pokeballs.superball,
-            PokeballType.SUPERBALL
-          ),
-          hyperBall: this.determinePokeballState(
-            hunt.pokeballs.hyperball,
-            PokeballType.HYPERBALL
-          ),
-          masterBall: this.determinePokeballState(
-            hunt.pokeballs.masterball,
-            PokeballType.MASTERBALL
-          ),
-        };
+        const pokeballsState: PokeballsState = [
+            this.determinePokeballState(
+              hunt.pokeballs.pokeball,
+              PokeballType.POKEBALL
+            ),
+            this.determinePokeballState(
+              hunt.pokeballs.superball,
+              PokeballType.SUPERBALL
+            ),
+            this.determinePokeballState(
+              hunt.pokeballs.hyperball,
+              PokeballType.HYPERBALL
+            ),
+            this.determinePokeballState(
+              hunt.pokeballs.masterball,
+              PokeballType.MASTERBALL
+            )
+        ];
 
         return {
           energyState,
@@ -120,42 +121,98 @@ export class HuntService {
   private determinePokeballState(
     savedDate: Timestamp,
     pokeballType: PokeballType
-  ): IncrementableCounter {
+  ): Pokeball {
     const currentDate = new Date(Date.now());
     const difference = currentDate.getTime() - savedDate.toMillis();
 
     let timeGeneration = 0;
+    let name = '';
+    let label = '';
+    let captureChanceInPercentage = 0;
     switch (pokeballType) {
       case PokeballType.POKEBALL:
+        name = 'pokeball';
+        label = 'PokeBall';
+        captureChanceInPercentage = pokeballChanceInPercentage;
         timeGeneration = pokeballTimeGenerationInMs;
         break;
       case PokeballType.SUPERBALL:
+        name = 'superball';
+        label = 'SuperBall';
+        captureChanceInPercentage = superballChanceInPercentage;
         timeGeneration = superballTimeGenerationInMs;
         break;
       case PokeballType.HYPERBALL:
+        name = 'hyperball';
+        label = 'HyperBall';
+        captureChanceInPercentage = hyperballChanceInPercentage;
         timeGeneration = hyperballTimeGenerationInMs;
         break;
       case PokeballType.MASTERBALL:
+        name = 'masterball';
+        label = 'MasterBall';
+        captureChanceInPercentage = masterballChanceInPercentage;
         timeGeneration = masterballTimeGenerationInMs;
         break;
     }
 
-    const pokeballsCount = Math.floor(difference / timeGeneration);
-    const nextTimeGeneration = difference % timeGeneration;
+    const count = Math.floor(difference / timeGeneration);
+    const nextGenerationInMs = timeGeneration - (difference % timeGeneration);
 
     return {
-      count: pokeballsCount,
-      nextGenerationInMs: nextTimeGeneration,
+      captureChanceInPercentage,
+      count,
+      label,
+      name,
+      nextGenerationInMs,
     };
   }
 
-  public incrementEnergyState(energyState: IncrementableCounter) {
-    if (energyState.count < defaultEnergiesNumber) {
-      energyState.count = energyState.count + 1;
+  public handleEnergyIncrementation (energyState: IncrementableCounter): IncrementableCounter {
+    const updatedEnergyState = {
+      ...energyState,
+      nextGenerationInMs: energyState.nextGenerationInMs - 1000,
+    };
+
+    if (
+      updatedEnergyState.nextGenerationInMs < 1000 &&
+      updatedEnergyState.count < defaultEnergiesNumber
+    ) {
+      updatedEnergyState.count = updatedEnergyState.count + 1;
+      updatedEnergyState.nextGenerationInMs = energyTimeGenerationInMs;
     }
 
-    energyState.nextGenerationInMs = energyTimeGenerationInMs;
-    return energyState;
+    return updatedEnergyState;
+  }
+
+  public handlePokeballsIncrementation (pokeballsState: PokeballsState): PokeballsState {
+    const updatedPokeballsState = pokeballsState.map((pokeball) => {
+      pokeball.nextGenerationInMs = pokeball.nextGenerationInMs - 1000;
+
+      if (pokeball.nextGenerationInMs < 1000) {
+        switch (pokeball.name) {
+          case 'pokeball':
+            pokeball.nextGenerationInMs = pokeballTimeGenerationInMs;
+            break;
+          case 'superball':
+            pokeball.nextGenerationInMs = superballTimeGenerationInMs;
+            break;
+          case 'hyperball':
+            pokeball.nextGenerationInMs = hyperballTimeGenerationInMs;
+            break;
+          case 'masterball':
+            pokeball.nextGenerationInMs = masterballTimeGenerationInMs;
+            break;
+        }
+
+        pokeball.count = pokeball.count + 1;
+      }
+
+      return pokeball;
+    })
+
+
+    return updatedPokeballsState;
   }
 
   public decrementEnergyState(energyState: IncrementableCounter): void {

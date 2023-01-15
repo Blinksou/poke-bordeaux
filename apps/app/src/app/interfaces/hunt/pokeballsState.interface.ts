@@ -1,8 +1,9 @@
-import { IncrementableCounter } from './incrementableCounter.interface';
-
-export interface PokeballsState {
-  pokeball: IncrementableCounter;
-  superBall: IncrementableCounter;
-  hyperBall: IncrementableCounter;
-  masterBall: IncrementableCounter;
+export interface Pokeball {
+  captureChanceInPercentage: number;
+  count: number;
+  label: string;
+  name: string;
+  nextGenerationInMs: number;
 }
+
+export type PokeballsState = Pokeball[];

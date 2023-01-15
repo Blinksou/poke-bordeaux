@@ -11,7 +11,7 @@
     *ngIf="selectedBall"
     class="text-center mt-5 p-3 rounded-md bg-secondary"
   >
-    <p>Capture: {{ selectedBall.capturePercentage }}% chance</p>
-    <p>Next ball in : X min X s</p>
+    <p>Capture: {{selectedBall.captureChanceInPercentage}}% chance</p>
+    <p>Next ball in : {{nextGenerationIn}}</p>
   </div>
 </div>

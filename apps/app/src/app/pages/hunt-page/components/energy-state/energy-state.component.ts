@@ -1,9 +1,7 @@
 import {
   Component,
-  EventEmitter,
   Input,
   OnChanges,
-  Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -25,7 +23,6 @@ import { IncrementableCounter } from '../../../../interfaces/hunt/incrementableC
 })
 export class EnergyStateComponent implements OnChanges {
   @Input() energyState!: IncrementableCounter;
-  @Output() incrementEnergyState = new EventEmitter<IncrementableCounter>();
 
   maxEnergies = defaultEnergiesNumber;
   nextGenerationIn = '';

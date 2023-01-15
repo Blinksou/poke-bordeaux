@@ -4,10 +4,9 @@
   <div *ngIf="step === 'HUNT'">
     <app-energy-state
       *ngIf="energyState"
-      (incrementEnergyState)="(incrementEnergyState)"
       [energyState]="energyState"
     ></app-energy-state>
-    <button mat-raised-button (click)="decrementEnergyState()">Hunt</button>
+    <button mat-raised-button (click)="goToBallSelection()">Hunt</button>
   </div>
 
   <div *ngIf="step === 'BALL_SELECTION'">
@@ -15,6 +14,7 @@
     <app-pokeball-list
       (selectBall)="selectBall($event)"
       [selectedBall]="selectedBall"
+      [pokeballs]="pokeballsState"
     ></app-pokeball-list>
     <button mat-raised-button (click)="capture()" [disabled]="!selectedBall">
       CAPTURE
