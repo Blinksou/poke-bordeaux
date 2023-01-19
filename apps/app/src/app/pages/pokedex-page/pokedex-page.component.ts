@@ -53,7 +53,7 @@ export class PokedexPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pokemons = PokemonList as unknown as Pokemon[];
+    this.pokemons = Object.values(PokemonList) as unknown as Pokemon[];
 
     this.comparePokemons(this.pokemons, this.types);
   }
