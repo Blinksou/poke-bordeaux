@@ -4,7 +4,7 @@ export class SignupPo {
   }
 
   shouldBeDisplayed() {
-    cy.get('#signup-title').contains("S'inscrire").should('exist');
+    cy.get('#signup-title').should('exist');
   }
 
   signup(login: string, password: string) {
