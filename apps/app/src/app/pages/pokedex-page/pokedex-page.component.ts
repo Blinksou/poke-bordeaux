@@ -9,7 +9,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { FilterPageComponent } from '../filter-page/filter-page.component';
 import { PokemonAvatarComponent } from '../../components/pokemon-avatar/pokemon-avatar.component';
 import { Pokemon } from '../../components/pokemon-avatar/model/pokemon';
-import { PokemonType } from '../../../interfaces';
+import { PokemonTypeFilter } from '../../../interfaces';
 import PokemonList from '../../../assets/pokemon/pokemons-list.json';
 
 @Component({
@@ -35,7 +35,7 @@ export class PokedexPageComponent implements OnInit {
 
   @Input() search: string | undefined;
   @Input() pokemons!: Pokemon[];
-  @Input() types: PokemonType[] = [
+  @Input() types: PokemonTypeFilter[] = [
     {
       name: 'normal',
       checked: true,
@@ -58,7 +58,7 @@ export class PokedexPageComponent implements OnInit {
     this.comparePokemons(this.pokemons, this.types);
   }
 
-  comparePokemons(allPokemons: Pokemon[], selectedTypes: PokemonType[]) {
+  comparePokemons(allPokemons: Pokemon[], selectedTypes: PokemonTypeFilter[]) {
     for (const pokemon of allPokemons) {
       console.log('pokemon.types', pokemon.types);
       console.log('selectedTypes[0]', selectedTypes[0]);

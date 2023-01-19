@@ -1,5 +1,3 @@
-import { PokemonType } from '../../../../interfaces';
-
 export interface Pokemon {
   id: number;
   name: string;
@@ -7,4 +5,9 @@ export interface Pokemon {
   types: PokemonType[];
   image: string;
   sprite: string;
+}
+
+interface PokemonType {
+  name: string;
+  image?: string;
 }

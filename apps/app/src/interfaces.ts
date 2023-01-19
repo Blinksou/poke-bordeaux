@@ -1,6 +1,5 @@
-export interface PokemonType {
+export interface PokemonTypeFilter {
   name: string;
   image?: string;
   checked: boolean;
-  // url:  string;
 }
