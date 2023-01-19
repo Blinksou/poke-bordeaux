@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FilterPageService } from './filter-page.service';
-import { PokemonType } from '../../../interfaces';
+import { PokemonTypeFilter } from '../../../interfaces';
 import {
   FormBuilder,
   FormGroup,
@@ -33,10 +33,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 })
 export class FilterPageComponent implements OnInit {
   loaded!: boolean;
-  typesList: PokemonType[] | undefined;
+  typesList: PokemonTypeFilter[] | undefined;
 
   checked = false;
-  selectedTypes: PokemonType[] = [];
+  selectedTypes: PokemonTypeFilter[] = [];
 
   formGroup = this._formBuilder.group({
     hideknown: '',
@@ -62,7 +62,7 @@ export class FilterPageComponent implements OnInit {
       });
   }
 
-  getCheckedFilters(type: PokemonType) {
+  getCheckedFilters(type: PokemonTypeFilter) {
     const index = this.selectedTypes.findIndex((x) => x == type);
 
     if (!type.checked) {

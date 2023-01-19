@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -9,7 +14,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { FilterPageComponent } from '../filter-page/filter-page.component';
 import { PokemonAvatarComponent } from '../../components/pokemon-avatar/pokemon-avatar.component';
 import { Pokemon } from '../../components/pokemon-avatar/model/pokemon';
-import { PokemonType } from '../../../interfaces';
+import { PokemonTypeFilter } from '../../../interfaces';
 import PokemonList from '../../../assets/pokemon/pokemons-list.json';
 
 @Component({
@@ -27,6 +32,7 @@ import PokemonList from '../../../assets/pokemon/pokemons-list.json';
   ],
   templateUrl: './pokedex-page.component.html',
   styleUrls: ['./pokedex-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokedexPageComponent implements OnInit {
   constructor(public readonly dialog: MatDialog) {}
@@ -35,7 +41,7 @@ export class PokedexPageComponent implements OnInit {
 
   @Input() search: string | undefined;
   @Input() pokemons!: Pokemon[];
-  @Input() types: PokemonType[] = [
+  @Input() types: PokemonTypeFilter[] = [
     {
       checked: true,
       name: 'Normal',
@@ -59,7 +65,7 @@ export class PokedexPageComponent implements OnInit {
     this.comparePokemons(this.pokemons, this.types);
   }
 
-  comparePokemons(allPokemons: Pokemon[], selectedTypes: PokemonType[]) {
+  comparePokemons(allPokemons: Pokemon[], selectedTypes: PokemonTypeFilter[]) {
     for (const pokemon of allPokemons) {
       if (pokemon.types.includes(selectedTypes[0])) {
         console.log('true');
@@ -80,5 +86,9 @@ export class PokedexPageComponent implements OnInit {
       enterAnimationDuration,
       exitAnimationDuration,
     });
+  }
+
+  trackPokemonId(index: number, pokemon: Pokemon) {
+    return pokemon.id;
   }
 }

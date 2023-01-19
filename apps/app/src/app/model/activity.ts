@@ -1,4 +1,5 @@
 export interface BaseActivity<D> {
+  id: string;
   type: ActivityType;
   data: D;
 }
