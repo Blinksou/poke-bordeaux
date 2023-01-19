@@ -11,7 +11,7 @@ import { BaseActivity } from '../../../model/activity';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityComponent {
-  activities = [
+  activities: BaseActivity<unknown>[] = [
     {
       id: '1',
       type: 'trade-info',
@@ -41,7 +41,7 @@ export class ActivityComponent {
         userPokemonId: '1',
       },
     },
-  ] as const;
+  ];
 
   trackByActivity(index: number, activity: BaseActivity<unknown>) {
     return activity.id;

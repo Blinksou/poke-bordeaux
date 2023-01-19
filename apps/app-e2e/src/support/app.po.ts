@@ -16,22 +16,22 @@ export class HomePo {
   }
 
   clickLoginButton() {
-    cy.get('a').contains('Connexion').click();
+    cy.get('#login-link').click();
   }
 
   clickSignupButton() {
-    cy.get('a').contains('Inscription').click();
+    cy.get('#signup-link').click();
   }
 
   shouldNotHaveLoginButton() {
-    cy.get('a').contains('Connexion').should('not.exist');
+    cy.get('#login-link').should('not.exist');
   }
 
   shouldHaveLoginButton() {
-    cy.get('a').contains('Connexion').should('exist');
+    cy.get('#login-link').should('exist');
   }
 
   shouldHaveRegisterButton() {
-    cy.get('a').contains('Inscription').should('exist');
+    cy.get('#signup-link').should('exist');
   }
 }

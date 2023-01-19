@@ -42,7 +42,7 @@ describe('app', () => {
     it('should not work with an account that does not exist', () => {
       loginPage.goTo();
 
-      loginPage.authenticate('blabla@gmail.com', 'blabla');
+      loginPage.authenticate('blabla@demo.com', 'blabla@demo.com');
 
       loginPage.shouldBeDisplayed();
     });

@@ -4,7 +4,7 @@ export class LoginPo {
   }
 
   shouldBeDisplayed() {
-    cy.get('#login-title').contains('Connexion').should('exist');
+    cy.get('#login-title').should('exist');
   }
 
   authenticate(login: string, password: string) {
