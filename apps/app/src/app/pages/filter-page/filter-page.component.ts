@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FilterPageService } from './filter-page.service';
 import { PokemonTypeFilter } from '../../../interfaces';
@@ -9,7 +9,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -32,11 +32,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   styleUrls: ['./filter-page.component.scss'],
 })
 export class FilterPageComponent implements OnInit {
+
   loaded!: boolean;
   typesList: PokemonTypeFilter[] | undefined;
 
   checked = false;
   selectedTypes: PokemonTypeFilter[] = [];
+  testTypes: PokemonTypeFilter[] = [];
 
   formGroup = this._formBuilder.group({
     hideknown: '',
@@ -44,9 +46,13 @@ export class FilterPageComponent implements OnInit {
   });
 
   constructor(
+    public dialogRef: MatDialogRef<FilterPageComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private filterService: FilterPageService,
-    private _formBuilder: FormBuilder
-  ) {}
+    private _formBuilder: FormBuilder,
+  ) {
+    data = this.selectedTypes
+  }
 
   ngOnInit(): void {
     this.getTypes();
@@ -62,7 +68,13 @@ export class FilterPageComponent implements OnInit {
       });
   }
 
+  closeDialog() {
+    console.log('this.selectedTypes', this.selectedTypes)
+    this.dialogRef.close({ event: 'close', data: this.selectedTypes });
+  }
+
   getCheckedFilters(type: PokemonTypeFilter) {
+    console.log('this.selectedTypes', this.selectedTypes)
     const index = this.selectedTypes.findIndex((x) => x == type);
 
     if (!type.checked) {
@@ -72,6 +84,7 @@ export class FilterPageComponent implements OnInit {
     }
 
     console.log(this.selectedTypes);
+    return this.selectedTypes;
   }
 
   alertFormValues(formGroup: FormGroup) {
