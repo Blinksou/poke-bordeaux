@@ -37,9 +37,10 @@ export class PokedexPageComponent implements OnInit {
   @Input() pokemons!: Pokemon[];
   @Input() types: PokemonType[] = [
     {
-      name: 'normal',
       checked: true,
-    },
+      name: 'Normal',
+      image: "https://static.wikia.nocookie.net/pokemongo/images/f/fb/Normal.png"
+    }
   ];
 
   selectedPokemon: Pokemon | null = null;
@@ -60,10 +61,10 @@ export class PokedexPageComponent implements OnInit {
 
   comparePokemons(allPokemons: Pokemon[], selectedTypes: PokemonType[]) {
     for (const pokemon of allPokemons) {
-      console.log('pokemon.types', pokemon.types);
-      console.log('selectedTypes[0]', selectedTypes[0]);
       if (pokemon.types.includes(selectedTypes[0])) {
         console.log('true');
+        console.log('pokemon.types', pokemon.types);
+        console.log('selectedTypes[0]', selectedTypes[0]);
       } else {
         console.log('false');
       }
