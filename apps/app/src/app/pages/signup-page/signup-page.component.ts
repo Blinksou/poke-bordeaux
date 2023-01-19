@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../services/auth.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 function createCompareValidator(
   controlOne: AbstractControl | null,
@@ -35,6 +36,7 @@ function createCompareValidator(
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    TranslateModule,
   ],
   templateUrl: './signup-page.component.html',
   styleUrls: ['./signup-page.component.scss'],
