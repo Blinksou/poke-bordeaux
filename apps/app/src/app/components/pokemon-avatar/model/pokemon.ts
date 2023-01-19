@@ -1,9 +1,10 @@
-import { PokemonType } from "../../../../interfaces";
+import { PokemonType } from '../../../../interfaces';
 
 export interface Pokemon {
-    id: number;
-    name: string;
-    types: PokemonType[];
-    image: string;
-    // quantity: number;
+  id: number;
+  name: string;
+  slug: string;
+  types: PokemonType[];
+  image: string;
+  sprite: string;
 }

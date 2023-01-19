@@ -1,22 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FilterPageService } from './filter-page.service';
-import { PokeApi, PokemonType } from '../../../interfaces';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PokemonType } from '../../../interfaces';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-filter-page',
   standalone: true,
   imports: [
-    CommonModule, MatDialogModule, MatGridListModule, 
-    MatButtonModule, MatSlideToggleModule, FormsModule, 
-    ReactiveFormsModule, MatCheckboxModule],
+    CommonModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
+  ],
   templateUrl: './filter-page.component.html',
   styleUrls: ['./filter-page.component.scss'],
 })
@@ -31,7 +42,7 @@ export class FilterPageComponent implements OnInit {
     hideknown: '',
     hideunknown: ['', Validators.requiredTrue],
   });
-  
+
   constructor(
     private filterService: FilterPageService,
     private _formBuilder: FormBuilder
@@ -43,26 +54,24 @@ export class FilterPageComponent implements OnInit {
 
   getTypes() {
     this.loaded = false;
-    this.filterService.getTypes('https://pokeapi.co/api/v2/type')
-      .subscribe(
-        (response: PokeApi) => {
-          this.typesList = response.results;
-          this.loaded = true;
-        }
-      );
+    this.filterService
+      .getTypes('https://pokebuildapi.fr/api/v1/types')
+      .subscribe((response) => {
+        this.typesList = response;
+        this.loaded = true;
+      });
   }
 
   getCheckedFilters(type: PokemonType) {
+    const index = this.selectedTypes.findIndex((x) => x == type);
 
-    const index = this.selectedTypes.findIndex(x => x == type);
-
-    if(!type.checked) {
+    if (!type.checked) {
       this.selectedTypes.splice(index, 1);
     } else {
-      this.selectedTypes.push(type)
+      this.selectedTypes.push(type);
     }
 
-    console.log(this.selectedTypes)
+    console.log(this.selectedTypes);
   }
 
   alertFormValues(formGroup: FormGroup) {

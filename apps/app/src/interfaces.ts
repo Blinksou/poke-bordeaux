@@ -1,12 +1,6 @@
-export interface PokeApi {
-    count:    number;
-    next:     null;
-    previous: null;
-    results:  PokemonType[];
-}
-
 export interface PokemonType {
-    name: string;
-    checked: boolean;
-    // url:  string;
+  name: string;
+  image?: string;
+  checked: boolean;
+  // url:  string;
 }

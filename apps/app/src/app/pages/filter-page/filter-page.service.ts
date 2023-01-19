@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { PokeApi } from '../../../interfaces';
+import { PokemonType } from '../../../interfaces';
 
 const httpOptions = {
-  headers: new HttpHeaders(
-    {
-      'Content-Type': 'application/json',
-    }
-  )
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+  }),
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FilterPageService {
-
   constructor(private http: HttpClient) {}
 
-  getTypes(url: string): Observable<PokeApi> {
-    return this.http.get<PokeApi>(url, httpOptions);
+  getTypes(url: string): Observable<PokemonType[]> {
+    return this.http.get<PokemonType[]>(url, httpOptions);
   }
 }
