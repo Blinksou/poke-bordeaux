@@ -17,6 +17,13 @@ export type UserProfile = {
     tradingFulfilled: number;
   };
   hunt: Hunt;
+  pokemons: [
+    {
+      pokemonId: number;
+      quantity: number;
+      isFavorite: boolean;
+    }
+  ]
 };
 
 export type UserBasicInfos = {
