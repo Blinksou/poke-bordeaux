@@ -58,7 +58,6 @@ describe('app', () => {
     it('should work with a new account', () => {
       signupPage.goTo();
 
-      // Intercept firebase signup request to avoid sending an email
       cy.intercept('POST', '**/accounts:signUp', {
         statusCode: 200,
       });
@@ -69,7 +68,6 @@ describe('app', () => {
     it('should not work with an existing account', () => {
       signupPage.goTo();
 
-      // Intercept firebase signup request to avoid sending an email
       cy.intercept('POST', '**/accounts:signUp', {
         statusCode: 500,
       });
@@ -78,5 +76,16 @@ describe('app', () => {
 
       signupPage.shouldBeDisplayed();
     });
+  });
+
+  describe('activities', () => {
+    it('should display no activities', () => {
+      loginPage.loginAsTestDemoUser();
+      homePage.goTo();
+      homePage.setReturnNoActivities();
+      homePage.shouldDisplayNoActivities();
+    });
+
+    // @TODO add tests for activities
   });
 });

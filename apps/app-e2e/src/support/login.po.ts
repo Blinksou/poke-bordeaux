@@ -12,4 +12,9 @@ export class LoginPo {
     cy.get('input[id=password]').type(password);
     cy.get('#login-btn').click();
   }
+
+  loginAsTestDemoUser() {
+    this.goTo();
+    this.authenticate('testdemo@gmail.com', 'testdemo');
+  }
 }

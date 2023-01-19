@@ -4,13 +4,15 @@ export class HomePo {
   }
 
   setReturnNoActivities() {
-    // cy.intercept('https://icanhazdadjoke.com/search', {
-    //   fixture: 'no-joke.json',
+    // @TODO intercept activities firebase request to return no activities
+    // cy.intercept('**/', {
+    //   fixture: 'no-activities.json',
     // });
   }
 
-  shouldDisplayNoJokeCard() {
-    cy.get('.no-joke').should('exist');
+  shouldDisplayNoActivities() {
+    // @TODO should display no activities
+    // cy.get('p').contains('Aucune activité').should('exist');
   }
 
   clickLoginButton() {
