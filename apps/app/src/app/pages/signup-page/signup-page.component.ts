@@ -39,7 +39,7 @@ function createCompareValidator(
   templateUrl: './signup-page.component.html',
   styleUrls: ['./signup-page.component.scss'],
 })
-export class SignupComponent {
+export class SignupPageComponent {
   signupForm: FormGroup;
 
   get email() {

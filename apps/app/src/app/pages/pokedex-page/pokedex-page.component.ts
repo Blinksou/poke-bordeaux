@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -27,6 +32,7 @@ import PokemonList from '../../../assets/pokemon/pokemons-list.json';
   ],
   templateUrl: './pokedex-page.component.html',
   styleUrls: ['./pokedex-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokedexPageComponent implements OnInit {
   constructor(public readonly dialog: MatDialog) {}
@@ -79,5 +85,9 @@ export class PokedexPageComponent implements OnInit {
       enterAnimationDuration,
       exitAnimationDuration,
     });
+  }
+
+  trackPokemonId(index: number, pokemon: Pokemon) {
+    return pokemon.id;
   }
 }
