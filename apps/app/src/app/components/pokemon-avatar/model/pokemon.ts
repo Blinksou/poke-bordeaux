@@ -6,7 +6,7 @@ export interface Pokemon {
   image: string;
 }
 
-interface PokemonType {
+export interface PokemonType {
   name: string;
   image?: string;
 }
