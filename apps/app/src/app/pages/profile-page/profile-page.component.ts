@@ -6,6 +6,8 @@ import { ProfileStatisticsComponent } from './profile-statistics/profile-statist
 import { UserProfile } from '../../model/user';
 import { Observable } from 'rxjs';
 import { UserService } from '../../services/user.service';
+import { dataURLtoBlob, StorageService } from '../../services/storage.service';
+import { WebcamImage } from 'ngx-webcam';
 
 @Component({
   selector: 'app-profile-page',
@@ -23,7 +25,8 @@ export class ProfilePageComponent {
   profile$: Observable<UserProfile | null>;
 
   constructor(
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly storage: StorageService
   ) {
     this.profile$ = userService.user$;
   }
@@ -56,14 +59,18 @@ export class ProfilePageComponent {
     });
   }
 
-  handleAvatarEdition(avatar: string) {
+  handleAvatarEdition(avatarImage: WebcamImage) {
     this.profile$.subscribe(async (user) => {
       if (user) {
+        const avatarUrl = await this.storage.uploadAvatar(
+          `${user.id}-avatar`,
+          dataURLtoBlob(avatarImage.imageAsDataUrl)
+        );
         await this.userService.updateUserInFirestore(user.id, {
           ...user,
           infos: {
             ...user.infos,
-            avatar: avatar,
+            avatar: avatarUrl,
           },
         });
       }
