@@ -1,16 +1,19 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivityCardComponent } from '../../../components/activity-card/activity-card.component';
+import { BaseActivity } from '../../../model/activity';
 
 @Component({
   selector: 'app-activity-component',
   standalone: true,
   imports: [CommonModule, ActivityCardComponent],
   templateUrl: './activity-component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityComponent {
   activities = [
     {
+      id: '1',
       type: 'trade-info',
       data: {
         askerId: 'iYUePp5VhPg1ZzHZ9NJHUwsEiM32',
@@ -20,6 +23,7 @@ export class ActivityComponent {
       },
     },
     {
+      id: '2',
       type: 'trade-ask',
       data: {
         askerId: 'JGno0wh8oEQwhv2FyVvv4b6N7fz2',
@@ -30,6 +34,7 @@ export class ActivityComponent {
       },
     },
     {
+      id: '3',
       type: 'capture',
       data: {
         userId: 'iYUePp5VhPg1ZzHZ9NJHUwsEiM32',
@@ -37,4 +42,8 @@ export class ActivityComponent {
       },
     },
   ] as const;
+
+  trackByActivity(index: number, activity: BaseActivity<unknown>) {
+    return activity.id;
+  }
 }

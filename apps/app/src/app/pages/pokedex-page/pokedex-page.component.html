@@ -1,50 +1,50 @@
 <div class="search-filters">
-    <form class="example-form">
-        <mat-form-field class="example-full-width">
-            <mat-label>Search...</mat-label>
-            <mat-icon matPrefix mat-button>search</mat-icon>
-            <input type="tel" matInput placeholder="Search" name= "search" [(ngModel)]= "search">
-        </mat-form-field>
-        {{search}}
-    </form>
-    <div class="filter">
-        <button mat-raised-button (click)="openDialog('0ms', '0ms')">
-            <mat-icon mat-button>filter_list</mat-icon>
-        </button>
-    </div>
+  <form class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Search...</mat-label>
+      <mat-icon matPrefix mat-button>search</mat-icon>
+      <input type="tel" matInput placeholder="Search" name="search" [(ngModel)]="search">
+    </mat-form-field>
+    {{search}}
+  </form>
+  <div class="filter">
+    <button mat-raised-button (click)="openDialog('0ms', '0ms')">
+      <mat-icon mat-button>filter_list</mat-icon>
+    </button>
+  </div>
 </div>
 <div class="pokedex-content">
-    <div class="grid grid-cols-4 justify-items-center">
+  <div class="grid grid-cols-4 justify-items-center">
+    <app-pokemon-avatar
+      border="owned"
+      [pokemon]="pokemon"
+      (mouseenter)="setSelectedPokemon(pokemon)"
+      (mouseleave)="unselectPokemon()"
+      *ngFor="let pokemon of pokemons; trackBy: trackPokemonId"
+    ></app-pokemon-avatar>
+  </div>
+  <div
+    *ngIf="selectedPokemon"
+    class="text-center mt-5 p-3 rounded-md bg-secondary"
+  >
+    <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-tile>
         <app-pokemon-avatar
-            border='owned'
-            [pokemon]="pokemon"
-            (mouseenter)="setSelectedPokemon(pokemon)"
-            (mouseleave)="unselectPokemon()"
-            *ngFor="let pokemon of pokemons"
+          [pokemon]="selectedPokemon"
         ></app-pokemon-avatar>
-    </div>
-        <div
-            *ngIf="selectedPokemon"
-            class="text-center mt-5 p-3 rounded-md bg-secondary"
-        >
-        <mat-grid-list cols="2" rowHeight="2:1">
-            <mat-grid-tile>
-                <app-pokemon-avatar 
-                    [pokemon]="selectedPokemon"
-                ></app-pokemon-avatar>
-            </mat-grid-tile>
-            <mat-grid-tile>
-                <div>
-                    <p class="capitalize">{{selectedPokemon.name}}</p>
-                    <ul>
-                        <li *ngFor="let t of selectedPokemon.types">
-                            <p>{{ t.name }}</p>
-                        </li>
-                    </ul>
-                    <!--<p>{{selectedPokemon.quantity}} owned</p>-->
-                </div>
-            </mat-grid-tile>
-          </mat-grid-list>
-    </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <p class="capitalize">{{selectedPokemon.name}}</p>
+          <ul>
+            <li *ngFor="let t of selectedPokemon.types">
+              <p>{{ t.name }}</p>
+            </li>
+          </ul>
+          <!--<p>{{selectedPokemon.quantity}} owned</p>-->
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
 </div>
 
