@@ -8,7 +8,7 @@
     {{search}}
   </form>
   <div class="filter">
-    <button mat-raised-button (click)="openDialog('0ms', '0ms')">
+    <button mat-raised-button (click)="openDialog()">
       <mat-icon mat-button>filter_list</mat-icon>
     </button>
   </div>
@@ -16,7 +16,9 @@
 <div class="pokedex-content">
   <div class="grid grid-cols-4 justify-items-center">
     <app-pokemon-avatar
-      border="owned"
+      [border]="border"
+      [user]="user$"
+      [userpokemons]="userpokemons"
       [pokemon]="pokemon"
       (mouseenter)="setSelectedPokemon(pokemon)"
       (mouseleave)="unselectPokemon()"
