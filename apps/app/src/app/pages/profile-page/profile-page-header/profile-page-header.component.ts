@@ -29,7 +29,7 @@ import { WebcamImage } from 'ngx-webcam';
 export class ProfilePageHeaderComponent {
   @Input() profile: UserProfile['infos'] | undefined;
   @Output() descriptionEdited = new EventEmitter<string>();
-  @Output() avatarEdited = new EventEmitter<string>();
+  @Output() avatarEdited = new EventEmitter<WebcamImage>();
   @ViewChild('profileDescription', { static: false }) profileDescDiv:
     | ElementRef
     | undefined;
@@ -59,9 +59,10 @@ export class ProfilePageHeaderComponent {
   openDialog() {
     const dialogRef = this.dialogPhoto.open(ProfilePageTakePhotoComponent);
     dialogRef.afterClosed().subscribe((image: WebcamImage | undefined) => {
+      console.log(image);
       if (image) {
         this.avatar = image.imageAsDataUrl;
-        this.avatarEdited.emit(image.imageAsDataUrl);
+        this.avatarEdited.emit(image);
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import {
@@ -18,8 +18,6 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./profile-page-take-photo.component.scss'],
 })
 export class ProfilePageTakePhotoComponent implements OnInit {
-  @Output()
-  public pictureTaken = new EventEmitter<WebcamImage>();
   public webcamImage: WebcamImage | undefined;
   public showWebcam = true;
   public allowCameraSwitch = true;
