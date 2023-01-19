@@ -4,7 +4,7 @@ import { ProfilePageHeaderComponent } from './profile-page-header/profile-page-h
 import { ProfileOptionsComponent } from './profile-options/profile-options.component';
 import { ProfileStatisticsComponent } from './profile-statistics/profile-statistics.component';
 import { UserProfile } from '../../model/user';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { dataURLtoBlob, StorageService } from '../../services/storage.service';
 import { WebcamImage } from 'ngx-webcam';
@@ -32,7 +32,7 @@ export class ProfilePageComponent {
   }
 
   toggleOption(option: PickOne<UserProfile['options']>) {
-    this.profile$.subscribe(async (user) => {
+    this.profile$.pipe(take(1)).subscribe(async (user) => {
       if (user) {
         await this.userService.updateUserInFirestore(user.id, {
           ...user,
@@ -46,7 +46,7 @@ export class ProfilePageComponent {
   }
 
   handleDescriptionEdition(description: string) {
-    this.profile$.subscribe(async (user) => {
+    this.profile$.pipe(take(1)).subscribe(async (user) => {
       if (user) {
         await this.userService.updateUserInFirestore(user.id, {
           ...user,
@@ -60,7 +60,7 @@ export class ProfilePageComponent {
   }
 
   handleAvatarEdition(avatarImage: WebcamImage) {
-    this.profile$.subscribe(async (user) => {
+    this.profile$.pipe(take(1)).subscribe(async (user) => {
       if (user) {
         const avatarUrl = await this.storage.uploadAvatar(
           `${user.id}-avatar`,
