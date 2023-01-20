@@ -1,31 +1,40 @@
 <div mat-dialog-content>
   <div *ngIf="webcamImage; else webcamBlock" class="flex flex-col gap-y-4">
     <div class="snapshot">
-      <img class="object-fit w-full" [src]="webcamImage.imageAsDataUrl"  alt="user webcam image"/>
+      <img class="object-fit w-full" [src]="webcamImage.imageAsDataUrl" alt="user webcam image" />
     </div>
     <div class="flex justify-center gap-x-2 mt-3">
-      <button [mat-dialog-close]="keepWebcamImage()" class="w-full flex justify-center items-center gap-x-2 bg-secondary rounded-full text-white py-4 font-bold hover:bg-primary">
+      <button [mat-dialog-close]="keepWebcamImage()"
+              class="w-full flex justify-center items-center gap-x-2 bg-secondary rounded-full text-white py-4 font-bold hover:bg-primary">
         <mat-icon fontIcon="add_a_photo"></mat-icon>
         Keep Image
       </button>
-      <button class="w-full border border-secondary text-secondary rounded-full py-4 font-bold hover:bg-secondary hover:text-white" (click)="retryWebcamImage();">
+      <button
+        class="w-full border border-secondary text-secondary rounded-full py-4 font-bold hover:bg-secondary hover:text-white"
+        (click)="retryWebcamImage();">
         Retry
       </button>
     </div>
   </div>
   <ng-template #webcamBlock>
-    <webcam [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
-            [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
+    <webcam [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+            *ngIf="showWebcam"
+            [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions"
+            (cameraSwitched)="cameraWasSwitched($event)"
             (initError)="handleInitError($event)" mirrorImage="never">
     </webcam>
     <div class="flex justify-center gap-x-2 mt-3">
-      <button class="w-full flex justify-center items-center gap-x-2 bg-secondary rounded-full text-white py-4 font-bold hover:bg-primary" (click)="triggerSnapshot();">
+      <button
+        class="w-full flex justify-center items-center gap-x-2 bg-secondary rounded-full text-white py-4 font-bold hover:bg-primary"
+        (click)="triggerSnapshot();">
         <mat-icon fontIcon="add_a_photo"></mat-icon>
-        Take Photo
+        {{ 'profile.takePhoto'|translate }}
       </button>
-      <button class="w-full flex justify-center items-center gap-x-2 border border-secondary text-secondary rounded-full py-4 font-bold text-sm hover:bg-secondary hover:text-white" (click)="showNextWebcam(true);">
+      <button
+        class="w-full flex justify-center items-center gap-x-2 border border-secondary text-secondary rounded-full py-4 font-bold text-sm hover:bg-secondary hover:text-white"
+        (click)="showNextWebcam(true);">
         <mat-icon fontIcon="cameraswitch"></mat-icon>
-        Switch Camera
+        {{ 'profile.switchCamera'|translate }}
       </button>
     </div>
   </ng-template>

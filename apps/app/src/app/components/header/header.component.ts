@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { HeaderLogoComponent } from './header-logo/header-logo.component';
 import { AuthService } from '../../services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,8 @@ export class HeaderComponent {
 
   constructor(
     private readonly router: Router,
-    public readonly authService: AuthService
+    public readonly authService: AuthService,
+    private readonly translate: TranslateService
   ) {
     router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -31,5 +33,10 @@ export class HeaderComponent {
     } else {
       this.subtitle = null;
     }
+  }
+
+  changeLanguage(language: string) {
+    console.log('Changing language to', language);
+    this.translate.use(language);
   }
 }

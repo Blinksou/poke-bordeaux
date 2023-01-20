@@ -1,8 +1,8 @@
-<section class="grid grid-cols-5 card hover:bg-primary">
-  <section class="col-span-1 border-white min-h-[120px] pr-1">
-    <img class="h-[120px]" src="{{ pokemonImage || 'assets/pokemon/132_1.svg' }}" alt="Pokemon Image" />
+<section class="grid grid-cols-12 card hover:bg-primary">
+  <section class="col-span-3 border-white min-h-[7.5rem] pr-1">
+    <img class="h-[7.5rem]" src="{{ pokemonImage || 'assets/pokemon/132_1.svg' }}" alt="Pokemon Image" />
   </section>
-  <section class="col-span-3 md:col-span-4 px-5 py-3 flex flex-col justify-center">
+  <section class="col-span-9 px-5 py-3 flex flex-col justify-center">
     <app-trade-ask-behaviour (setPokemonImage)="setPokemonImage($event)" [activity]="$any(activity)"
                              *ngIf="isTradeAskActivity()"></app-trade-ask-behaviour>
 

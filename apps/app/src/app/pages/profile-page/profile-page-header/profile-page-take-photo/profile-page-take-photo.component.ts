@@ -9,11 +9,18 @@ import {
 } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile-page-take-photo',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, WebcamModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    WebcamModule,
+    MatIconModule,
+    TranslateModule,
+  ],
   templateUrl: './profile-page-take-photo.component.html',
   styleUrls: ['./profile-page-take-photo.component.scss'],
 })
