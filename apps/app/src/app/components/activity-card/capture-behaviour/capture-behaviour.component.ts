@@ -15,6 +15,7 @@ import { UserProfile } from '../../../model/user';
 import { Pokemon } from '../../pokemon-avatar/model/pokemon';
 import { combineLatest, map, Observable } from 'rxjs';
 import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 export type CaptureBehaviourComponentViewModel = Observable<{
   pokemon: Pokemon;
@@ -25,7 +26,7 @@ export type CaptureBehaviourComponentViewModel = Observable<{
 @Component({
   selector: 'app-capture-behaviour',
   standalone: true,
-  imports: [CommonModule, ObserveVisibilityDirective],
+  imports: [CommonModule, ObserveVisibilityDirective, TranslateModule],
   templateUrl: './capture-behaviour.component.html',
 })
 export class CaptureBehaviourComponent {

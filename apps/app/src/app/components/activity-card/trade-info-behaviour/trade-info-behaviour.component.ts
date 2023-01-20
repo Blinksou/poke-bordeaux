@@ -16,6 +16,7 @@ import { PokemonService } from '../../../services/pokemon.service';
 import { Pokemon } from '../../pokemon-avatar/model/pokemon';
 import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
 import { combineLatest, map, Observable } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 export type TradeInfoBehaviourComponentViewModel = Observable<{
   targetPokemon: Pokemon;
@@ -27,7 +28,7 @@ export type TradeInfoBehaviourComponentViewModel = Observable<{
 @Component({
   selector: 'app-trade-info-behaviour',
   standalone: true,
-  imports: [CommonModule, ObserveVisibilityDirective],
+  imports: [CommonModule, ObserveVisibilityDirective, TranslateModule],
   templateUrl: './trade-info-behaviour.component.html',
 })
 export class TradeInfoBehaviourComponent {

@@ -1,13 +1,14 @@
-<div appObserveVisibility [debounceTime]="300"
-     (visible)="onVisible()">
+<div appObserveVisibility (visible)="onVisible()">
   <ng-container *ngIf="viewModel$ | async as viewModel">
     <div class="flex justify-center mb-5">
-      <ng-container
-        *ngIf="currentUser!.id !== viewModel.user.id">{{ viewModel.user.infos.nickname || viewModel.user.infos.name }}
-        a
+      <ng-container *ngIf="currentUser!.id !== viewModel.user.id">
+        {{ viewModel.user.infos.nickname || viewModel.user.infos.name }}
+        {{ 'activity.capture.hasCaptured'| translate}}
       </ng-container>
-      <ng-container *ngIf="currentUser!.id === viewModel.user.id">Vous avez</ng-container>
-      capturé un {{ viewModel.pokemon.name | titlecase }}
+      <ng-container *ngIf="currentUser!.id === viewModel.user.id">
+        {{ 'activity.capture.youCaptured' | translate}}
+      </ng-container>
+      {{ viewModel.pokemon.name | titlecase }}
     </div>
 
     <div class="mt-5 flex justify-center">

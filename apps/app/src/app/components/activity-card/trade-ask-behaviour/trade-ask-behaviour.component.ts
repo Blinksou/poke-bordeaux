@@ -14,6 +14,7 @@ import { Pokemon } from '../../pokemon-avatar/model/pokemon';
 import { ActivityService } from '../../../services/activity.service';
 import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
 import { combineLatest, map, Observable } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 export type TradeAskBehaviourComponentViewModel = Observable<{
   targetPokemon: Pokemon;
@@ -24,7 +25,7 @@ export type TradeAskBehaviourComponentViewModel = Observable<{
 @Component({
   selector: 'app-trade-ask-behaviour',
   standalone: true,
-  imports: [CommonModule, ObserveVisibilityDirective],
+  imports: [CommonModule, ObserveVisibilityDirective, TranslateModule],
   templateUrl: './trade-ask-behaviour.component.html',
 })
 export class TradeAskBehaviourComponent {

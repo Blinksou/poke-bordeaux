@@ -1,16 +1,17 @@
-<div appObserveVisibility [debounceTime]="300"
-     (visible)="onVisible()">
+<div appObserveVisibility (visible)="onVisible()">
   <ng-container *ngIf="viewModel$ | async as viewModel">
     <div class="flex justify-center">
-      {{viewModel.asker.infos.nickname || viewModel.asker.infos.name}} wants to
-      trade {{viewModel.askerPokemon.name|titlecase}} for
-      your {{viewModel.targetPokemon.name|titlecase}}.
+      {{viewModel.asker.infos.nickname || viewModel.asker.infos.name}}
+      {{'activity.tradeAsk.wantsToTrade' | translate}}
+      {{viewModel.askerPokemon.name|titlecase}}
+      {{'activity.tradeAsk.forYour' | translate}}
+      {{viewModel.targetPokemon.name|titlecase}}
     </div>
 
     <div class="mt-5 flex justify-center">
       <div class="flex flex-row justify-between w-1/2">
-        <img class="cursor-pointer" src="assets/action/accept.svg" (click)="accept()">
-        <img class="cursor-pointer" src="assets/action/refuse.svg" (click)="decline()">
+        <img class="cursor-pointer" src="assets/action/accept.svg" (click)="accept()" alt="Accept Icon">
+        <img class="cursor-pointer" src="assets/action/refuse.svg" (click)="decline()" alt="Decline Icon">
       </div>
     </div>
   </ng-container>
