@@ -6,6 +6,14 @@
       <form [formGroup]="signupForm" (ngSubmit)="signupAction()">
         <div>
           <mat-form-field>
+            <mat-label>{{'register.form.nicknameLabel'|translate}}</mat-label>
+            <input id="nickname" matInput formControlName="nickname">
+            <mat-error>Nickname is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field>
             <mat-label>{{'register.form.loginLabel'|translate}}</mat-label>
             <input id="login" matInput formControlName="email">
             <mat-error *ngIf="email?.errors?.['email']">Email must be an email</mat-error>

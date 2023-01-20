@@ -6,6 +6,7 @@ export type UserProfile = {
     description: string;
     avatar: string;
     name: string;
+    nickname?: string;
   };
   options: {
     allowTrading: boolean;
@@ -15,7 +16,7 @@ export type UserProfile = {
     pokemonId: string;
     quantity: number;
     isFavorite: boolean;
-  }>
+  }>;
   stats: {
     capturedPokemons: number;
     thrownPokeballs: number;

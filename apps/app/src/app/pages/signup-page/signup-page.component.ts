@@ -53,6 +53,7 @@ export class SignupPageComponent {
     private readonly authService: AuthService
   ) {
     this.signupForm = fb.group({
+      nickname: new FormControl<string>('', Validators.required),
       email: new FormControl<string>('', [
         Validators.required,
         Validators.email,
@@ -69,9 +70,10 @@ export class SignupPageComponent {
   }
 
   signupAction() {
-    this.authService.signUp(
-      this.signupForm.get('email')?.value,
-      this.signupForm.get('password')?.value
-    );
+    this.authService.signUp({
+      email: this.signupForm.get('email')?.value,
+      nickname: this.signupForm.get('nickname')?.value,
+      password: this.signupForm.get('password')?.value,
+    });
   }
 }
