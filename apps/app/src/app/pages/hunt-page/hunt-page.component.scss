@@ -1,7 +1,10 @@
 #hunt-page {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  height: 100%;
+  row-gap: 1rem;
 
   button {
     border-radius: 20px;

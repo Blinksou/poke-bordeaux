@@ -14,7 +14,9 @@
       *ngIf="energiesState"
       [energiesState]="energiesState"
     ></app-energies-state>
-    <button mat-raised-button (click)="goToBallSelection()">Hunt</button>
+    <div class="flex justify-center mt-6">
+      <button mat-raised-button (click)="goToBallSelection()">Hunt</button>
+    </div>
   </div>
 
   <div *ngIf="['POKEMON_RESISTED', 'BALL_SELECTION'].includes(step) && pokemonToCapture !== null">
