@@ -19,8 +19,20 @@ import { catchError, first, from, map, NEVER, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginErrorDialogComponent } from '../pages/login-page/login-error-dialog/login-error-dialog.component';
 import { SignupErrorDialogComponent } from '../pages/signup-page/signup-error-dialog/signup-error-dialog.component';
-import { energyTimeGenerationInMs, hyperballTimeGenerationInMs, masterballTimeGenerationInMs, pokeballTimeGenerationInMs, superballTimeGenerationInMs } from '../pages/hunt-page/constants/generationTimes.constant';
-import { defaultEnergiesNumber, defaultHyperballsNumber, defaultMasterballsNumber, defaultPokeballsNumber, defaultSuperballsNumber } from '../pages/hunt-page/constants/defaultNumbers.constant';
+import {
+  energyTimeGenerationInMs,
+  hyperballTimeGenerationInMs,
+  masterballTimeGenerationInMs,
+  pokeballTimeGenerationInMs,
+  superballTimeGenerationInMs,
+} from '../pages/hunt-page/constants/generationTimes.constant';
+import {
+  defaultEnergiesNumber,
+  defaultHyperballsNumber,
+  defaultMasterballsNumber,
+  defaultPokeballsNumber,
+  defaultSuperballsNumber,
+} from '../pages/hunt-page/constants/defaultNumbers.constant';
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +66,15 @@ export class AuthService {
       });
   }
 
-  signUp(email: string, password: string) {
+  signUp({
+    email,
+    password,
+    nickname,
+  }: {
+    email: string;
+    password: string;
+    nickname: string;
+  }) {
     from(createUserWithEmailAndPassword(this.auth, email, password))
       .pipe(
         catchError(async (err) => {
@@ -66,7 +86,7 @@ export class AuthService {
       .subscribe(async (result) => {
         if (!('user' in result)) return;
 
-        await this.createUserInFirestore(result.user);
+        await this.createUserInFirestore(result.user, { nickname });
         await this.router.navigateByUrl('/');
       });
   }
@@ -84,26 +104,50 @@ export class AuthService {
     return this.dialog.open(SignupErrorDialogComponent);
   }
 
-  private async createUserInFirestore(user: User) {
+  private async createUserInFirestore(
+    user: User,
+    additionalInfos: Record<string, unknown>
+  ) {
     return await setDoc(doc(this.firestore, 'users', user.uid), {
       infos: {
-        description:
-          '♪ I wanna be the very best, like no one ever was To catch them is my real test To train them is my cause ♪',
+        description: 'You do not have any description',
         avatar: '',
         name: user.email,
+        ...additionalInfos,
       },
       options: {
         allowTrading: true,
         allowOthersToViewActivity: true,
       },
       hunt: {
-        energiesDate: Timestamp.fromDate(new Date(Date.now() - energyTimeGenerationInMs * defaultEnergiesNumber)),
+        energiesDate: Timestamp.fromDate(
+          new Date(
+            Date.now() - energyTimeGenerationInMs * defaultEnergiesNumber
+          )
+        ),
         pokeballs: {
-          pokeball: Timestamp.fromDate(new Date(Date.now() - pokeballTimeGenerationInMs * defaultPokeballsNumber)),
-          superball: Timestamp.fromDate(new Date(Date.now() - superballTimeGenerationInMs * defaultSuperballsNumber)),
-          hyperball: Timestamp.fromDate(new Date(Date.now() - hyperballTimeGenerationInMs * defaultHyperballsNumber)),
-          masterball: Timestamp.fromDate(new Date(Date.now() - masterballTimeGenerationInMs * defaultMasterballsNumber))
-        }
+          pokeball: Timestamp.fromDate(
+            new Date(
+              Date.now() - pokeballTimeGenerationInMs * defaultPokeballsNumber
+            )
+          ),
+          superball: Timestamp.fromDate(
+            new Date(
+              Date.now() - superballTimeGenerationInMs * defaultSuperballsNumber
+            )
+          ),
+          hyperball: Timestamp.fromDate(
+            new Date(
+              Date.now() - hyperballTimeGenerationInMs * defaultHyperballsNumber
+            )
+          ),
+          masterball: Timestamp.fromDate(
+            new Date(
+              Date.now() -
+                masterballTimeGenerationInMs * defaultMasterballsNumber
+            )
+          ),
+        },
       },
       pokemons: [],
       stats: {
