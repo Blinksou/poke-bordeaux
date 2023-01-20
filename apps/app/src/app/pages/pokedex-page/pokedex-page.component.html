@@ -24,9 +24,8 @@
   </div>
   <div
     *ngIf="selectedPokemon"
-    class="text-center mt-5 p-3 rounded-md bg-secondary"
-  >
-    <mat-grid-list cols="2" rowHeight="2:1">
+    class="tooltip">
+    <mat-grid-list cols="2" rowHeight="2:1" >
       <mat-grid-tile>
         <app-pokemon-avatar
           [pokemon]="selectedPokemon"
