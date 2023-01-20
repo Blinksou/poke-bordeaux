@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseActivity, CaptureActivityPayload } from '../../../model/activity';
 import { UserService } from '../../../services/user.service';
@@ -23,7 +23,8 @@ export class CaptureBehaviourComponent implements OnInit {
   constructor(
     public readonly userService: UserService,
     private readonly pokemonService: PokemonService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -31,12 +32,14 @@ export class CaptureBehaviourComponent implements OnInit {
       .getPokemonFromId(this.activity.data.userPokemonId)
       .subscribe((pokemon) => {
         this.pokemon = pokemon;
+        this.changeDetectorRef.detectChanges();
       });
 
     this.userService
       .getUserFromFirestore(this.activity.data.userId)
       .subscribe((user) => {
         this.user = user;
+        this.changeDetectorRef.detectChanges();
       });
   }
 

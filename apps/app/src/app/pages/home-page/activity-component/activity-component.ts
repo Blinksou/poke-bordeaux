@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivityCardComponent } from '../../../components/activity-card/activity-card.component';
 import { BaseActivity } from '../../../model/activity';
@@ -9,7 +9,7 @@ import { ActivityService } from '../../../services/activity.service';
   standalone: true,
   imports: [CommonModule, ActivityCardComponent],
   templateUrl: './activity-component.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityComponent {
   // activities: BaseActivity<unknown>[] = [
