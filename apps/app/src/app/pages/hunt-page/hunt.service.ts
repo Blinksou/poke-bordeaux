@@ -301,6 +301,10 @@ export class HuntService {
         )
       );
 
+      this.userService.updateUserStats(user.id, {
+        thrownPokeballs: user.stats.thrownPokeballs + 1,
+      });
+
       const updatedUser: UserProfile = {
         ...user,
         hunt: {
@@ -338,6 +342,10 @@ export class HuntService {
             userId: user.id,
             userPokemonId: pokemon.id,
           },
+        });
+
+        this.userService.updateUserStats(user.id, {
+          capturedPokemons: user.stats.capturedPokemons + 1,
         });
       });
     }
