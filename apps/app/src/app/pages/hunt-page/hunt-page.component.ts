@@ -8,7 +8,10 @@ import { PokeballListComponent } from './components/pokeball-list/pokeball-list.
 
 /** INTERFACES */
 import { IncrementableCounter } from '../../interfaces/hunt/incrementableCounter.interface';
-import { PokeballsState, Pokeball } from '../../interfaces/hunt/pokeballsState.interface';
+import {
+  Pokeball,
+  PokeballsState,
+} from '../../interfaces/hunt/pokeballsState.interface';
 import { Pokemon } from '../../components/pokemon-avatar/model/pokemon';
 
 /** CONSTANTS */
@@ -51,17 +54,23 @@ export class HuntPageComponent {
       this.pokeballsState = huntState.pokeballsState;
 
       if (this.selectedBall !== null) {
-        this.selectedBall = this.pokeballsState.find((p) => p.name === this.selectedBall?.name) as Pokeball;
+        this.selectedBall = this.pokeballsState.find(
+          (p) => p.name === this.selectedBall?.name
+        ) as Pokeball;
       }
     });
 
     this.intervalService.interval$.subscribe(() => {
       if (this.energiesState) {
-        this.energiesState = this.huntService.handleEnergiesIncrementation(this.energiesState);
-      };
+        this.energiesState = this.huntService.handleEnergiesIncrementation(
+          this.energiesState
+        );
+      }
 
       if (this.pokeballsState) {
-        this.pokeballsState = this.huntService.handlePokeballsIncrementation(this.pokeballsState);
+        this.pokeballsState = this.huntService.handlePokeballsIncrementation(
+          this.pokeballsState
+        );
       }
     });
   }
@@ -85,14 +94,19 @@ export class HuntPageComponent {
     if (!this.selectedBall || !this.pokemonToCapture) return;
 
     if (this.selectedBall.count < 1) {
-      alert(`You need to have at least 1 ${this.selectedBall.label} to use it !`);
+      alert(
+        `You need to have at least 1 ${this.selectedBall.label} to use it !`
+      );
       return;
     }
 
-    const pokemonIsCaptured = this.huntService.capturePokemon({...this.selectedBall}, this.pokemonToCapture);
+    const pokemonIsCaptured = this.huntService.capturePokemon(
+      { ...this.selectedBall },
+      this.pokemonToCapture
+    );
     this.selectedBall.count = this.selectedBall.count - 1;
 
-    if(pokemonIsCaptured) {
+    if (pokemonIsCaptured) {
       this.pokemonWasCaptured = true;
       this.step = HuntStep.RESULT;
       this.selectedBall = null;

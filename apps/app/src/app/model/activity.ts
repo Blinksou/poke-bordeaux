@@ -1,5 +1,5 @@
 export interface BaseActivity<D> {
-  id: string;
+  id?: string;
   type: ActivityType;
   data: D;
 }
@@ -13,7 +13,7 @@ export interface AskerPayload {
 
 export interface TargetPayload {
   userId: string;
-  userPokemonId: string;
+  userPokemonId: number;
 }
 
 export interface TradeInfoActivityPayload extends AskerPayload, TargetPayload {}
