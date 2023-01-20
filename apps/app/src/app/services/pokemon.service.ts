@@ -5,7 +5,8 @@ import pokemons from '../../assets/pokemon/pokemons-list.json';
 
 /** MODEL */
 import { Pokemon } from '../components/pokemon-avatar/model/pokemon';
-import { of } from 'rxjs';
+import { map, of } from 'rxjs';
+import { UserService } from './user.service';
 
 /** RXJS */
 
@@ -15,6 +16,8 @@ const pokemonsArray = Object.values(pokemons);
   providedIn: 'root',
 })
 export class PokemonService {
+  constructor(private readonly userService: UserService) {}
+
   getPokemonFromId(id: number | string) {
     return of(pokemonsArray[Number(id)] as Pokemon);
   }
@@ -24,5 +27,22 @@ export class PokemonService {
     const randomPokemon = pokemonsArray[randomIndex];
 
     return randomPokemon as Pokemon;
+  }
+
+  getPokemonsFromUser() {
+    return this.userService.user$.pipe(
+      map((user) => {
+        if (!user) return null;
+
+        return user.pokemons;
+      }),
+      map((pokemons) => {
+        if (!pokemons) return null;
+
+        return pokemons.map(
+          (pokemon) => pokemonsArray[Number(pokemon.pokemonId)] as Pokemon
+        );
+      })
+    );
   }
 }

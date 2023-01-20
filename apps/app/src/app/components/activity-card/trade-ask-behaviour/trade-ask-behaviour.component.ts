@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseActivity, TradeAskActivityPayload } from '../../../model/activity';
 import { UserProfile } from '../../../model/user';
-import { Pokemon } from '../../../model/pokemon';
 import { UserService } from '../../../services/user.service';
 import { PokemonService } from '../../../services/pokemon.service';
+import { Pokemon } from '../../pokemon-avatar/model/pokemon';
 
 @Component({
   selector: 'app-trade-ask-behaviour',

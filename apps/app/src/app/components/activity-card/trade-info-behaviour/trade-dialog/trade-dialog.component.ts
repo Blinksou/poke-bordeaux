@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -9,9 +9,20 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { PokemonService } from '../../../../services/pokemon.service';
+import { PokemonAvatarComponent } from '../../../pokemon-avatar/pokemon-avatar.component';
+import { Pokemon } from '../../../pokemon-avatar/model/pokemon';
+import { Observable } from 'rxjs';
+import { MatSelectModule } from '@angular/material/select';
+import { UserProfile } from '../../../../model/user';
+import { ActivityService } from '../../../../services/activity.service';
+
+export interface TradeDialogComponentData {
+  user: UserProfile;
+  pokemon: Pokemon;
+  askerId: string;
+}
 
 @Component({
   selector: 'app-trade-dialog',
@@ -21,23 +32,47 @@ import { PokemonService } from '../../../../services/pokemon.service';
     MatDialogModule,
     MatButtonModule,
     TranslateModule,
-    MatAutocompleteModule,
     ReactiveFormsModule,
     MatInputModule,
+    PokemonAvatarComponent,
+    MatSelectModule,
   ],
   templateUrl: './trade-dialog.component.html',
 })
-export class TradeDialogComponent {
+export class TradeDialogComponent implements OnInit {
   tradeForm = this.formBuilder.group({
     pokemon: new FormControl<string>('', [Validators.required]),
   });
 
+  pokemonsFromUser: Observable<Pokemon[] | null>;
+
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly pokemonService: PokemonService
-  ) {}
+    public readonly pokemonService: PokemonService,
+    public readonly ref: ChangeDetectorRef,
+    @Inject(MAT_DIALOG_DATA)
+    public data: TradeDialogComponentData,
+    private readonly activityService: ActivityService
+  ) {
+    this.pokemonsFromUser = this.pokemonService.getPokemonsFromUser();
+
+    this.pokemonsFromUser.subscribe(() => this.ref.markForCheck());
+  }
+
+  ngOnInit() {
+    // will log the entire data object
+    console.log(this.data);
+  }
 
   async onSubmit() {
-    console.log(this.tradeForm.value);
+    await this.activityService.addTradeAskActivity({
+      data: {
+        userPokemonId: this.data.pokemon.id,
+        userId: this.data.user.id,
+        askerId: this.data.askerId,
+        askerPokemonId: this.tradeForm.value.pokemon as string,
+        status: 'pending',
+      },
+    });
   }
 }

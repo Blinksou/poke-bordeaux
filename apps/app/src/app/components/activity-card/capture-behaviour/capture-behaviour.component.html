@@ -12,6 +12,12 @@
         <img *ngIf="user.id !== currentUser.id && user.options.allowTrading" (click)="openTradeDialog()"
              class="cursor-pointer min-w-[33px]"
              src="assets/action/trade.svg" alt="Trade Icon">
+
+        
+        <!-- FOR TESTING PURPOSES -->
+        <img (click)="openTradeDialog()"
+             class="cursor-pointer min-w-[33px]"
+             src="assets/action/trade.svg" alt="Trade Icon">
       </div>
     </div>
   </ng-container>

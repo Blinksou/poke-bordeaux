@@ -13,7 +13,8 @@ import { PokemonService } from '../../../services/pokemon.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TradeDialogComponent } from '../trade-info-behaviour/trade-dialog/trade-dialog.component';
 import { UserProfile } from '../../../model/user';
-import { Pokemon } from '../../../model/pokemon';
+import { Pokemon } from '../../pokemon-avatar/model/pokemon';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-capture-behaviour',
@@ -55,6 +56,16 @@ export class CaptureBehaviourComponent implements OnInit {
   }
 
   openTradeDialog() {
-    this.dialog.open(TradeDialogComponent);
+    this.userService.user$.pipe(take(1)).subscribe((user) => {
+      if (!user) return;
+
+      this.dialog.open(TradeDialogComponent, {
+        data: {
+          pokemon: this.pokemon,
+          user: this.user,
+          askerId: user?.id,
+        },
+      });
+    });
   }
 }
