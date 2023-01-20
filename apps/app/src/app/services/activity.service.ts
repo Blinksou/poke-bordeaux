@@ -12,7 +12,6 @@ import {
   doc,
   Firestore,
   setDoc,
-  updateDoc,
 } from '@angular/fire/firestore';
 import { map, mergeMap, Observable, take } from 'rxjs';
 import { UserService } from './user.service';
@@ -100,11 +99,15 @@ export class ActivityService {
   async acceptTrade(activity: BaseActivity<TradeAskActivityPayload>) {
     const activitiesCollection = collection(this.firestore, `activities`);
 
-    await updateDoc(doc(activitiesCollection, activity.id), {
-      data: {
-        status: 'accepted',
+    await setDoc(
+      doc(activitiesCollection, activity.id),
+      {
+        data: {
+          status: 'accepted',
+        },
       },
-    });
+      { merge: true }
+    );
 
     this.userService
       .getUserFromFirestore(activity.data.userId)

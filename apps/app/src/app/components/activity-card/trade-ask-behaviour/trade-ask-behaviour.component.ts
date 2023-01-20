@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseActivity, TradeAskActivityPayload } from '../../../model/activity';
 import { UserProfile } from '../../../model/user';
@@ -15,6 +22,7 @@ import { ActivityService } from '../../../services/activity.service';
 })
 export class TradeAskBehaviourComponent implements OnInit {
   @Input() activity!: BaseActivity<TradeAskActivityPayload>;
+  @Output() setPokemonImage = new EventEmitter<string>();
 
   asker: UserProfile | null = null;
   askerPokemon: Pokemon | null = null;
@@ -40,21 +48,24 @@ export class TradeAskBehaviourComponent implements OnInit {
       .getUserFromFirestore(this.activity.data.askerId)
       .subscribe((user) => {
         this.asker = user;
-        this.ref.markForCheck();
+        this.ref.detectChanges();
       });
 
     this.pokemonService
       .getPokemonFromId(this.activity.data.askerPokemonId)
       .subscribe((pokemon) => {
         this.askerPokemon = pokemon;
-        this.ref.markForCheck();
+        this.ref.detectChanges();
       });
 
     this.pokemonService
       .getPokemonFromId(this.activity.data.userPokemonId)
       .subscribe((pokemon) => {
         this.targetPokemon = pokemon;
-        this.ref.markForCheck();
+
+        this.setPokemonImage.emit(pokemon.image);
+
+        this.ref.detectChanges();
       });
   }
 }

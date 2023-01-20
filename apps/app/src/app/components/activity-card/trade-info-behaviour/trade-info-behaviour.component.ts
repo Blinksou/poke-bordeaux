@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   BaseActivity,
@@ -17,6 +24,7 @@ import { Pokemon } from '../../pokemon-avatar/model/pokemon';
 })
 export class TradeInfoBehaviourComponent implements OnInit {
   @Input() activity!: BaseActivity<TradeInfoActivityPayload>;
+  @Output() setPokemonImage = new EventEmitter<string>();
 
   asker: UserProfile | null = null;
   target: UserProfile | null = null;
@@ -26,24 +34,41 @@ export class TradeInfoBehaviourComponent implements OnInit {
 
   constructor(
     private readonly userService: UserService,
-    private readonly pokemonService: PokemonService
+    private readonly pokemonService: PokemonService,
+    private readonly ref: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.userService
       .getUserFromFirestore(this.activity.data.askerId)
-      .subscribe((user) => (this.asker = user));
+      .subscribe((user) => {
+        this.asker = user;
+        this.ref.detectChanges();
+      });
 
     this.userService
       .getUserFromFirestore(this.activity.data.userId)
-      .subscribe((user) => (this.target = user));
+      .subscribe((user) => {
+        this.target = user;
+        this.ref.detectChanges();
+      });
 
     this.pokemonService
       .getPokemonFromId(this.activity.data.askerPokemonId)
-      .subscribe((pokemon) => (this.askerPokemon = pokemon));
+      .subscribe((pokemon) => {
+        this.askerPokemon = pokemon;
+
+        this.ref.detectChanges();
+      });
 
     this.pokemonService
       .getPokemonFromId(this.activity.data.userPokemonId)
-      .subscribe((pokemon) => (this.targetPokemon = pokemon));
+      .subscribe((pokemon) => {
+        this.targetPokemon = pokemon;
+
+        this.setPokemonImage.emit(pokemon.image);
+
+        this.ref.detectChanges();
+      });
   }
 }

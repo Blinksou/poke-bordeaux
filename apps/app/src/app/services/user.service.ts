@@ -52,16 +52,12 @@ export class UserService {
   async updateUserStats(id: string, stats: Partial<UserProfile['stats']>) {
     const userDocument = doc(this.firestore, 'users', id);
 
-    let userDocData: UserProfile;
-
     this.getUserDocument(id)
       .pipe(take(1))
       .subscribe(async (user) => {
-        userDocData = user as UserProfile;
-
         await updateDoc(userDocument, {
           stats: {
-            ...userDocData.stats,
+            ...(user as UserProfile).stats,
             ...stats,
           },
         });
