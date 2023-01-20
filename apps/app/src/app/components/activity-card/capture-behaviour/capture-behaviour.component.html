@@ -2,7 +2,7 @@
   <ng-container *ngIf="userService.user$ | async; let currentUser;">
 
     <div class="flex justify-center mb-5">
-      <ng-container *ngIf="currentUser.id !== user.id">{{ user.infos.name }} a</ng-container>
+      <ng-container *ngIf="currentUser.id !== user.id">{{ user.infos.nickname || user.infos.name }} a</ng-container>
       <ng-container *ngIf="currentUser.id === user.id">Vous avez</ng-container>
       capturé un {{ pokemon.name | titlecase }}
     </div>

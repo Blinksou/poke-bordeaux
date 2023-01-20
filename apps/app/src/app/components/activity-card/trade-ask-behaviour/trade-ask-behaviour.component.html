@@ -1,6 +1,7 @@
 <ng-container *ngIf="asker && askerPokemon && targetPokemon">
   <div class="flex justify-center">
-    {{asker.infos.name}} wants to trade {{askerPokemon.name|titlecase}} for your {{targetPokemon.name|titlecase}}.
+    {{asker.infos.nickname || asker.infos.name}} wants to trade {{askerPokemon.name|titlecase}} for
+    your {{targetPokemon.name|titlecase}}.
   </div>
 
   <div class="mt-5 flex justify-center">
