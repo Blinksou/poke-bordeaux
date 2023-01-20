@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BaseActivity, CaptureActivityPayload } from '../model/activity';
-import { addDoc, collection, Firestore } from '@angular/fire/firestore';
+import {
+  addDoc,
+  collection,
+  collectionData,
+  Firestore,
+} from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -39,5 +45,13 @@ export class ActivityService {
       ...activity,
       type: 'trade-ask',
     });
+  }
+
+  getActivities() {
+    const activitiesCollection = collection(this.firestore, `activities`);
+
+    return collectionData(activitiesCollection, {
+      idField: 'id',
+    }) as unknown as Observable<BaseActivity<unknown>[]>;
   }
 }
