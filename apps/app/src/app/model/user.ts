@@ -11,6 +11,11 @@ export type UserProfile = {
     allowTrading: boolean;
     allowOthersToViewActivity: boolean;
   };
+  pokemons: Array<{
+    pokemonId: string;
+    quantity: number;
+    isFavorite: boolean;
+  }>
   stats: {
     capturedPokemons: number;
     thrownPokeballs: number;

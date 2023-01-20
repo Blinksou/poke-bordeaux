@@ -17,7 +17,7 @@ import { hyperballChanceInPercentage, masterballChanceInPercentage, pokeballChan
 import { PokeballType } from '../../enums/hunt/PokeballType.enum';
 
 /** FIRESTORE */
-import { doc, Firestore, setDoc, Timestamp } from '@angular/fire/firestore';
+import { doc, Firestore, setDoc, Timestamp, updateDoc } from '@angular/fire/firestore';
 import { UserProfile } from '@angular/fire/auth';
 
 /** INTERFACES */
@@ -27,6 +27,7 @@ import { Pokeball, PokeballsState } from '../../interfaces/hunt/pokeballsState.i
 
 /** MODELS */
 import { Pokeballs } from '../../model/hunt.model';
+import { Pokemon } from '../../components/pokemon-avatar/model/pokemon';
 
 /** RXJS */
 import { map, Observable, of, take } from 'rxjs';
@@ -254,7 +255,7 @@ export class HuntService {
     return updatedPokeballsState;
   }
 
-  public decrementPokeballsState(pokeballState: Pokeball) {
+  private decrementPokeballsState(pokeballState: Pokeball) {
     this.userService.user$.pipe(take(1)).subscribe((user) => {
       if (!user) return;
       if (pokeballState.count <= 0) return;
@@ -274,7 +275,6 @@ export class HuntService {
           timeGeneration = masterballTimeGenerationInMs;
           break;
       }
-
 
       const newPokeballDate = Timestamp.fromDate(
         new Date(user.hunt.pokeballs[pokeballState.name].seconds * 1000 + timeGeneration)
@@ -296,5 +296,42 @@ export class HuntService {
 
       return user; 
     })
+  }
+
+  /** HUNT */
+  public capturePokemon(pokeball: Pokeball, pokemon: Pokemon) {
+    this.decrementPokeballsState(pokeball);
+    
+    const randomNumber = Math.random();
+    const pokemonIsCaptured = (pokeball.captureChanceInPercentage / 100) > randomNumber;
+
+    if (pokemonIsCaptured) {
+      this.addPokemonToAUser(pokemon);
+    }
+
+    return pokemonIsCaptured;
+  }
+
+  private addPokemonToAUser(pokemon: Pokemon) {
+    this.userService.user$.pipe(take(1)).subscribe((user) => {
+      if (!user) return;
+
+      const index = user.pokemons.findIndex((p) => +p.pokemonId === pokemon.id);
+
+      if (index !== -1) {
+        user.pokemons[index].quantity += 1;
+      } else {
+        user.pokemons.push({
+          pokemonId: pokemon.id.toString(),
+          quantity: 1,
+          isFavorite: false
+        });
+      }
+
+      const userDocument = doc(this.firestore, `users/${user.id}`);
+      updateDoc(userDocument, {
+        pokemons: user.pokemons,
+      });
+    });
   }
 }
