@@ -7,7 +7,7 @@ import {
 import { UserService } from '../../../services/user.service';
 import { UserProfile } from '../../../model/user';
 import { PokemonService } from '../../../services/pokemon.service';
-import { Pokemon } from '../../../model/pokemon';
+import { Pokemon } from '../../pokemon-avatar/model/pokemon';
 
 @Component({
   selector: 'app-trade-info-behaviour',

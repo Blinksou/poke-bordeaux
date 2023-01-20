@@ -1,24 +1,21 @@
 <h1 mat-dialog-title>{{ "Demande d'échange" }}</h1>
 <div mat-dialog-content>
 
-  <!--  <mat-form-field>-->
-  <!--    <mat-autocomplete #auto="matAutocomplete">-->
-  <!--      <mat-option *ngFor="let user of users" [value]="user.id">-->
-  <!--        <img src="{{user.avatar}}"/>-->
-  <!--        {{user.name}}-->
-  <!--      </mat-option>-->
-  <!--    </mat-autocomplete>-->
+  <form [formGroup]="tradeForm" (ngSubmit)="onSubmit()" class="flex flex-col">
 
-  <!--    <input type="text"-->
-  <!--           placeholder="Pick one"-->
-  <!--           aria-label="Number"-->
-  <!--           matInput-->
-  <!--           [formControl]="tradeForm.controls['user']"-->
-  <!--           [matAutocomplete]="auto">-->
-  <!--    <mat-error *ngIf="tradeForm.controls['user'].hasError('required')">-->
-  <!--      Un utilisateur est requis-->
-  <!--    </mat-error>-->
-  <!--  </mat-form-field>-->
+    <mat-form-field>
+      <mat-label>Choisissez un pokemon</mat-label>
+      <mat-select #matSelect required [formControl]="tradeForm.controls['pokemon']">
+        <mat-option *ngFor="let pokemon of pokemonsFromUser | async" [value]="pokemon.id">
+          {{ pokemon.name }}
+
+          <img src="{{ pokemon.image }}" alt="Pokemon Image" width="50" height="50">
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button type="submit" class="btn btn-primary" [disabled]="!tradeForm.valid">Confirmer</button>
+  </form>
 </div>
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close>{{ 'Fermer' }}</button>
