@@ -9,8 +9,8 @@
 
     <div class="mt-5 flex justify-center">
       <div class="flex flex-row justify-center w-1/2">
-
-        <img *ngIf="user.id !== currentUser.id" (click)="openTradeDialog()" class="cursor-pointer min-w-[33px]"
+        <img *ngIf="user.id !== currentUser.id && user.options.allowTrading" (click)="openTradeDialog()"
+             class="cursor-pointer min-w-[33px]"
              src="assets/action/trade.svg" alt="Trade Icon">
       </div>
     </div>
