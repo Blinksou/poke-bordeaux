@@ -50,9 +50,9 @@ export class CaptureBehaviourComponent {
     });
   }
 
-  onVisible(activity: BaseActivity<CaptureActivityPayload>) {
+  onVisible() {
     this.pokemonService
-      .getPokemonFromId(activity.data.userPokemonId)
+      .getPokemonFromId(this.activity.data.userPokemonId)
       .subscribe((pokemon) => {
         this.pokemon = pokemon;
 
@@ -62,7 +62,7 @@ export class CaptureBehaviourComponent {
       });
 
     this.userService
-      .getUserFromFirestore(activity.data.userId)
+      .getUserFromFirestore(this.activity.data.userId)
       .subscribe((user) => {
         this.user = user;
         this.changeDetectorRef.detectChanges();

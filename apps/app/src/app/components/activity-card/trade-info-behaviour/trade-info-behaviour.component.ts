@@ -38,7 +38,7 @@ export class TradeInfoBehaviourComponent {
     private readonly ref: ChangeDetectorRef
   ) {}
 
-  onVisible(activity: BaseActivity<TradeInfoActivityPayload>) {
+  onVisible() {
     this.userService
       .getUserFromFirestore(this.activity.data.askerId)
       .subscribe((user) => {

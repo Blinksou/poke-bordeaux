@@ -43,7 +43,7 @@ export class TradeAskBehaviourComponent {
     await this.activityService.declineTrade(this.activity);
   }
 
-  onVisible(activity: BaseActivity<TradeAskActivityPayload>) {
+  onVisible() {
     this.userService
       .getUserFromFirestore(this.activity.data.askerId)
       .subscribe((user) => {

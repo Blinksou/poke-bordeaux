@@ -1,5 +1,5 @@
 <div appObserveVisibility [debounceTime]="300"
-     (visible)="onVisible(activity)">
+     (visible)="onVisible()">
   <ng-container *ngIf="user && pokemon">
     <ng-container *ngIf="userService.user$ | async; let currentUser;">
 

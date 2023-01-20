@@ -1,5 +1,5 @@
 <div appObserveVisibility [debounceTime]="300"
-     (visible)="onVisible(activity)">
+     (visible)="onVisible()">
   <ng-container *ngIf="asker && askerPokemon && targetPokemon">
     <div class="flex justify-center">
       {{asker.infos.nickname || asker.infos.name}} wants to trade {{askerPokemon.name|titlecase}} for
