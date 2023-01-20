@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -13,14 +12,15 @@ import { UserService } from '../../../services/user.service';
 import { PokemonService } from '../../../services/pokemon.service';
 import { Pokemon } from '../../pokemon-avatar/model/pokemon';
 import { ActivityService } from '../../../services/activity.service';
+import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
 
 @Component({
   selector: 'app-trade-ask-behaviour',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ObserveVisibilityDirective],
   templateUrl: './trade-ask-behaviour.component.html',
 })
-export class TradeAskBehaviourComponent implements OnInit {
+export class TradeAskBehaviourComponent {
   @Input() activity!: BaseActivity<TradeAskActivityPayload>;
   @Output() setPokemonImage = new EventEmitter<string>();
 
@@ -43,18 +43,13 @@ export class TradeAskBehaviourComponent implements OnInit {
     await this.activityService.declineTrade(this.activity);
   }
 
-  ngOnInit(): void {
+  onVisible(activity: BaseActivity<TradeAskActivityPayload>) {
     this.userService
       .getUserFromFirestore(this.activity.data.askerId)
       .subscribe((user) => {
         this.asker = user;
         this.ref.detectChanges();
       });
-
-    console.log(
-      this.activity.data.askerPokemonId,
-      this.activity.data.userPokemonId
-    );
 
     this.pokemonService
       .getPokemonFromId(this.activity.data.askerPokemonId)

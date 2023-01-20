@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,14 +14,15 @@ import { TradeDialogComponent } from '../trade-info-behaviour/trade-dialog/trade
 import { UserProfile } from '../../../model/user';
 import { Pokemon } from '../../pokemon-avatar/model/pokemon';
 import { take } from 'rxjs';
+import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
 
 @Component({
   selector: 'app-capture-behaviour',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ObserveVisibilityDirective],
   templateUrl: './capture-behaviour.component.html',
 })
-export class CaptureBehaviourComponent implements OnInit {
+export class CaptureBehaviourComponent {
   @Input() activity!: BaseActivity<CaptureActivityPayload>;
   @Output() setPokemonImage = new EventEmitter<string>();
 
@@ -36,25 +36,6 @@ export class CaptureBehaviourComponent implements OnInit {
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    this.pokemonService
-      .getPokemonFromId(this.activity.data.userPokemonId)
-      .subscribe((pokemon) => {
-        this.pokemon = pokemon;
-
-        this.setPokemonImage.emit(pokemon.image);
-
-        this.changeDetectorRef.detectChanges();
-      });
-
-    this.userService
-      .getUserFromFirestore(this.activity.data.userId)
-      .subscribe((user) => {
-        this.user = user;
-        this.changeDetectorRef.detectChanges();
-      });
-  }
-
   openTradeDialog() {
     this.userService.user$.pipe(take(1)).subscribe((user) => {
       if (!user) return;
@@ -67,5 +48,24 @@ export class CaptureBehaviourComponent implements OnInit {
         },
       });
     });
+  }
+
+  onVisible(activity: BaseActivity<CaptureActivityPayload>) {
+    this.pokemonService
+      .getPokemonFromId(activity.data.userPokemonId)
+      .subscribe((pokemon) => {
+        this.pokemon = pokemon;
+
+        this.setPokemonImage.emit(pokemon.image);
+
+        this.changeDetectorRef.detectChanges();
+      });
+
+    this.userService
+      .getUserFromFirestore(activity.data.userId)
+      .subscribe((user) => {
+        this.user = user;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 }
