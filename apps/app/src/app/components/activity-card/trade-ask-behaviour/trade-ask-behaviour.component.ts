@@ -51,6 +51,11 @@ export class TradeAskBehaviourComponent implements OnInit {
         this.ref.detectChanges();
       });
 
+    console.log(
+      this.activity.data.askerPokemonId,
+      this.activity.data.userPokemonId
+    );
+
     this.pokemonService
       .getPokemonFromId(this.activity.data.askerPokemonId)
       .subscribe((pokemon) => {

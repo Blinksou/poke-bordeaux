@@ -4,7 +4,6 @@ export interface Pokemon {
   slug: string;
   types: PokemonType[];
   image: string;
-  sprite: string;
 }
 
 interface PokemonType {

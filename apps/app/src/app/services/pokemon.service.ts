@@ -10,6 +10,7 @@ import { UserService } from './user.service';
 
 /** RXJS */
 
+const pokemonsList: { [key: string]: Pokemon } = pokemons;
 const pokemonsArray = Object.values(pokemons);
 
 @Injectable({
@@ -19,7 +20,7 @@ export class PokemonService {
   constructor(private readonly userService: UserService) {}
 
   getPokemonFromId(id: number | string) {
-    return of(pokemonsArray[Number(id)] as Pokemon);
+    return of(pokemonsList[id]);
   }
 
   getRandomPokemon(): Pokemon {
