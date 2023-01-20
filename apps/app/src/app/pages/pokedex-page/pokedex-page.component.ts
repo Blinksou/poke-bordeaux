@@ -23,6 +23,10 @@ import { UserService } from '../../services/user.service';
 import { Observable } from 'rxjs';
 import { userPokemon } from '../../model/userPokemon';
 
+const pokemonsList = Object.values(PokemonList) as unknown as Pokemon[];
+
+export type PokedexPokemon = Pokemon & {quantity?: number};
+
 @Component({
   selector: 'app-pokedex-page',
   standalone: true,
@@ -40,24 +44,44 @@ import { userPokemon } from '../../model/userPokemon';
   styleUrls: ['./pokedex-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PokedexPageComponent implements OnInit {
-  user$: Observable<UserProfile | null>;
-  @Input() userpokemons: UserProfile['pokemons'] | undefined;
+export class PokedexPageComponent {
+  // user$: Observable<UserProfile | null>;
 
-
-  constructor(public readonly dialog: MatDialog, private readonly userService: UserService) {
-    this.user$ = userService.user$;
-  }
-
-  public border = "";
+  public hideunknown = false;
+  public hideknown = false;
   filteredPokemons: Pokemon[] = [];
   selectedTypes: [] = [];
   finalValue: [] = [];
-  // userPokemons: userPokemon[] = [];
+  userPokemons: userPokemon[] = [];
   @Input() search: string | undefined;
-  @Input() pokemons!: Pokemon[];
+  pokemons!: PokedexPokemon[];
 
   selectedPokemon: Pokemon | null = null;
+
+  constructor(public readonly dialog: MatDialog, private readonly userService: UserService) {
+    this.userService.user$.subscribe((user) => {
+      if (!user) return;
+
+      console.log(user.pokemons);
+      const userPokemonsId = user.pokemons.map(p => p.pokemonId);
+      const userPokemonsOwned = pokemonsList.filter(p => userPokemonsId.includes(p.id)).map(p => {
+        const index = user.pokemons.findIndex(up => up.pokemonId == p.id)
+        
+        return {
+          ...p,
+          quantity: user.pokemons[index].quantity
+        }
+      });
+      const userPokemonsUnowned = pokemonsList.filter(p => !userPokemonsId.includes(p.id));
+    
+      this.pokemons = [
+        ...userPokemonsOwned,
+        ...userPokemonsUnowned
+      ];
+
+      console.log('this.pokemons', this.pokemons)
+    });
+  }
 
   setSelectedPokemon(p: Pokemon) {
     this.selectedPokemon = p;
@@ -67,31 +91,27 @@ export class PokedexPageComponent implements OnInit {
     this.selectedPokemon = null;
   }
 
-  ngOnInit() {
-    this.pokemons = Object.values(PokemonList) as unknown as Pokemon[];
-    this.user$.subscribe(async (user) => {
-      if(user) {
-        // this.userPokemons?.push(...user.pokemons)
-        // console.log('this.userPokemons first', this.userPokemons)
-        this.checkUserPokemon(user.pokemons)
-      }
-    })
-  }
+  // test(pokemon: Pokemon) {
+  //   if (userPokemons.some(p => p.pokemonId === pokemon.id)) {
+  //     console.log('owned')
+  //     console.log('this.border', this.border)
+  //   } else {
+  //   }
+  // }
 
-
-  checkUserPokemon(userPokemons: userPokemon[]) {
-    if(userPokemons) {
-      for (const pok of this.pokemons) {
-        if (userPokemons.some(p => p.pokemonId === pok.id)) {
-          console.log('owned')
-          this.border = "owned"
-          console.log('this.border', this.border)
-        } else {
-          this.border = "notowned"
-        }
-      }
-    }
-  }
+  // checkUserPokemon(userPokemons: userPokemon[]) {
+  //   if(userPokemons) {
+  //     for (const pok of this.pokemons) {
+  //       if (userPokemons.some(p => p.pokemonId === pok.id)) {
+  //         console.log('owned')
+  //         this.border = "owned"
+  //         console.log('this.border', this.border)
+  //       } else {
+  //         this.border = "notowned"
+  //       }
+  //     }
+  //   }
+  // }
 
   comparePokemons(allPokemons: Pokemon[], selectedTypes: PokemonType[]) {
     for (const pokemon of allPokemons) {
@@ -109,13 +129,18 @@ export class PokedexPageComponent implements OnInit {
       width: '250px',
       backdropClass: 'custom-dialog-backdrop-class',
       panelClass: 'custom-dialog-panel-class',
-      data: { types: this.selectedTypes }
+      // data: { types: this.selectedTypes, hideknown: this.hideknown }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.finalValue = result.data;
-      this.pokemons = this.comparePokemons(this.pokemons, this.finalValue);
-      console.log('this.pokemons', this.pokemons)
+      console.log('result', result)
+      if (result) {
+        this.finalValue = result.data.types;
+        this.hideknown = result.data.hideknown;
+        this.hideunknown = result.data.hideuknown;
+        this.pokemons = this.comparePokemons(this.pokemons, this.finalValue);
+        console.log('this.pokemons', this.pokemons)
+      }
     });
   }
 

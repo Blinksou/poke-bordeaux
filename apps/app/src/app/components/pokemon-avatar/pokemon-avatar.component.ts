@@ -9,6 +9,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { userPokemon } from "../../model/userPokemon";
 import { Observable } from "rxjs";
 import { User, UserProfile } from "@angular/fire/auth";
+import { PokedexPokemon } from "../../pages/pokedex-page/pokedex-page.component";
 
 @Component({
   selector: "app-pokemon-avatar",
@@ -18,17 +19,13 @@ import { User, UserProfile } from "@angular/fire/auth";
   styleUrls: ["./pokemon-avatar.component.scss"]
 })
 export class PokemonAvatarComponent implements OnInit {
-  @Input() pokemon: Pokemon | null = null;
+  @Input() pokemon: PokedexPokemon | null = null;
   @Input() border!: string;
   @Input() user!: Observable<UserProfile | null>;
   @Input() userpokemons: UserProfile['pokemons'] | undefined;
-  // @Input() quantity!: number;
   public test: userPokemon[] | undefined;
 
   ngOnInit() {
-    console.log("border", this.border)
-    console.log("user", this.user)
-    console.log('pokemons', this.userpokemons)
-    // this.user.subscribe(user => ));
+    console.log('this.pokemon', this.pokemon);
   }
 }
