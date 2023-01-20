@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
-import { BaseActivity, CaptureActivityPayload } from '../model/activity';
+import {
+  BaseActivity,
+  CaptureActivityPayload,
+  TradeAskActivityPayload,
+} from '../model/activity';
 import {
   addDoc,
   collection,
   collectionData,
   Firestore,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActivityService {
-  constructor(private readonly firestore: Firestore) {}
+  constructor(
+    private readonly firestore: Firestore,
+    private readonly userService: UserService
+  ) {}
 
   private async addActivity(activity: BaseActivity<unknown>) {
     const activitiesCollection = collection(this.firestore, `activities`);
@@ -50,8 +58,35 @@ export class ActivityService {
   getActivities() {
     const activitiesCollection = collection(this.firestore, `activities`);
 
-    return collectionData(activitiesCollection, {
+    const data = collectionData(activitiesCollection, {
       idField: 'id',
     }) as unknown as Observable<BaseActivity<unknown>[]>;
+
+    this.userService.user$.subscribe((user) => {
+      if (!user) return;
+
+      data.pipe(
+        // Remove all trade ask that are not user's
+        filter((activities) =>
+          activities.every(
+            (activity) =>
+              activity.type !== 'trade-ask' ||
+              (this.isTradeAsk(activity) && activity.data.userId === user.id)
+          )
+        ),
+        // Get all trade ask at the top
+        map((activities) =>
+          activities.sort((a, b) => (b.type === 'trade-ask' ? 1 : -1))
+        )
+      );
+    });
+
+    return data;
+  }
+
+  isTradeAsk(
+    activity: BaseActivity<unknown>
+  ): activity is BaseActivity<TradeAskActivityPayload> {
+    return activity.type === 'trade-ask';
   }
 }
