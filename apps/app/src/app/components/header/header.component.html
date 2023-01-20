@@ -14,8 +14,8 @@
     <ng-container *ngIf="(authService.isLoggedIn | async)">
       <div class="absolute right-0 top-0">
         <a [routerLink]="['/logout']" title="Sign out">
-          <button class="p-3 w-20 h-20 flex items-center justify-center hover:text-gray-300">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12">
+          <button class="m-2 w-14 h-14 flex items-center justify-center bg-primary rounded-full border border-black shadow-md shadow-black hover:text-gray-300 hover:bg-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
             </svg>
           </button>
