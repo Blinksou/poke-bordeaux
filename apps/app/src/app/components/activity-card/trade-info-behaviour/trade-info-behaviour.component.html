@@ -1,6 +1,9 @@
-<ng-container *ngIf="asker && target && askerPokemon && targetPokemon">
-  <div class="flex justify-center mb-5">
-    {{asker.infos.nickname || asker.infos.name}} traded a {{askerPokemon.name|titlecase}} for {{target.infos.name}}
-    's {{targetPokemon.name|titlecase}}.
-  </div>
-</ng-container>
+<div appObserveVisibility [debounceTime]="300"
+     (visible)="onVisible(activity)">
+  <ng-container *ngIf="asker && target && askerPokemon && targetPokemon">
+    <div class="flex justify-center mb-5">
+      {{asker.infos.nickname || asker.infos.name}} traded a {{askerPokemon.name|titlecase}} for {{target.infos.name}}
+      's {{targetPokemon.name|titlecase}}.
+    </div>
+  </ng-container>
+</div>

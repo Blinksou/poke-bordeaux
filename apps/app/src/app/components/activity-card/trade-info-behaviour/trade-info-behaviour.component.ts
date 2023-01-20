@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,14 +14,15 @@ import { UserService } from '../../../services/user.service';
 import { UserProfile } from '../../../model/user';
 import { PokemonService } from '../../../services/pokemon.service';
 import { Pokemon } from '../../pokemon-avatar/model/pokemon';
+import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
 
 @Component({
   selector: 'app-trade-info-behaviour',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ObserveVisibilityDirective],
   templateUrl: './trade-info-behaviour.component.html',
 })
-export class TradeInfoBehaviourComponent implements OnInit {
+export class TradeInfoBehaviourComponent {
   @Input() activity!: BaseActivity<TradeInfoActivityPayload>;
   @Output() setPokemonImage = new EventEmitter<string>();
 
@@ -38,7 +38,7 @@ export class TradeInfoBehaviourComponent implements OnInit {
     private readonly ref: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
+  onVisible(activity: BaseActivity<TradeInfoActivityPayload>) {
     this.userService
       .getUserFromFirestore(this.activity.data.askerId)
       .subscribe((user) => {
