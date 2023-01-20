@@ -15,6 +15,12 @@ import { ActivityService } from '../../../services/activity.service';
 import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
 import { combineLatest, map, Observable } from 'rxjs';
 
+export type TradeAskBehaviourComponentViewModel = Observable<{
+  targetPokemon: Pokemon;
+  asker: UserProfile;
+  askerPokemon: Pokemon;
+}>;
+
 @Component({
   selector: 'app-trade-ask-behaviour',
   standalone: true,
@@ -25,17 +31,7 @@ export class TradeAskBehaviourComponent {
   @Input() activity!: BaseActivity<TradeAskActivityPayload>;
   @Output() setPokemonImage = new EventEmitter<string>();
 
-  // askerPokemon: Pokemon | null = null;
-  // targetPokemon: Pokemon | null = null;
-  // asker: UserProfile | null = null;
-
-  viewModel$:
-    | Observable<{
-        targetPokemon: Pokemon;
-        asker: UserProfile;
-        askerPokemon: Pokemon;
-      }>
-    | undefined;
+  viewModel$?: TradeAskBehaviourComponentViewModel;
 
   constructor(
     private readonly userService: UserService,

@@ -13,8 +13,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { TradeDialogComponent } from '../trade-info-behaviour/trade-dialog/trade-dialog.component';
 import { UserProfile } from '../../../model/user';
 import { Pokemon } from '../../pokemon-avatar/model/pokemon';
-import { take } from 'rxjs';
+import { combineLatest, map, Observable, take } from 'rxjs';
 import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
+
+export type CaptureBehaviourComponentViewModel = Observable<{
+  pokemon: Pokemon;
+  user: UserProfile;
+}>;
 
 @Component({
   selector: 'app-capture-behaviour',
@@ -26,8 +31,9 @@ export class CaptureBehaviourComponent {
   @Input() activity!: BaseActivity<CaptureActivityPayload>;
   @Output() setPokemonImage = new EventEmitter<string>();
 
-  user: UserProfile | undefined;
-  pokemon: Pokemon | undefined;
+  private user?: UserProfile;
+  private pokemon?: Pokemon;
+  viewModel$?: CaptureBehaviourComponentViewModel;
 
   constructor(
     public readonly userService: UserService,
@@ -51,21 +57,23 @@ export class CaptureBehaviourComponent {
   }
 
   onVisible() {
-    this.pokemonService
-      .getPokemonFromId(this.activity.data.userPokemonId)
-      .subscribe((pokemon) => {
-        this.pokemon = pokemon;
+    this.viewModel$ = combineLatest([
+      this.userService.getUserFromFirestore(this.activity.data.userId),
+      this.pokemonService.getPokemonFromId(this.activity.data.userPokemonId),
+    ]).pipe(
+      map(([user, pokemon]) => ({
+        user,
+        pokemon,
+      }))
+    );
 
-        this.setPokemonImage.emit(pokemon.image);
+    this.viewModel$.subscribe(({ user, pokemon }) => {
+      this.user = user;
+      this.pokemon = pokemon;
 
-        this.changeDetectorRef.detectChanges();
-      });
+      this.setPokemonImage.emit(pokemon.image);
 
-    this.userService
-      .getUserFromFirestore(this.activity.data.userId)
-      .subscribe((user) => {
-        this.user = user;
-        this.changeDetectorRef.detectChanges();
-      });
+      this.changeDetectorRef.detectChanges();
+    });
   }
 }

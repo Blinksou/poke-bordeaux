@@ -15,6 +15,14 @@ import { UserProfile } from '../../../model/user';
 import { PokemonService } from '../../../services/pokemon.service';
 import { Pokemon } from '../../pokemon-avatar/model/pokemon';
 import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
+import { combineLatest, map, Observable } from 'rxjs';
+
+export type TradeInfoBehaviourComponentViewModel = Observable<{
+  targetPokemon: Pokemon;
+  asker: UserProfile;
+  askerPokemon: Pokemon;
+  target: UserProfile;
+}>;
 
 @Component({
   selector: 'app-trade-info-behaviour',
@@ -26,11 +34,7 @@ export class TradeInfoBehaviourComponent {
   @Input() activity!: BaseActivity<TradeInfoActivityPayload>;
   @Output() setPokemonImage = new EventEmitter<string>();
 
-  asker: UserProfile | null = null;
-  target: UserProfile | null = null;
-
-  askerPokemon: Pokemon | null = null;
-  targetPokemon: Pokemon | null = null;
+  viewModel$?: TradeInfoBehaviourComponentViewModel;
 
   constructor(
     private readonly userService: UserService,
@@ -39,36 +43,23 @@ export class TradeInfoBehaviourComponent {
   ) {}
 
   onVisible() {
-    this.userService
-      .getUserFromFirestore(this.activity.data.askerId)
-      .subscribe((user) => {
-        this.asker = user;
-        this.ref.detectChanges();
-      });
+    this.viewModel$ = combineLatest([
+      this.userService.getUserFromFirestore(this.activity.data.askerId),
+      this.userService.getUserFromFirestore(this.activity.data.userId),
+      this.pokemonService.getPokemonFromId(this.activity.data.askerPokemonId),
+      this.pokemonService.getPokemonFromId(this.activity.data.userPokemonId),
+    ]).pipe(
+      map(([asker, target, askerPokemon, targetPokemon]) => ({
+        asker,
+        target,
+        askerPokemon,
+        targetPokemon,
+      }))
+    );
 
-    this.userService
-      .getUserFromFirestore(this.activity.data.userId)
-      .subscribe((user) => {
-        this.target = user;
-        this.ref.detectChanges();
-      });
-
-    this.pokemonService
-      .getPokemonFromId(this.activity.data.askerPokemonId)
-      .subscribe((pokemon) => {
-        this.askerPokemon = pokemon;
-
-        this.ref.detectChanges();
-      });
-
-    this.pokemonService
-      .getPokemonFromId(this.activity.data.userPokemonId)
-      .subscribe((pokemon) => {
-        this.targetPokemon = pokemon;
-
-        this.setPokemonImage.emit(pokemon.image);
-
-        this.ref.detectChanges();
-      });
+    this.viewModel$.subscribe(({ targetPokemon }) => {
+      this.setPokemonImage.emit(targetPokemon.image);
+      this.ref.detectChanges();
+    });
   }
 }

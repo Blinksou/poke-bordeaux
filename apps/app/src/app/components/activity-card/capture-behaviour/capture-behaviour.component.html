@@ -1,17 +1,21 @@
 <div appObserveVisibility [debounceTime]="300"
      (visible)="onVisible()">
-  <ng-container *ngIf="user && pokemon">
+  <ng-container *ngIf="viewModel$ | async as viewModel">
     <ng-container *ngIf="userService.user$ | async; let currentUser;">
 
       <div class="flex justify-center mb-5">
-        <ng-container *ngIf="currentUser.id !== user.id">{{ user.infos.nickname || user.infos.name }} a</ng-container>
-        <ng-container *ngIf="currentUser.id === user.id">Vous avez</ng-container>
-        capturé un {{ pokemon.name | titlecase }}
+        <ng-container
+          *ngIf="currentUser.id !== viewModel.user.id">{{ viewModel.user.infos.nickname || viewModel.user.infos.name }}
+          a
+        </ng-container>
+        <ng-container *ngIf="currentUser.id === viewModel.user.id">Vous avez</ng-container>
+        capturé un {{ viewModel.pokemon.name | titlecase }}
       </div>
 
       <div class="mt-5 flex justify-center">
         <div class="flex flex-row justify-center w-1/2">
-          <img *ngIf="user.id !== currentUser.id && user.options.allowTrading" (click)="openTradeDialog()"
+          <img *ngIf="viewModel.user.id !== currentUser.id && viewModel.user.options.allowTrading"
+               (click)="openTradeDialog()"
                class="cursor-pointer min-w-[33px]"
                src="assets/action/trade.svg" alt="Trade Icon">
         </div>

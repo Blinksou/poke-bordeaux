@@ -1,9 +1,10 @@
 <div appObserveVisibility [debounceTime]="300"
      (visible)="onVisible()">
-  <ng-container *ngIf="asker && target && askerPokemon && targetPokemon">
+  <ng-container *ngIf="viewModel$ | async as viewModel">
     <div class="flex justify-center mb-5">
-      {{asker.infos.nickname || asker.infos.name}} traded a {{askerPokemon.name|titlecase}} for {{target.infos.name}}
-      's {{targetPokemon.name|titlecase}}.
+      {{viewModel.asker.infos.nickname || viewModel.asker.infos.name}} traded
+      a {{viewModel.askerPokemon.name|titlecase}} for {{viewModel.target.infos.name}}
+      's {{viewModel.targetPokemon.name|titlecase}}.
     </div>
   </ng-container>
 </div>
