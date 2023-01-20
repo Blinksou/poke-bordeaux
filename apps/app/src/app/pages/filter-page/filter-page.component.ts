@@ -41,8 +41,8 @@ export class FilterPageComponent implements OnInit {
   testTypes: PokemonTypeFilter[] = [];
 
   formGroup = this._formBuilder.group({
-    hideknown: '',
-    hideunknown: ['', Validators.requiredTrue],
+    hideknown: false,
+    hideunknown: [false, Validators.requiredTrue],
   });
 
   constructor(
@@ -68,9 +68,14 @@ export class FilterPageComponent implements OnInit {
       });
   }
 
-  closeDialog() {
-    console.log('this.selectedTypes', this.selectedTypes)
-    this.dialogRef.close({ event: 'close', data: this.selectedTypes });
+  applyFilters(formGroup: FormGroup) {
+    let formData = Object.assign({});
+    formData = Object.assign(formData, formGroup.value);
+    this.dialogRef.close({ event: 'close', data: {types: this.selectedTypes, hideknown: formData.hideknown, hideunknown: formData.hideunknown} });
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 
   getCheckedFilters(type: PokemonTypeFilter) {
@@ -85,9 +90,5 @@ export class FilterPageComponent implements OnInit {
 
     console.log(this.selectedTypes);
     return this.selectedTypes;
-  }
-
-  alertFormValues(formGroup: FormGroup) {
-    alert(JSON.stringify(formGroup.value, null, 2));
   }
 }

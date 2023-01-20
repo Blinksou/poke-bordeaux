@@ -1,18 +1,17 @@
 <h2 mat-dialog-title>Filters</h2>
 <div mat-dialog-content class="mat-typography">
     <h3>Types</h3>
-    <form class="example-form" #form="ngForm" (ngSubmit)="alertFormValues(form.form)">
-    <mat-grid-list cols="4" rowHeight="1:1">
-        <mat-grid-tile *ngFor="let type of typesList; let i = index">
-            <mat-checkbox name='check' class="example-margin" [(ngModel)]="type.checked" (click)="getCheckedFilters(type)">{{ type.name }}</mat-checkbox>
-        </mat-grid-tile>
-    </mat-grid-list>
+    <form class="example-form" #form="ngForm" (ngSubmit)="applyFilters(form.form)">
+        <mat-grid-list cols="4" rowHeight="1:1">
+            <mat-grid-tile *ngFor="let type of typesList; let i = index">
+                <mat-checkbox name='check' class="example-margin" [(ngModel)]="type.checked" (click)="getCheckedFilters(type)">{{ type.name }}</mat-checkbox>
+            </mat-grid-tile>
+        </mat-grid-list>
         <mat-slide-toggle class="toggle" ngModel name="hideknown">Hide known, not owned</mat-slide-toggle>
         <mat-slide-toggle class="toggle" ngModel name="hideunknown">Hide unknown</mat-slide-toggle>
         <div class="btns" mat-dialog-actions>
             <button mat-raised-button type="submit">Apply</button>
-            <button mat-raised-button (click)="closeDialog()">Close</button>
         </div>
     </form>
-
+    <button mat-raised-button (click)="closeDialog()">Close</button>
 </div>

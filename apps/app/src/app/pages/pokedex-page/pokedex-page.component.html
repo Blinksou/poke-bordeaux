@@ -16,9 +16,6 @@
 <div class="pokedex-content">
   <div class="grid grid-cols-4 justify-items-center">
     <app-pokemon-avatar
-      [border]="border"
-      [user]="user$"
-      [userpokemons]="userpokemons"
       [pokemon]="pokemon"
       (mouseenter)="setSelectedPokemon(pokemon)"
       (mouseleave)="unselectPokemon()"
