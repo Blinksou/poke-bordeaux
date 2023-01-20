@@ -1,15 +1,15 @@
 .avatar {
   border-radius: 50%;
-  height: 72px;
   text-align: center;
-  width: 72px;
+  width: 90px;
+  height: 90px;
 
   &-empty {
     background-color: #e0e0e0;
   }
 
   &-owned {
-    border: 2px solid rgb(212, 86, 86);
+    border: 3px solid #5F021F;
   }
 
   &-notowned {
@@ -17,7 +17,7 @@
   }
 
   &-captured {
-    border: 2px solid rgb(212, 86, 86);
+    border: 3px solid #5F021F;
     border-style: dashed;
   }
 }
@@ -25,8 +25,8 @@
 img {
   object-fit: cover;
   border-radius: 50%;
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
 }
 
 .quantity {

@@ -1,9 +1,8 @@
 <div *ngIf="pokemon">
-  <!--<div *ngIf='pokemon.quantity > 1' class="quantity" matBadge="{{pokemon.quantity}}"></div>-->
+  <div *ngIf='pokemon.quantity !== undefined && pokemon.quantity > 1' class="quantity" matBadge="{{pokemon.quantity}}"></div>
   <button class="avatar"
-          [ngClass]="{'avatar-empty': pokemon.image === '', 'avatar-owned': border === 'owned' , 'avatar-notowned': border === 'notowned', 'avatar-captured': border === 'captured'}">
+          [ngClass]="{'avatar-empty': pokemon.image === '', 'avatar-owned': pokemon.quantity !== undefined && pokemon.quantity > 0 , 'avatar-notowned': pokemon.quantity === undefined, 'avatar-captured': pokemon.quantity === 0}">
     <img loading="lazy" *ngIf="pokemon.image" src="{{pokemon.image}}" />
-    <span *ngIf="pokemon.quantity !== null">Owned</span>
   </button>
   <div
     class="absolute bottom-0 right-0 z-10 bg-secondary rounded-full w-6 h-6 text-white flex justify-center items-center"
