@@ -1,9 +1,13 @@
-<app-header></app-header>
+<div class="max-w-screen-sm mx-auto">
 
-<main class="max-w-screen-md mx-auto mt-6">
-  <router-outlet></router-outlet>
-</main>
+  <app-header></app-header>
 
-<div *ngIf="authService.isLoggedIn | async">
-  <app-bottom-navigation></app-bottom-navigation>
+  <main class="mt-6 pb-24">
+    <router-outlet></router-outlet>
+  </main>
+
+  <div *ngIf="authService.isLoggedIn | async">
+    <app-bottom-navigation></app-bottom-navigation>
+  </div>
+
 </div>
