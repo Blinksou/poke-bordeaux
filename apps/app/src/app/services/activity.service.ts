@@ -11,7 +11,7 @@ import {
   collectionData,
   Firestore,
 } from '@angular/fire/firestore';
-import { filter, map, mergeMap, Observable, take } from 'rxjs';
+import { map, mergeMap, Observable, take } from 'rxjs';
 import { UserService } from './user.service';
 import { UserProfile } from '../model/user';
 
@@ -74,8 +74,8 @@ export class ActivityService {
         }) as unknown as Observable<BaseActivity<unknown>[]>;
 
         return data.pipe(
-          filter((activities) =>
-            activities.every(
+          map((activities) =>
+            activities.filter(
               (activity) =>
                 activity.type !== 'trade-ask' ||
                 (this.isTradeAsk(activity) && activity.data.userId === user.id)
