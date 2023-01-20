@@ -6,8 +6,9 @@ import {
   docData,
   Firestore,
   setDoc,
+  updateDoc,
 } from '@angular/fire/firestore';
-import { Observable, of, switchMap } from 'rxjs';
+import { Observable, of, switchMap, take } from 'rxjs';
 import { UserProfile } from '../model/user';
 import { AuthService } from './auth.service';
 
@@ -52,5 +53,25 @@ export class UserService {
 
   async updateUserInFirestore(uid: string, data: UserProfile) {
     return await setDoc(doc(this.firestore, 'users', uid), data);
+  }
+
+  async updateUserStats(id: string, stats: Partial<UserProfile['stats']>) {
+    const userDocument = doc(this.firestore, 'users', id);
+
+    let userDocData: UserProfile;
+    docData(userDocument, {
+      idField: 'id',
+    })
+      .pipe(take(1))
+      .subscribe(async (user) => {
+        userDocData = user as UserProfile;
+
+        await updateDoc(userDocument, {
+          stats: {
+            ...userDocData.stats,
+            ...stats,
+          },
+        });
+      });
   }
 }
