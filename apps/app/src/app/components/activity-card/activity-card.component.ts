@@ -19,6 +19,8 @@ import { BaseActivity } from '../../model/activity';
 export class ActivityCardComponent {
   @Input() activity!: BaseActivity<unknown>;
 
+  pokemonImage: string | undefined;
+
   isTradeAskActivity() {
     return this.activity.type === 'trade-ask';
   }
@@ -29,5 +31,9 @@ export class ActivityCardComponent {
 
   isCaptureActivity() {
     return this.activity.type === 'capture';
+  }
+
+  setPokemonImage(image: string) {
+    this.pokemonImage = image;
   }
 }
