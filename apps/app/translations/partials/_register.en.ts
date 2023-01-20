@@ -6,6 +6,7 @@ export const registerMessages = {
       confirmPasswordLabel: 'Confirm password',
       loginLabel: 'Email',
       passwordLabel: 'Password',
+      nicknameLabel: 'Nickname',
     },
     error: {
       title: 'Register',
