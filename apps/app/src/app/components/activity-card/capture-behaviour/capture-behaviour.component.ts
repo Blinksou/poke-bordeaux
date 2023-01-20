@@ -13,12 +13,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { TradeDialogComponent } from '../trade-info-behaviour/trade-dialog/trade-dialog.component';
 import { UserProfile } from '../../../model/user';
 import { Pokemon } from '../../pokemon-avatar/model/pokemon';
-import { combineLatest, map, Observable, take } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
 
 export type CaptureBehaviourComponentViewModel = Observable<{
   pokemon: Pokemon;
   user: UserProfile;
+  currentUser: UserProfile | null;
 }>;
 
 @Component({
@@ -33,26 +34,24 @@ export class CaptureBehaviourComponent {
 
   private user?: UserProfile;
   private pokemon?: Pokemon;
+
+  currentUser: UserProfile | null = null;
   viewModel$?: CaptureBehaviourComponentViewModel;
 
   constructor(
-    public readonly userService: UserService,
+    private readonly userService: UserService,
     private readonly pokemonService: PokemonService,
     private readonly dialog: MatDialog,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   openTradeDialog() {
-    this.userService.user$.pipe(take(1)).subscribe((user) => {
-      if (!user) return;
-
-      this.dialog.open(TradeDialogComponent, {
-        data: {
-          pokemon: this.pokemon,
-          user: this.user,
-          askerId: user?.id,
-        },
-      });
+    this.dialog.open(TradeDialogComponent, {
+      data: {
+        pokemon: this.pokemon,
+        user: this.user,
+        askerId: this.currentUser?.id,
+      },
     });
   }
 
@@ -60,16 +59,19 @@ export class CaptureBehaviourComponent {
     this.viewModel$ = combineLatest([
       this.userService.getUserFromFirestore(this.activity.data.userId),
       this.pokemonService.getPokemonFromId(this.activity.data.userPokemonId),
+      this.userService.user$,
     ]).pipe(
-      map(([user, pokemon]) => ({
+      map(([user, pokemon, currentUser]) => ({
         user,
         pokemon,
+        currentUser,
       }))
     );
 
-    this.viewModel$.subscribe(({ user, pokemon }) => {
+    this.viewModel$.subscribe(({ user, pokemon, currentUser }) => {
       this.user = user;
       this.pokemon = pokemon;
+      this.currentUser = currentUser;
 
       this.setPokemonImage.emit(pokemon.image);
 
