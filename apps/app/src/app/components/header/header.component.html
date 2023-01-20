@@ -1,29 +1,52 @@
 
-  <div class="relative max-w-screen-sm p-1 mx-auto border-2 border-black shadow-sm shadow-black h-[4.8rem] bg-primary">
+  <ng-template [ngIf]="authService.isLoggedIn | async">
+    <div class="relative max-w-screen-sm p-1 mx-auto border-2 border-black shadow-sm shadow-black h-[4.8rem] bg-primary">
 
-    <div class="relative z-50">
-      <a [routerLink]="['/']" title="Home page">
-        <app-header-logo [isLoggedIn]="authService.isLoggedIn | async"></app-header-logo>
-      </a>
-    </div>
-
-    <div class="absolute inset-x-0 top-6">
-      <div class="flex flex-col items-center">
-        <h2 class="logo-title" style="color:#AA7B8A;">Bordeaux</h2>
-        <h3 class="logo-subtitle" *ngIf="(authService.isLoggedIn | async) === false && subtitle">
-          {{ subtitle }}
-        </h3>
-      </div>
-    </div>
-    <ng-container *ngIf="(authService.isLoggedIn | async)">
-      <div class="absolute right-0 top-0 z-50">
-        <a [routerLink]="['/logout']" title="Sign out">
-          <button class="m-2 w-14 h-14 flex items-center justify-center bg-card rounded-full border border-black shadow-md shadow-black hover:bg-secondary hover:text-gray-300">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-            </svg>
-          </button>
+      <div class="relative z-50">
+        <a routerLink="/" title="Home page">
+          <app-header-logo [isLoggedIn]="authService.isLoggedIn | async"></app-header-logo>
         </a>
       </div>
-    </ng-container>
-  </div>
+
+      <div class="absolute inset-x-0 top-6">
+        <div class="flex flex-col items-center">
+          <h2 class="logo-title" style="color:#AA7B8A;">Bordeaux</h2>
+          <h3 class="logo-subtitle" *ngIf="(authService.isLoggedIn | async) === false && subtitle">
+            {{ subtitle }}
+          </h3>
+        </div>
+      </div>
+      <ng-container *ngIf="(authService.isLoggedIn | async)">
+        <div class="absolute right-0 top-0 z-50">
+          <a routerLink="/signout" title="Sign out">
+            <button class="m-2 w-14 h-14 flex items-center justify-center bg-card rounded-full border border-black shadow-md shadow-black hover:bg-secondary hover:text-gray-300">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+              </svg>
+            </button>
+          </a>
+        </div>
+      </ng-container>
+    </div>
+  </ng-template>
+
+  <ng-template [ngIf]="(authService.isLoggedIn | async) === false">
+
+    <div class="relative max-w-screen-sm p-1 mx-auto">
+
+      <div class="relative z-50">
+        <a routerLink="/" title="Home page">
+          <app-header-logo [isLoggedIn]="authService.isLoggedIn | async"></app-header-logo>
+        </a>
+      </div>
+
+      <div class="absolute inset-x-0 top-24">
+        <div class="flex flex-col items-center">
+          <h2 class="logo-title text-white">Bordeaux</h2>
+          <h3 class="logo-subtitle" *ngIf="subtitle">
+            {{ subtitle }}
+          </h3>
+        </div>
+      </div>
+    </div>
+  </ng-template>

@@ -11,7 +11,7 @@
 
     //  Middle of page
     left: calc(50% - 30px);
-    top: calc(50% - 33px);
+    top: calc(15% - 33px);
   }
 
   &-132 {
@@ -21,7 +21,7 @@
 
     // Left of page
     left: calc(50% - 200px);
-    top: calc(50% + 150px);
+    top: calc(10% + 150px);
   }
 
   &-286 {
@@ -32,7 +32,7 @@
 
     // Right of page
     left: calc(50% + 150px);
-    top: calc(50% + 150px);
+    top: calc(10% + 150px);
   }
 
   &-482 {
@@ -42,7 +42,7 @@
 
     // Bottom left of page
     left: calc(50% - 200px);
-    top: calc(50% + 300px);
+    top: calc(10% + 300px);
   }
 
 
@@ -53,7 +53,7 @@
 
     // Bottom right of page
     left: calc(50% + 150px);
-    top: calc(50% + 300px);
+    top: calc(10% + 300px);
   }
 
 
@@ -64,6 +64,6 @@
 
     // Middle bottom of page
     left: calc(50% - 44px);
-    top: calc(50% + 300px);
+    top: calc(10% + 300px);
   }
 }
