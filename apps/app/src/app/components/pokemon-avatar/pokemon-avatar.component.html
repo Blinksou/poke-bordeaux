@@ -4,20 +4,27 @@
           [ngClass]="{'avatar-empty': pokemon.image === '', 'avatar-owned': pokemon.quantity !== undefined && pokemon.quantity > 0 , 'avatar-notowned': pokemon.quantity === undefined, 'avatar-captured': pokemon.quantity === 0}">
     <img loading="lazy" *ngIf="pokemon.image" src="{{pokemon.image}}" />
   </button>
-  <!-- <div
-    class="absolute z-10 bg-secondary rounded-full w-6 h-6 text-white flex justify-center items-center"
-  >
-    <span style="font-size: 9px"></span>
-  </div> -->
-  <!-- <div class="absolute z-10 bg-secondary rounded-full w-6 h-6 text-white flex justify-center items-center"
-  >
-    <p class="capitalize">{{pokemon.name}}</p>
-    <ul>
-      <li *ngFor="let t of pokemon.types">
-        <p>{{ t.name }}</p>
-      </li>
-    </ul>
-    <p>{{selectedPokemon.quantity}} owned</p>
-  </div> -->
+
   <mat-icon class="favorite" *ngIf="border === 'notowned'">favorite_border</mat-icon>
+  <div *ngIf="selectedPokemon && selectedPokemon.id === pokemon.id" class="tool-tip">
+    <mat-grid-list cols="2" rowHeight="2:1" >
+      <mat-grid-tile>
+        <app-pokemon-avatar
+          [pokemon]="pokemon"
+        ></app-pokemon-avatar>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div>
+          <p class="capitalize">{{pokemon.name}}</p>
+          <ul>
+            <li *ngFor="let t of pokemon.types">
+              <img class="icon-type" loading="lazy" src="{{t.image}}" />
+              <!-- <p>{{ t.image }}</p> -->
+            </li>
+          </ul>
+          <p *ngIf="pokemon.quantity">{{pokemon.quantity}} owned</p>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
 </div>

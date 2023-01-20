@@ -74,12 +74,13 @@ export class FilterPageComponent implements OnInit {
     this.dialogRef.close({ event: 'close', data: {types: this.selectedTypes, hideknown: formData.hideknown, hideunknown: formData.hideunknown} });
   }
 
-  closeDialog(): void {
-    this.dialogRef.close();
+  reset(): void {
+    console.log("before", this.selectedTypes)
+    this.selectedTypes = []
+    console.log("after", this.selectedTypes)
   }
 
   getCheckedFilters(type: PokemonTypeFilter) {
-    console.log('this.selectedTypes', this.selectedTypes)
     const index = this.selectedTypes.findIndex((x) => x == type);
 
     if (!type.checked) {
