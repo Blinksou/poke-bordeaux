@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -39,7 +39,7 @@ export interface TradeDialogComponentData {
   ],
   templateUrl: './trade-dialog.component.html',
 })
-export class TradeDialogComponent implements OnInit {
+export class TradeDialogComponent {
   tradeForm = this.formBuilder.group({
     pokemon: new FormControl<string>('', [Validators.required]),
   });
@@ -57,11 +57,6 @@ export class TradeDialogComponent implements OnInit {
     this.pokemonsFromUser = this.pokemonService.getPokemonsFromUser();
 
     this.pokemonsFromUser.subscribe(() => this.ref.markForCheck());
-  }
-
-  ngOnInit() {
-    // will log the entire data object
-    console.log(this.data);
   }
 
   async onSubmit() {

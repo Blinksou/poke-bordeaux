@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import {
-  collection,
-  collectionData,
   doc,
   docData,
   Firestore,
@@ -35,20 +33,16 @@ export class UserService {
     );
   }
 
-  getUserFromFirestore(uid: string): Observable<UserProfile> {
+  getUserDocument(uid: string) {
     const userDocument = doc(this.firestore, `users/${uid}`);
 
     return docData(userDocument, {
       idField: 'id',
-    }) as Observable<UserProfile>;
+    });
   }
 
-  getAllUsersFromFirestore(): Observable<UserProfile[]> {
-    const userCollection = collection(this.firestore, `users`);
-
-    return collectionData(userCollection, {
-      idField: 'id',
-    }) as Observable<UserProfile[]>;
+  getUserFromFirestore(uid: string): Observable<UserProfile> {
+    return this.getUserDocument(uid) as Observable<UserProfile>;
   }
 
   async updateUserInFirestore(uid: string, data: UserProfile) {
@@ -59,9 +53,8 @@ export class UserService {
     const userDocument = doc(this.firestore, 'users', id);
 
     let userDocData: UserProfile;
-    docData(userDocument, {
-      idField: 'id',
-    })
+
+    this.getUserDocument(id)
       .pipe(take(1))
       .subscribe(async (user) => {
         userDocData = user as UserProfile;

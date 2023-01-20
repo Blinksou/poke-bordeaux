@@ -9,7 +9,10 @@ import {
   addDoc,
   collection,
   collectionData,
+  doc,
   Firestore,
+  setDoc,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { map, mergeMap, Observable, take } from 'rxjs';
 import { UserService } from './user.service';
@@ -60,10 +63,6 @@ export class ActivityService {
   getActivities() {
     const activitiesCollection = collection(this.firestore, `activities`);
 
-    // let data = collectionData(activitiesCollection, {
-    //   idField: 'id',
-    // }) as unknown as Observable<BaseActivity<unknown>[]>;
-
     return this.userService.user$.pipe(
       take(1),
       mergeMap((user: UserProfile | null) => {
@@ -78,7 +77,9 @@ export class ActivityService {
             activities.filter(
               (activity) =>
                 activity.type !== 'trade-ask' ||
-                (this.isTradeAsk(activity) && activity.data.userId === user.id)
+                (this.isTradeAsk(activity) &&
+                  activity.data.userId === user.id &&
+                  activity.data.status === 'pending')
             )
           ),
           // Get all trade ask at the top
@@ -94,5 +95,56 @@ export class ActivityService {
     activity: BaseActivity<unknown>
   ): activity is BaseActivity<TradeAskActivityPayload> {
     return activity.type === 'trade-ask';
+  }
+
+  async acceptTrade(activity: BaseActivity<TradeAskActivityPayload>) {
+    const activitiesCollection = collection(this.firestore, `activities`);
+
+    await updateDoc(doc(activitiesCollection, activity.id), {
+      data: {
+        status: 'accepted',
+      },
+    });
+
+    this.userService
+      .getUserFromFirestore(activity.data.userId)
+      .pipe(take(1))
+      .subscribe((user) => {
+        this.userService.updateUserStats(user.id, {
+          tradingFulfilled: user.stats.tradingFulfilled + 1,
+        });
+      });
+
+    this.userService
+      .getUserFromFirestore(activity.data.askerId)
+      .pipe(take(1))
+      .subscribe((user) => {
+        this.userService.updateUserStats(user.id, {
+          tradingFulfilled: user.stats.tradingFulfilled + 1,
+        });
+      });
+
+    return this.addTradeInfoActivity({
+      data: {
+        userId: activity.data.userId,
+        userPokemonId: activity.data.userPokemonId,
+        askerId: activity.data.askerId,
+        askerPokemonId: activity.data.askerPokemonId,
+      },
+    });
+  }
+
+  async declineTrade(activity: BaseActivity<TradeAskActivityPayload>) {
+    const activitiesCollection = collection(this.firestore, `activities`);
+
+    return setDoc(
+      doc(activitiesCollection, activity.id),
+      {
+        data: {
+          status: 'declined',
+        },
+      },
+      { merge: true }
+    );
   }
 }
