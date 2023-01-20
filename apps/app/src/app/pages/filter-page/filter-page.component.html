@@ -1,17 +1,39 @@
 <h2 mat-dialog-title>Filters</h2>
 <div mat-dialog-content class="mat-typography">
-    <h3>Types</h3>
-    <form class="example-form" #form="ngForm" (ngSubmit)="applyFilters(form.form)">
-        <mat-grid-list cols="4" rowHeight="1:1">
-            <mat-grid-tile *ngFor="let type of typesList; let i = index">
-                <mat-checkbox name='check' class="example-margin" [(ngModel)]="type.checked" (click)="getCheckedFilters(type)">{{ type.name }}</mat-checkbox>
-            </mat-grid-tile>
-        </mat-grid-list>
-        <mat-slide-toggle class="toggle" ngModel name="hideknown">Hide known, not owned</mat-slide-toggle>
-        <mat-slide-toggle class="toggle" ngModel name="hideunknown">Hide unknown</mat-slide-toggle>
-        <div class="btns" mat-dialog-actions>
-            <button mat-raised-button type="submit">Apply</button>
+  <h3>Types</h3>
+  <form
+    class="example-form"
+    #form="ngForm"
+    (ngSubmit)="applyFilters(form.form)"
+  >
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-5">
+      <mat-checkbox
+        name="check"
+        [(ngModel)]="type.checked"
+        (click)="getCheckedFilters(type)"
+        *ngFor="let type of typesList; let i = index"
+      >
+        <div class="flex items-center">
+          <img
+            src="{{ type.image }}"
+            alt="{{ type.name }}"
+            class="w-7 h-7 object-contain"
+          />
+          <span>{{ type.name }}</span>
         </div>
-    </form>
-    <button mat-raised-button (click)="closeDialog()">Close</button>
+      </mat-checkbox>
+    </div>
+    <mat-slide-toggle class="toggle" ngModel name="hideknown"
+      >Hide known, not owned</mat-slide-toggle
+    >
+    <mat-slide-toggle class="toggle" ngModel name="hideunknown"
+      >Hide unknown</mat-slide-toggle
+    >
+    <div class="flex justify-center space-x-5 mt-3 items-center">
+      <button mat-raised-button type="submit">Apply</button>
+      <button type="button" mat-raised-button (click)="closeDialog()">
+        Close
+      </button>
+    </div>
+  </form>
 </div>

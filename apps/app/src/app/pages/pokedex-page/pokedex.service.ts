@@ -12,11 +12,11 @@ import { UserService } from '../../services/user.service';
 /** RXJS */
 import { map, Observable, of } from 'rxjs';
 
-export type PokedexPokemon = Pokemon & {quantity?: number};
+export type PokedexPokemon = Pokemon & { quantity?: number };
 type OwnedAndUnownedUserPokemons = {
-  owned: PokedexPokemon[],
-  unowned: PokedexPokemon[]
-}
+  owned: PokedexPokemon[];
+  unowned: PokedexPokemon[];
+};
 
 @Injectable({
   providedIn: 'root',
@@ -24,43 +24,36 @@ type OwnedAndUnownedUserPokemons = {
 export class PokedexService {
   pokedexPokemons$: Observable<PokedexPokemon[] | null> = of(null);
 
-	// this.huntState$ = this.userService.user$.pipe(
-	// 	map((userProfile) => {
-	// 		if (!userProfile) return null;
-			
-	// 		const hunt = userProfile.hunt;
-	// 		const energiesState = this.determineEnergiesState(hunt.energiesDate);
-	// 		const pokeballsState: PokeballsState = this.determinePokeballsState(hunt.pokeballs);
+  constructor(readonly userService: UserService) {
+    const pokemonsList = Object.values(PokemonList) as unknown as Pokemon[];
 
-	// 		return {
-	// 			energiesState,
-	// 			pokeballsState,
-	// 		};
-	// 	})
-	// )
+    this.pokedexPokemons$ = this.userService.user$.pipe(
+      map((user) => {
+        if (!user) return null;
 
-	constructor(
-		readonly userService: UserService
-	) {
-		const pokemonsList = Object.values(PokemonList) as unknown as Pokemon[];
+        const userPokemons = user.pokemons?.length ? user.pokemons : [];
+        const userPokemonsMap = new Map(
+          userPokemons.map((p) => [+p.pokemonId, p])
+        );
 
-		this.pokedexPokemons$ = this.userService.user$.pipe(
-			map((user) => {
-      	if (!user) return null;
+        const temp = pokemonsList.reduce(
+          (acc, p) => {
+            if (userPokemonsMap.has(p.id)) {
+              acc.owned.push({
+                ...p,
+                quantity: userPokemonsMap.get(p.id)?.quantity,
+              });
+            } else {
+              acc.unowned.push(p);
+            }
 
-      	const userPokemonsMap = new Map(user.pokemons.map(p => [+p.pokemonId, p]));
-      
-				const temp = pokemonsList.reduce((acc, p) => {
-						if (userPokemonsMap.has(p.id)) {
-							acc.owned.push({...p, quantity: userPokemonsMap.get(p.id)?.quantity});
-						} else {
-							acc.unowned.push(p);
-						}
+            return acc;
+          },
+          { owned: [], unowned: [] } as OwnedAndUnownedUserPokemons
+        );
 
-						return acc;
-					}, {owned: [], unowned: []} as OwnedAndUnownedUserPokemons);
-				
-				return [...temp.owned, ...temp.unowned];
-    }));
-	}
+        return [...temp.owned, ...temp.unowned];
+      })
+    );
+  }
 }

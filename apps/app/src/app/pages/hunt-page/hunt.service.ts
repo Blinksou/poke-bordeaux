@@ -363,7 +363,7 @@ export class HuntService {
         user.pokemons[index].quantity += 1;
       } else {
         user.pokemons.push({
-          pokemonId: pokemon.id.toString(),
+          pokemonId: pokemon.id,
           quantity: 1,
           isFavorite: false,
         });

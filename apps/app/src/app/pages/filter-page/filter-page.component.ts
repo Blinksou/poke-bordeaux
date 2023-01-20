@@ -1,6 +1,5 @@
 import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FilterPageService } from './filter-page.service';
 import { PokemonTypeFilter } from '../../../interfaces';
 import {
   FormBuilder,
@@ -9,11 +8,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import jsonTypes from '../../../assets/pokemon/types.json';
 
 @Component({
   selector: 'app-filter-page',
@@ -31,10 +35,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   templateUrl: './filter-page.component.html',
   styleUrls: ['./filter-page.component.scss'],
 })
-export class FilterPageComponent implements OnInit {
-
+export class FilterPageComponent {
   loaded!: boolean;
-  typesList: PokemonTypeFilter[] | undefined;
+  typesList: PokemonTypeFilter[] | undefined = jsonTypes.map((t) => ({
+    ...t,
+    id: `${t.id}`,
+    checked: false,
+  }));
 
   checked = false;
   selectedTypes: PokemonTypeFilter[] = [];
@@ -48,30 +55,22 @@ export class FilterPageComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<FilterPageComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
-    private filterService: FilterPageService,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: FormBuilder
   ) {
-    data = this.selectedTypes
-  }
-
-  ngOnInit(): void {
-    this.getTypes();
-  }
-
-  getTypes() {
-    this.loaded = false;
-    this.filterService
-      .getTypes('https://pokebuildapi.fr/api/v1/types')
-      .subscribe((response) => {
-        this.typesList = response;
-        this.loaded = true;
-      });
+    data = this.selectedTypes;
   }
 
   applyFilters(formGroup: FormGroup) {
     let formData = Object.assign({});
     formData = Object.assign(formData, formGroup.value);
-    this.dialogRef.close({ event: 'close', data: {types: this.selectedTypes, hideknown: formData.hideknown, hideunknown: formData.hideunknown} });
+    this.dialogRef.close({
+      event: 'close',
+      data: {
+        types: this.selectedTypes,
+        hideknown: formData.hideknown,
+        hideunknown: formData.hideunknown,
+      },
+    });
   }
 
   closeDialog(): void {
@@ -79,7 +78,6 @@ export class FilterPageComponent implements OnInit {
   }
 
   getCheckedFilters(type: PokemonTypeFilter) {
-    console.log('this.selectedTypes', this.selectedTypes)
     const index = this.selectedTypes.findIndex((x) => x == type);
 
     if (!type.checked) {

@@ -13,7 +13,7 @@ export type UserProfile = {
     allowOthersToViewActivity: boolean;
   };
   pokemons: Array<{
-    pokemonId: string;
+    pokemonId: number;
     quantity: number;
     isFavorite: boolean;
   }>;
@@ -23,13 +23,6 @@ export type UserProfile = {
     tradingFulfilled: number;
   };
   hunt: Hunt;
-  pokemons: [
-    {
-      pokemonId: number;
-      quantity: number;
-      isFavorite: boolean;
-    }
-  ]
 };
 
 export type UserBasicInfos = {

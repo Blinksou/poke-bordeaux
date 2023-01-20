@@ -1,17 +1,11 @@
 <div class="max-w-screen-sm mx-auto h-screen overflow-hidden">
-
   <app-header></app-header>
-
   <div class="main relative overflow-y-auto py-6">
-
       <main class="h-full">
         <router-outlet></router-outlet>
       </main>
-
   </div>
-
   <div *ngIf="authService.isLoggedIn | async">
     <app-bottom-navigation></app-bottom-navigation>
   </div>
-
 </div>
