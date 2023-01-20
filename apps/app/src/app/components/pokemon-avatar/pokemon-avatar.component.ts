@@ -1,15 +1,22 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import {  UserProfile } from "@angular/fire/auth";
+
+/** MATERIAL */
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
-import { Pokemon } from "./model/pokemon";
 import { MatGridListModule } from '@angular/material/grid-list';
+
+/** MODELS */
 import { userPokemon } from "../../model/userPokemon";
+
+/** RXJS */
 import { Observable } from "rxjs";
-import { User, UserProfile } from "@angular/fire/auth";
-import { PokedexPokemon } from "../../pages/pokedex-page/pokedex-page.component";
+
+/** SERVICES */
+import { PokedexPokemon } from "../../pages/pokedex-page/pokedex.service";
 
 @Component({
   selector: "app-pokemon-avatar",

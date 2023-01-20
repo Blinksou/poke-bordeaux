@@ -1,30 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
-  ChangeDetectionStrategy,
   Component,
-  Input,
 } from '@angular/core';
+
+/** MATERIAL */
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
+
+/** COMPONENTS */
 import { FilterPageComponent } from '../filter-page/filter-page.component';
 import { PokemonAvatarComponent } from '../../components/pokemon-avatar/pokemon-avatar.component';
 import { Pokemon } from '../../components/pokemon-avatar/model/pokemon';
 import { PokemonType } from '../../components/pokemon-avatar/model/pokemon';
-import PokemonList from '../../../assets/pokemon/pokemons-list.json';
-import { UserService } from '../../services/user.service';
+
+/** MODELS */
 import { userPokemon } from '../../model/userPokemon';
 
-const pokemonsList = Object.values(PokemonList) as unknown as Pokemon[];
-
-export type PokedexPokemon = Pokemon & {quantity?: number};
-interface OwnedAndUnownedUserPokemons {
-  owned: PokedexPokemon[],
-  unowned: PokedexPokemon[]
-}
+/** SERVICES */
+import { PokedexPokemon, PokedexService } from './pokedex.service';
 
 @Component({
   selector: 'app-pokedex-page',
@@ -43,37 +40,25 @@ interface OwnedAndUnownedUserPokemons {
   styleUrls: ['./pokedex-page.component.scss']
 })
 export class PokedexPageComponent {
-  // user$: Observable<UserProfile | null>;
 
+  // Main properties
+  pokemons!: PokedexPokemon[];
+
+  // Filter properties
   public hideunknown = false;
   public hideknown = false;
   filteredPokemons: Pokemon[] = [];
   selectedTypes: [] = [];
   finalValue: [] = [];
   userPokemons: userPokemon[] = [];
-  @Input() search: string | undefined;
-  pokemons!: PokedexPokemon[];
-
+  search: string | undefined;
   selectedPokemon: Pokemon | null = null;
 
-  constructor(public readonly dialog: MatDialog, private readonly userService: UserService) {
-    this.userService.user$.subscribe((user) => {
-      if (!user) return;
-
-      const userPokemonsMap = new Map(user.pokemons.map(p => [+p.pokemonId, p]));
-      
-      const temp = pokemonsList.reduce((acc, p) => {
-          if (userPokemonsMap.has(p.id)) {
-            acc.owned.push({...p, quantity: userPokemonsMap.get(p.id)?.quantity});
-          } else {
-            acc.unowned.push(p);
-          }
-
-          return acc;
-        }, {owned: [], unowned: []} as OwnedAndUnownedUserPokemons);
-      
-      this.pokemons = [...temp.owned, ...temp.unowned];
-    });
+  constructor(public readonly dialog: MatDialog, private readonly pokedexService: PokedexService) {
+    this.pokedexService.pokedexPokemons$.subscribe((pokemons) => {
+      if(!pokemons) return;
+      this.pokemons = pokemons;
+    })
   }
 
   setSelectedPokemon(p: Pokemon) {
