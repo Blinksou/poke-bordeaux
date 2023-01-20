@@ -13,6 +13,7 @@ import { PokemonService } from '../../../services/pokemon.service';
 import { Pokemon } from '../../pokemon-avatar/model/pokemon';
 import { ActivityService } from '../../../services/activity.service';
 import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
+import { combineLatest, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-trade-ask-behaviour',
@@ -24,9 +25,17 @@ export class TradeAskBehaviourComponent {
   @Input() activity!: BaseActivity<TradeAskActivityPayload>;
   @Output() setPokemonImage = new EventEmitter<string>();
 
-  asker: UserProfile | null = null;
-  askerPokemon: Pokemon | null = null;
-  targetPokemon: Pokemon | null = null;
+  // askerPokemon: Pokemon | null = null;
+  // targetPokemon: Pokemon | null = null;
+  // asker: UserProfile | null = null;
+
+  viewModel$:
+    | Observable<{
+        targetPokemon: Pokemon;
+        asker: UserProfile;
+        askerPokemon: Pokemon;
+      }>
+    | undefined;
 
   constructor(
     private readonly userService: UserService,
@@ -43,29 +52,22 @@ export class TradeAskBehaviourComponent {
     await this.activityService.declineTrade(this.activity);
   }
 
-  onVisible(activity: BaseActivity<TradeAskActivityPayload>) {
-    this.userService
-      .getUserFromFirestore(this.activity.data.askerId)
-      .subscribe((user) => {
-        this.asker = user;
-        this.ref.detectChanges();
-      });
+  onVisible() {
+    this.viewModel$ = combineLatest([
+      this.userService.getUserFromFirestore(this.activity.data.askerId),
+      this.pokemonService.getPokemonFromId(this.activity.data.askerPokemonId),
+      this.pokemonService.getPokemonFromId(this.activity.data.userPokemonId),
+    ]).pipe(
+      map(([asker, askerPokemon, targetPokemon]) => ({
+        asker,
+        askerPokemon,
+        targetPokemon,
+      }))
+    );
 
-    this.pokemonService
-      .getPokemonFromId(this.activity.data.askerPokemonId)
-      .subscribe((pokemon) => {
-        this.askerPokemon = pokemon;
-        this.ref.detectChanges();
-      });
-
-    this.pokemonService
-      .getPokemonFromId(this.activity.data.userPokemonId)
-      .subscribe((pokemon) => {
-        this.targetPokemon = pokemon;
-
-        this.setPokemonImage.emit(pokemon.image);
-
-        this.ref.detectChanges();
-      });
+    this.viewModel$.subscribe(({ targetPokemon }) => {
+      this.setPokemonImage.emit(targetPokemon.image);
+      this.ref.detectChanges();
+    });
   }
 }
