@@ -1,18 +1,20 @@
 
-  <div class="relative max-w-screen-sm mx-auto mt-2 h-[4.5rem]">
+  <div class="relative max-w-screen-sm p-1 mx-auto border-2 border-black shadow-sm shadow-black h-[4.8rem] bg-primary">
 
-    <app-header-logo [isLoggedIn]="authService.isLoggedIn | async"></app-header-logo>
+    <div class="relative z-50">
+      <app-header-logo [isLoggedIn]="authService.isLoggedIn | async"></app-header-logo>
+    </div>
 
-    <div class="absolute inset-x-0 top-6" style="z-index: -1">
+    <div class="absolute inset-x-0 top-6">
       <div class="flex flex-col items-center">
-        <h2 class="logo-title text-primary">Bordeaux</h2>
+        <h2 class="logo-title" style="color:#AA7B8A;">Bordeaux</h2>
         <h3 class="logo-subtitle" *ngIf="(authService.isLoggedIn | async) === false && subtitle">
           {{ subtitle }}
         </h3>
       </div>
     </div>
     <ng-container *ngIf="(authService.isLoggedIn | async)">
-      <div class="absolute right-0 top-0">
+      <div class="absolute right-0 top-0 z-50">
         <a [routerLink]="['/logout']" title="Sign out">
           <button class="m-2 w-14 h-14 flex items-center justify-center bg-primary rounded-full border border-black shadow-md shadow-black hover:text-gray-300 hover:bg-secondary">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
