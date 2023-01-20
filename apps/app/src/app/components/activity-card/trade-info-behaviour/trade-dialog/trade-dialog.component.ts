@@ -1,6 +1,10 @@
 import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -52,7 +56,8 @@ export class TradeDialogComponent {
     public readonly ref: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA)
     public data: TradeDialogComponentData,
-    private readonly activityService: ActivityService
+    private readonly activityService: ActivityService,
+    public dialogRef: MatDialogRef<TradeDialogComponent>
   ) {
     this.pokemonsFromUser = this.pokemonService.getPokemonsFromUser();
 
@@ -69,5 +74,7 @@ export class TradeDialogComponent {
         status: 'pending',
       },
     });
+
+    this.dialogRef.close();
   }
 }
