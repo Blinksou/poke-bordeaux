@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, of } from 'rxjs';
+import { filter, map, of } from 'rxjs';
 
 /** DATA */
 import pokemons from '../../assets/pokemon/pokemons-list.json';
@@ -7,6 +7,7 @@ import pokemons from '../../assets/pokemon/pokemons-list.json';
 /** MODEL */
 import { Pokemon } from '../components/pokemon-avatar/model/pokemon';
 import { UserService } from './user.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 /** RXJS */
 
@@ -17,20 +18,29 @@ const pokemonsArray = Object.values(pokemons);
   providedIn: 'root',
 })
 export class PokemonService {
-  userCoords: {lat: number; lng: number} | null = null;
+  userCoords: { lat: number; lng: number } | null = null;
 
+  constructor(
+    private readonly userService: UserService,
+    private readonly router: Router
+  ) {
+    router.events
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe((event) => {
+        if (event.url !== '/hunt' || !navigator.geolocation) return;
 
-  constructor(private readonly userService: UserService) {
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition((position) => {
-        this.userCoords = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        }
-    }, (error) => {
-        console.log(`Error: ${error.message}`);
-    });
-    }
+        navigator.geolocation.watchPosition(
+          (position) => {
+            this.userCoords = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+          },
+          (error) => {
+            console.log(`Error: ${error.message}`);
+          }
+        );
+      });
   }
 
   getPokemonFromId(id: number | string) {
@@ -51,11 +61,13 @@ export class PokemonService {
         lngStr = `0${lngStr}`;
       }
 
-      index = (Number(latStr.slice(-5)) + Number(lngStr.slice(-5))) % pokemonsArray.length;
+      index =
+        (Number(latStr.slice(-5)) + Number(lngStr.slice(-5))) %
+        pokemonsArray.length;
     } else {
-      index =  Math.floor(Math.random() * pokemonsArray.length);
+      index = Math.floor(Math.random() * pokemonsArray.length);
     }
-    
+
     return pokemonsArray[index] as Pokemon;
   }
 

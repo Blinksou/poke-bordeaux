@@ -4,6 +4,7 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { HeaderLogoComponent } from './header-logo/header-logo.component';
 import { AuthService } from '../../services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -20,11 +21,11 @@ export class HeaderComponent {
     public readonly authService: AuthService,
     private readonly translate: TranslateService
   ) {
-    router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
+    router.events
+      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .subscribe((event) => {
         this.handleSubtitleChanges(event.urlAfterRedirects);
-      }
-    });
+      });
   }
 
   handleSubtitleChanges(url: string) {
@@ -36,7 +37,6 @@ export class HeaderComponent {
   }
 
   changeLanguage(language: string) {
-    console.log('Changing language to', language);
     this.translate.use(language);
   }
 }
