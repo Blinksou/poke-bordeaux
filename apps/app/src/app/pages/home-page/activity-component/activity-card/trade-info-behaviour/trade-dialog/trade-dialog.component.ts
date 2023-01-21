@@ -17,7 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { PokemonService } from '../../../../../../services/pokemon.service';
 import { PokemonAvatarComponent } from '../../../../../../components/pokemon-avatar/pokemon-avatar.component';
 import { Pokemon } from '../../../../../../components/pokemon-avatar/model/pokemon';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
 import { UserProfile } from '../../../../../../model/user';
 import { ActivityService } from '../../../../../../services/activity.service';
@@ -61,7 +61,9 @@ export class TradeDialogComponent {
   ) {
     this.pokemonsFromUser$ = this.pokemonService.getPokemonsFromUser();
 
-    this.pokemonsFromUser$.subscribe(() => this.ref.markForCheck());
+    this.pokemonsFromUser$
+      .pipe(tap((pokemons) => console.log(pokemons)))
+      .subscribe(() => this.ref.detectChanges());
   }
 
   async onSubmit() {

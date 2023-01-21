@@ -13,7 +13,15 @@ import {
   Firestore,
   setDoc,
 } from '@angular/fire/firestore';
-import { map, mergeMap, Observable, take } from 'rxjs';
+import {
+  map,
+  Observable,
+  of,
+  shareReplay,
+  startWith,
+  switchMap,
+  take,
+} from 'rxjs';
 import { UserService } from './user.service';
 import { UserProfile } from '../model/user';
 
@@ -63,9 +71,9 @@ export class ActivityService {
     const activitiesCollection = collection(this.firestore, `activities`);
 
     return this.userService.user$.pipe(
-      take(1),
-      mergeMap((user: UserProfile | null) => {
-        if (!user) return [];
+      startWith(null),
+      switchMap((user: UserProfile | null) => {
+        if (!user) return of([]);
 
         const data = collectionData(activitiesCollection, {
           idField: 'id',
@@ -84,7 +92,8 @@ export class ActivityService {
           // Get all trade ask at the top
           map((activities) =>
             activities.sort((a, b) => (b.type === 'trade-ask' ? 1 : -1))
-          )
+          ),
+          shareReplay()
         );
       })
     );
