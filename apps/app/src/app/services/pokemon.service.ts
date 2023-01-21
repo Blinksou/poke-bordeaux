@@ -79,7 +79,7 @@ export class PokemonService {
         return user.pokemons;
       }),
       map((pokemons) => {
-        if (!pokemons) return null;
+        if (!pokemons) return [];
 
         return pokemons.map(
           (pokemon) => pokemonsList[pokemon.pokemonId] as Pokemon

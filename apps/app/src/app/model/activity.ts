@@ -1,7 +1,10 @@
+import { Timestamp } from '@angular/fire/firestore';
+
 export interface BaseActivity<D> {
   id?: string;
   type: ActivityType;
   data: D;
+  createdAt: Timestamp;
 }
 
 export type ActivityType = 'trade-info' | 'trade-ask' | 'capture';

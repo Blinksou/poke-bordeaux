@@ -12,6 +12,7 @@ import {
   doc,
   Firestore,
   setDoc,
+  Timestamp,
 } from '@angular/fire/firestore';
 import {
   map,
@@ -34,14 +35,19 @@ export class ActivityService {
     private readonly userService: UserService
   ) {}
 
-  private async addActivity(activity: BaseActivity<unknown>) {
+  private async addActivity(
+    activity: Omit<BaseActivity<unknown>, 'createdAt'>
+  ) {
     const activitiesCollection = collection(this.firestore, `activities`);
 
-    return addDoc(activitiesCollection, activity);
+    return addDoc(activitiesCollection, {
+      ...activity,
+      createdAt: Timestamp.now(),
+    });
   }
 
   async addCaptureActivity(
-    activity: Omit<BaseActivity<CaptureActivityPayload>, 'type'>
+    activity: Omit<BaseActivity<CaptureActivityPayload>, 'type' | 'createdAt'>
   ) {
     return this.addActivity({
       ...activity,
@@ -50,7 +56,7 @@ export class ActivityService {
   }
 
   async addTradeInfoActivity(
-    activity: Omit<BaseActivity<TradeInfoActivityPayload>, 'type'>
+    activity: Omit<BaseActivity<TradeInfoActivityPayload>, 'type' | 'createdAt'>
   ) {
     return this.addActivity({
       ...activity,
@@ -59,7 +65,7 @@ export class ActivityService {
   }
 
   async addTradeAskActivity(
-    activity: Omit<BaseActivity<TradeAskActivityPayload>, 'type'>
+    activity: Omit<BaseActivity<TradeAskActivityPayload>, 'type' | 'createdAt'>
   ) {
     return this.addActivity({
       ...activity,
@@ -87,6 +93,12 @@ export class ActivityService {
                 (this.isTradeAsk(activity) &&
                   activity.data.userId === user.id &&
                   activity.data.status === 'pending')
+            )
+          ),
+          // Sort by createdAt field
+          map((activities) =>
+            activities.sort(
+              (a, b) => a.createdAt.toMillis() - b.createdAt.toMillis()
             )
           ),
           // Get all trade ask at the top
