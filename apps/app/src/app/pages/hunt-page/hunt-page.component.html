@@ -19,7 +19,7 @@
       [energiesState]="energiesState"
     ></app-energies-state>
     <div class="flex justify-center mt-6">
-      <button mat-raised-button (click)="goToBallSelection()"> {{ 'hunt.action' |translate }}</button>
+      <button [disabled]="energiesState.count <= 0" mat-raised-button (click)="goToBallSelection()">{{ 'hunt.action' |translate }}</button>
     </div>
   </div>
 
