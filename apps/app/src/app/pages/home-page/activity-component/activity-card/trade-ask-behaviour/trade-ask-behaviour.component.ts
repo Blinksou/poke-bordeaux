@@ -6,13 +6,16 @@ import {
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BaseActivity, TradeAskActivityPayload } from '../../../model/activity';
-import { UserProfile } from '../../../model/user';
-import { UserService } from '../../../services/user.service';
-import { PokemonService } from '../../../services/pokemon.service';
-import { Pokemon } from '../../pokemon-avatar/model/pokemon';
-import { ActivityService } from '../../../services/activity.service';
-import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
+import {
+  BaseActivity,
+  TradeAskActivityPayload,
+} from '../../../../../model/activity';
+import { UserProfile } from '../../../../../model/user';
+import { UserService } from '../../../../../services/user.service';
+import { PokemonService } from '../../../../../services/pokemon.service';
+import { Pokemon } from '../../../../../components/pokemon-avatar/model/pokemon';
+import { ActivityService } from '../../../../../services/activity.service';
+import { ObserveVisibilityDirective } from '../../../../../directives/observe-visibility.directive';
 import { combineLatest, map, Observable } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 

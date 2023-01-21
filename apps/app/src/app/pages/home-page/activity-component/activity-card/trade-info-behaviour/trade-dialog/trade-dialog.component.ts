@@ -14,13 +14,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { PokemonService } from '../../../../services/pokemon.service';
-import { PokemonAvatarComponent } from '../../../pokemon-avatar/pokemon-avatar.component';
-import { Pokemon } from '../../../pokemon-avatar/model/pokemon';
+import { PokemonService } from '../../../../../../services/pokemon.service';
+import { PokemonAvatarComponent } from '../../../../../../components/pokemon-avatar/pokemon-avatar.component';
+import { Pokemon } from '../../../../../../components/pokemon-avatar/model/pokemon';
 import { Observable } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
-import { UserProfile } from '../../../../model/user';
-import { ActivityService } from '../../../../services/activity.service';
+import { UserProfile } from '../../../../../../model/user';
+import { ActivityService } from '../../../../../../services/activity.service';
 
 export interface TradeDialogComponentData {
   user: UserProfile;
@@ -48,7 +48,7 @@ export class TradeDialogComponent {
     pokemon: new FormControl<string>('', [Validators.required]),
   });
 
-  pokemonsFromUser: Observable<Pokemon[] | null>;
+  pokemonsFromUser$: Observable<Pokemon[] | null>;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -59,9 +59,9 @@ export class TradeDialogComponent {
     private readonly activityService: ActivityService,
     public dialogRef: MatDialogRef<TradeDialogComponent>
   ) {
-    this.pokemonsFromUser = this.pokemonService.getPokemonsFromUser();
+    this.pokemonsFromUser$ = this.pokemonService.getPokemonsFromUser();
 
-    this.pokemonsFromUser.subscribe(() => this.ref.markForCheck());
+    this.pokemonsFromUser$.subscribe(() => this.ref.markForCheck());
   }
 
   async onSubmit() {

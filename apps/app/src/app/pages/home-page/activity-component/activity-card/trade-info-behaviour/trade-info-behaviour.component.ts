@@ -9,12 +9,12 @@ import { CommonModule } from '@angular/common';
 import {
   BaseActivity,
   TradeInfoActivityPayload,
-} from '../../../model/activity';
-import { UserService } from '../../../services/user.service';
-import { UserProfile } from '../../../model/user';
-import { PokemonService } from '../../../services/pokemon.service';
-import { Pokemon } from '../../pokemon-avatar/model/pokemon';
-import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
+} from '../../../../../model/activity';
+import { UserService } from '../../../../../services/user.service';
+import { UserProfile } from '../../../../../model/user';
+import { PokemonService } from '../../../../../services/pokemon.service';
+import { Pokemon } from '../../../../../components/pokemon-avatar/model/pokemon';
+import { ObserveVisibilityDirective } from '../../../../../directives/observe-visibility.directive';
 import { combineLatest, map, Observable } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 

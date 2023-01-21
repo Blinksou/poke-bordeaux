@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TradeAskBehaviourComponent } from './trade-ask-behaviour.component';
 
-describe('TradeBehaviourComponent', () => {
+describe('TradeAskBehaviourComponent', () => {
   let component: TradeAskBehaviourComponent;
   let fixture: ComponentFixture<TradeAskBehaviourComponent>;
 

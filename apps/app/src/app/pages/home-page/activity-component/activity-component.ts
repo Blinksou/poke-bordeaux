@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivityCardComponent } from '../../../components/activity-card/activity-card.component';
+import { ActivityCardComponent } from './activity-card/activity-card.component';
 import { BaseActivity } from '../../../model/activity';
 import { ActivityService } from '../../../services/activity.service';
 

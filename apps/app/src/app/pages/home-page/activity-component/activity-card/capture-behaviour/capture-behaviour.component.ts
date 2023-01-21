@@ -6,15 +6,18 @@ import {
   Output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BaseActivity, CaptureActivityPayload } from '../../../model/activity';
-import { UserService } from '../../../services/user.service';
-import { PokemonService } from '../../../services/pokemon.service';
+import {
+  BaseActivity,
+  CaptureActivityPayload,
+} from '../../../../../model/activity';
+import { UserService } from '../../../../../services/user.service';
+import { PokemonService } from '../../../../../services/pokemon.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TradeDialogComponent } from '../trade-info-behaviour/trade-dialog/trade-dialog.component';
-import { UserProfile } from '../../../model/user';
-import { Pokemon } from '../../pokemon-avatar/model/pokemon';
+import { UserProfile } from '../../../../../model/user';
+import { Pokemon } from '../../../../../components/pokemon-avatar/model/pokemon';
 import { combineLatest, map, Observable } from 'rxjs';
-import { ObserveVisibilityDirective } from '../../../directives/observe-visibility.directive';
+import { ObserveVisibilityDirective } from '../../../../../directives/observe-visibility.directive';
 import { TranslateModule } from '@ngx-translate/core';
 
 export type CaptureBehaviourComponentViewModel = Observable<{

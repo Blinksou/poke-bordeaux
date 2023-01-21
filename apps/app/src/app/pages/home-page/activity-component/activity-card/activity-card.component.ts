@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TradeAskBehaviourComponent } from './trade-ask-behaviour/trade-ask-behaviour.component';
 import { TradeInfoBehaviourComponent } from './trade-info-behaviour/trade-info-behaviour.component';
 import { CaptureBehaviourComponent } from './capture-behaviour/capture-behaviour.component';
-import { BaseActivity } from '../../model/activity';
+import { BaseActivity } from '../../../../model/activity';
 
 @Component({
   selector: 'app-activity-card',

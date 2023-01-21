@@ -6,7 +6,7 @@
     <mat-form-field>
       <mat-label>Choisissez un pokemon</mat-label>
       <mat-select #matSelect required [formControl]="tradeForm.controls['pokemon']">
-        <mat-option *ngFor="let pokemon of pokemonsFromUser | async" [value]="pokemon.id">
+        <mat-option *ngFor="let pokemon of pokemonsFromUser$ | async" [value]="pokemon.id">
           {{ pokemon.name }}
 
           <img src="{{ pokemon.image }}" alt="Pokemon Image" width="50" height="50">
