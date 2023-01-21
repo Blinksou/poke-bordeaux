@@ -1,17 +1,14 @@
-import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PokemonTypeFilter } from '../../../interfaces';
 import {
-  FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import {
   MatDialogModule,
   MatDialogRef,
-  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
@@ -36,33 +33,20 @@ import jsonTypes from '../../../assets/pokemon/types.json';
   styleUrls: ['./filter-page.component.scss'],
 })
 export class FilterPageComponent {
-  loaded!: boolean;
   typesList: PokemonTypeFilter[] | undefined = jsonTypes.map((t) => ({
     ...t,
     id: `${t.id}`,
     checked: false,
   }));
-
-  checked = false;
   selectedTypes: PokemonTypeFilter[] = [];
-  testTypes: PokemonTypeFilter[] = [];
-
-  formGroup = this._formBuilder.group({
-    hideknown: false,
-    hideunknown: [false, Validators.requiredTrue],
-  });
+  hideUnknown = false;
+  hideKnownNotOwned = false;
 
   constructor(
     public dialogRef: MatDialogRef<FilterPageComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
-    private _formBuilder: FormBuilder
-  ) {
-    data = this.selectedTypes;
-  }
+  ) {}
 
-  applyFilters(formGroup: FormGroup) {
-    let formData = Object.assign({});
-    formData = Object.assign(formData, formGroup.value);
+  applyFilters({value: formData}: FormGroup) {
     this.dialogRef.close({
       event: 'close',
       data: {
@@ -73,20 +57,14 @@ export class FilterPageComponent {
     });
   }
 
-  closeDialog(): void {
+  closeDialog() {
     this.dialogRef.close();
   }
 
   getCheckedFilters(type: PokemonTypeFilter) {
     const index = this.selectedTypes.findIndex((x) => x == type);
 
-    if (!type.checked) {
-      this.selectedTypes.splice(index, 1);
-    } else {
-      this.selectedTypes.push(type);
-    }
-
-    console.log(this.selectedTypes);
-    return this.selectedTypes;
+    if (type.checked) this.selectedTypes.push(type);
+    else this.selectedTypes.splice(index, 1);
   }
 }

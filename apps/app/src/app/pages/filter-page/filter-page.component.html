@@ -11,7 +11,7 @@
         name="check"
         [(ngModel)]="type.checked"
         (click)="getCheckedFilters(type)"
-        *ngFor="let type of typesList; let i = index"
+        *ngFor="let type of typesList"
       >
         <div class="flex items-center">
           <img
@@ -23,10 +23,10 @@
         </div>
       </mat-checkbox>
     </div>
-    <mat-slide-toggle class="toggle" ngModel name="hideknown"
+    <mat-slide-toggle class="toggle" [(ngModel)]="hideKnownNotOwned" name="hideKnownNotOwned"
       >Hide known, not owned</mat-slide-toggle
     >
-    <mat-slide-toggle class="toggle" ngModel name="hideunknown"
+    <mat-slide-toggle class="toggle" [(ngModel)]="hideUnknown" name="hideUnknown"
       >Hide unknown</mat-slide-toggle
     >
     <div class="flex justify-center space-x-5 mt-3 items-center">

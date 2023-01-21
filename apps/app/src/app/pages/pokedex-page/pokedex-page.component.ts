@@ -14,9 +14,6 @@ import { FilterPageComponent } from '../filter-page/filter-page.component';
 import { PokemonAvatarComponent } from '../../components/pokemon-avatar/pokemon-avatar.component';
 import { Pokemon } from '../../components/pokemon-avatar/model/pokemon';
 
-/** MODELS */
-import { userPokemon } from '../../model/userPokemon';
-
 /** SERVICES */
 import { PokedexPokemon, PokedexService } from './pokedex.service';
 
@@ -45,12 +42,12 @@ export class PokedexPageComponent {
   filteredPokemons: PokedexPokemon[] = [];
 
   // Filter properties
-  public hideunknown = false;
-  public hideknown = false;
-  selectedTypes: [] = [];
-  finalValue: PokemonTypeFilter[] = [];
-  userPokemons: userPokemon[] = [];
+  hideUnknown = false;
+  hideKnownNotOwned = false;
+  selectedTypes: PokemonTypeFilter[] = [];
   search = '';
+  
+  // Pokemon informations
   selectedPokemon: Pokemon | null = null;
 
   constructor(
@@ -95,17 +92,16 @@ export class PokedexPageComponent {
     const dialogRef = this.dialog.open(FilterPageComponent, {
       width: '400px',
       backdropClass: 'custom-dialog-backdrop-class',
-      panelClass: 'custom-dialog-panel-class',
-      // data: { types: this.selectedTypes, hideknown: this.hideknown }
+      panelClass: 'custom-dialog-panel-class'
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.finalValue = result.data.types;
-        this.hideknown = result.data.hideknown;
-        this.hideunknown = result.data.hideuknown;
+        this.selectedTypes = result.data.types;
+        this.hideKnownNotOwned = result.data.hideKnownNotOwned;
+        this.hideUnknown = result.data.hideUnknown;
 
-        this.handleFilters(this.finalValue);
+        this.handleFilters(this.selectedTypes);
       }
     });
   }
