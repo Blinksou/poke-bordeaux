@@ -9,8 +9,8 @@
     <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-5">
       <mat-checkbox
         name="check"
-        [(ngModel)]="type.checked"
-        (click)="getCheckedFilters(type)"
+        (click)="handleFiltersTypes(type)"
+        [checked]="type.checked"
         *ngFor="let type of typesList"
       >
         <div class="flex items-center">

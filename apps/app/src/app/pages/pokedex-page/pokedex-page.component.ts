@@ -18,7 +18,7 @@ import { Pokemon } from '../../components/pokemon-avatar/model/pokemon';
 import { PokedexPokemon, PokedexService } from './pokedex.service';
 
 /** INTERFACES */
-import { PokemonTypeFilter } from '../../../interfaces';
+import { PokedexFilters } from '../../../interfaces';
 
 @Component({
   selector: 'app-pokedex-page',
@@ -42,10 +42,12 @@ export class PokedexPageComponent {
   filteredPokemons: PokedexPokemon[] = [];
 
   // Filter properties
-  hideUnknown = false;
-  hideKnownNotOwned = false;
-  selectedTypes: PokemonTypeFilter[] = [];
-  search = '';
+  pokedexFilters: PokedexFilters = {
+    hideUnknown: false,
+    hideKnownNotOwned: false,
+    selectedTypes: [],
+    searchNameValue: ''
+  }
   
   // Pokemon informations
   selectedPokemon: Pokemon | null = null;
@@ -57,7 +59,7 @@ export class PokedexPageComponent {
     this.pokedexService.pokedexPokemons$.subscribe((pokemons) => {
       if (!pokemons) return;
       this.pokemons = pokemons;
-      this.handleFilters(this.selectedTypes);
+      this.handleFilters();
     });
   }
 
@@ -69,11 +71,12 @@ export class PokedexPageComponent {
     this.selectedPokemon = null;
   }
 
-  handleFilters(types: PokemonTypeFilter[]) {
-    const formattedTypes = types.map((t) => t?.name?.toLowerCase());
+  handleFilters() {
+    const {selectedTypes} = this.pokedexFilters;
+    const formattedTypes = selectedTypes.map((t) => t?.name?.toLowerCase());
 
     this.filteredPokemons =
-      types?.length < 1
+      selectedTypes?.length < 1
         ? this.pokemons
         : this.pokemons.filter((p) =>
             p.types
@@ -84,7 +87,7 @@ export class PokedexPageComponent {
 
   handleSearchFilter() {
     this.filteredPokemons = this.pokemons.filter((p) =>
-      p.name.toLowerCase().includes(this.search.toLowerCase())
+      p.name.toLowerCase().includes(this.pokedexFilters.searchNameValue.toLowerCase())
     );
   }
 
@@ -92,16 +95,19 @@ export class PokedexPageComponent {
     const dialogRef = this.dialog.open(FilterPageComponent, {
       width: '400px',
       backdropClass: 'custom-dialog-backdrop-class',
-      panelClass: 'custom-dialog-panel-class'
+      panelClass: 'custom-dialog-panel-class',
+      data: this.pokedexFilters
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.selectedTypes = result.data.types;
-        this.hideKnownNotOwned = result.data.hideKnownNotOwned;
-        this.hideUnknown = result.data.hideUnknown;
-
-        this.handleFilters(this.selectedTypes);
+        this.pokedexFilters = {
+          ...this.pokedexFilters,
+          selectedTypes: result.data.types,
+          hideKnownNotOwned: result.data.hideKnownNotOwned,
+          hideUnknown: result.data.hideUnknown
+        }
+        this.handleFilters();
       }
     });
   }

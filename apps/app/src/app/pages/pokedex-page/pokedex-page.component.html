@@ -9,7 +9,7 @@
         placeholder="Search"
         name="search"
         (change)="handleSearchFilter()"
-        [(ngModel)]="search"
+        [(ngModel)]="this.pokedexFilters.searchNameValue"
       />
     </mat-form-field>
   </form>
