@@ -46,9 +46,9 @@ export class PokedexPageComponent {
     hideUnknown: false,
     hideKnownNotOwned: false,
     selectedTypes: [],
-    searchNameValue: ''
-  }
-  
+    searchNameValue: '',
+  };
+
   // Pokemon informations
   selectedPokemon: Pokemon | null = null;
 
@@ -72,22 +72,33 @@ export class PokedexPageComponent {
   }
 
   handleFilters() {
-    const {selectedTypes} = this.pokedexFilters;
-    const formattedTypes = selectedTypes.map((t) => t?.name?.toLowerCase());
+    const selectedTypes = new Set<string>(
+      this.pokedexFilters.selectedTypes.map((t) => t.name.toLowerCase())
+    );
+    const hideUnknown = this.pokedexFilters.hideUnknown;
+    const hideKnownNotOwned = this.pokedexFilters.hideKnownNotOwned;
 
-    this.filteredPokemons =
-      selectedTypes?.length < 1
-        ? this.pokemons
-        : this.pokemons.filter((p) =>
-            p.types
-              .map((t) => t.name.toLowerCase())
-              .some((t) => formattedTypes.includes(t))
-          );
+    this.filteredPokemons = this.pokemons.filter((pokemon) => {
+      if (selectedTypes.size > 0) {
+        if (
+          !pokemon.types.some((t) => selectedTypes.has(t.name.toLowerCase()))
+        ) {
+          return false;
+        }
+      }
+
+      if (hideUnknown && pokemon.quantity === undefined) return false;
+      if (hideKnownNotOwned && pokemon.quantity === 0) return false;
+
+      return true;
+    });
   }
 
   handleSearchFilter() {
     this.filteredPokemons = this.pokemons.filter((p) =>
-      p.name.toLowerCase().includes(this.pokedexFilters.searchNameValue.toLowerCase())
+      p.name
+        .toLowerCase()
+        .includes(this.pokedexFilters.searchNameValue.toLowerCase())
     );
   }
 
@@ -96,7 +107,7 @@ export class PokedexPageComponent {
       width: '400px',
       backdropClass: 'custom-dialog-backdrop-class',
       panelClass: 'custom-dialog-panel-class',
-      data: this.pokedexFilters
+      data: this.pokedexFilters,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -105,8 +116,8 @@ export class PokedexPageComponent {
           ...this.pokedexFilters,
           selectedTypes: result.data.types,
           hideKnownNotOwned: result.data.hideKnownNotOwned,
-          hideUnknown: result.data.hideUnknown
-        }
+          hideUnknown: result.data.hideUnknown,
+        };
         this.handleFilters();
       }
     });
