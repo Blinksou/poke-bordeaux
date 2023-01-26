@@ -28,45 +28,5 @@
       (mouseleave)="unselectPokemon()"
       *ngFor="let pokemon of filteredPokemons"
     ></app-pokemon-avatar>
-    <!-- <div
-      *ngIf="selectedPokemon"
-      class="tooltip">
-      <mat-grid-list cols="2" rowHeight="2:1" >
-        <mat-grid-tile>
-          <app-pokemon-avatar
-            [pokemon]="selectedPokemon"
-          ></app-pokemon-avatar>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <div>
-            <p class="capitalize">{{selectedPokemon.name}}</p>
-            <ul>
-              <li *ngFor="let t of selectedPokemon.types">
-                <p>{{ t.name }}</p>
-              </li>
-            </ul>
-            <p>{{selectedPokemon.quantity}} owned</p>
-          </div>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div> -->
-  </div>
-  <div *ngIf="selectedPokemon" class="tooltip">
-    <mat-grid-list cols="2" rowHeight="2:1">
-      <mat-grid-tile>
-        <app-pokemon-avatar [pokemon]="selectedPokemon"></app-pokemon-avatar>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <div>
-          <p class="capitalize">{{ selectedPokemon.name }}</p>
-          <ul>
-            <li *ngFor="let t of selectedPokemon.types">
-              <p>{{ t.name }}</p>
-            </li>
-          </ul>
-          <p>{{selectedPokemon.quantity}} owned</p>
-        </div>
-      </mat-grid-tile>
-    </mat-grid-list>
   </div>
 </div>

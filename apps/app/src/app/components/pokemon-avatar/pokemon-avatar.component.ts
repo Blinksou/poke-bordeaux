@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatGridListModule } from '@angular/material/grid-list';
 
 /** MODELS */
-import { userPokemon } from '../../model/userPokemon';
+import { Pokemon } from './model/pokemon';
 
 /** RXJS */
 import { Observable } from 'rxjs';
@@ -37,5 +37,5 @@ export class PokemonAvatarComponent {
   @Input() border!: string;
   @Input() user!: Observable<UserProfile | null>;
   @Input() userpokemons: UserProfile['pokemons'] | undefined;
-  public test: userPokemon[] | undefined;
+  @Input() selectedPokemon: Pokemon | null = null;
 }
