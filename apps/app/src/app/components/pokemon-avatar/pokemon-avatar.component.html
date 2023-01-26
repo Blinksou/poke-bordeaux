@@ -9,9 +9,9 @@
   <div *ngIf="selectedPokemon && selectedPokemon.id === pokemon.id" class="tool-tip">
     <mat-grid-list cols="2" rowHeight="2:1" >
       <mat-grid-tile>
-        <app-pokemon-avatar
-          [pokemon]="pokemon"
-        ></app-pokemon-avatar>
+        <div class="tool-tip-avatar">
+          <img loading="lazy" *ngIf="pokemon.image" src="{{pokemon.image}}" />
+        </div>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
@@ -19,7 +19,6 @@
           <ul>
             <li *ngFor="let t of pokemon.types">
               <img class="icon-type" loading="lazy" src="{{t.image}}" />
-              <!-- <p>{{ t.image }}</p> -->
             </li>
           </ul>
           <p *ngIf="pokemon.quantity">{{pokemon.quantity}} owned</p>

@@ -4,10 +4,12 @@
     <form class="example-form" #form="ngForm" (ngSubmit)="applyFilters(form.form)">
         <mat-grid-list cols="4" rowHeight="1:1">
             <mat-grid-tile *ngFor="let type of typesList; let i = index">
-                <mat-checkbox name='check' id="checktype" class="example-margin" [(ngModel)]="type.checked" (click)="getCheckedFilters(type)"></mat-checkbox>
-                    <!-- <img class="icon-type-selector" loading="lazy" src="{{type.image}}" />
-                </mat-checkbox> -->
+                <!-- <input type="checkbox" name="check" id="checktype" class="example-margin" [(ngModel)]="type.checked" (click)="getCheckedFilters(type)" /> -->
+                <mat-checkbox labelPosition="before" name='check' id="checktype" class="example-margin" [(ngModel)]="type.checked" (click)="getCheckedFilters(type)">
+                    <!-- <img class="icon-type-selector" loading="lazy" src="{{type.image}}" /> -->
+                </mat-checkbox>
                 <label for="checktype"><img class="type-icon" src="{{type.image}}" /></label>
+
             </mat-grid-tile>
         </mat-grid-list>
         <mat-slide-toggle class="toggle" ngModel name="hideknown">Hide known, not owned</mat-slide-toggle>
