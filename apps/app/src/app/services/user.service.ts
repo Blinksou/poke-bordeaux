@@ -63,4 +63,64 @@ export class UserService {
         });
       });
   }
+
+  async tradePokemon(
+    userId: string,
+    userPokemonId: number,
+    targetPokemonId: number
+  ) {
+    const userDocument = doc(this.firestore, 'users', userId);
+
+    this.getUserDocument(userId)
+      .pipe(take(1))
+      .subscribe(async (user) => {
+        const pokemons = (user as UserProfile).pokemons;
+
+        const pokemon = pokemons.find(
+          (pokemon) => pokemon.pokemonId === targetPokemonId
+        );
+
+        if (pokemon) {
+          await updateDoc(userDocument, {
+            pokemons: pokemons.map((pokemon) => {
+              if (Number(pokemon.pokemonId) === targetPokemonId) {
+                return {
+                  ...pokemon,
+                  quantity: pokemon.quantity + 1,
+                };
+              }
+
+              if (Number(pokemon.pokemonId) === userPokemonId) {
+                return {
+                  ...pokemon,
+                  quantity: Math.max(pokemon.quantity - 1, 0),
+                };
+              }
+
+              return pokemon;
+            }),
+          });
+
+          return;
+        }
+
+        const addPokemonToTeam = [
+          ...(user as UserProfile).pokemons,
+          { pokemonId: targetPokemonId, quantity: 1, isFavorite: false },
+        ];
+
+        await updateDoc(userDocument, {
+          pokemons: addPokemonToTeam.map((pokemon) => {
+            if (Number(pokemon.pokemonId) === userPokemonId) {
+              return {
+                ...pokemon,
+                quantity: Math.max(pokemon.quantity - 1, 0),
+              };
+            }
+
+            return pokemon;
+          }),
+        });
+      });
+  }
 }

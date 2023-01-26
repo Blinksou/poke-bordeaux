@@ -15,7 +15,7 @@ export type ActivityType = 'trade-info' | 'trade-ask' | 'capture';
 
 export interface AskerPayload {
   askerId: string;
-  askerPokemonId: string;
+  askerPokemonId: number;
 }
 
 export interface TargetPayload {

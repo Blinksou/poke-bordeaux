@@ -45,7 +45,7 @@ export interface TradeDialogComponentData {
 })
 export class TradeDialogComponent {
   tradeForm = this.formBuilder.group({
-    pokemon: new FormControl<string>('', [Validators.required]),
+    pokemon: new FormControl<number>(0, [Validators.required]),
   });
 
   pokemonsFromUser$: Observable<Pokemon[] | null>;
@@ -72,7 +72,7 @@ export class TradeDialogComponent {
         userPokemonId: this.data.pokemon.id,
         userId: this.data.user.id,
         askerId: this.data.askerId,
-        askerPokemonId: this.tradeForm.value.pokemon as string,
+        askerPokemonId: this.tradeForm.value.pokemon as number,
         status: 'pending',
       },
     });
