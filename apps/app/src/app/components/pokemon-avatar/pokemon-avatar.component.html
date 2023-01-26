@@ -1,10 +1,27 @@
 <div *ngIf="pokemon">
-  <div *ngIf='pokemon.quantity !== undefined && pokemon.quantity > 1' class="quantity" matBadge="{{pokemon.quantity}}"></div>
-  <button class="avatar"
-          [ngClass]="{'avatar-empty': pokemon.image === '', 'avatar-owned': pokemon.quantity !== undefined && pokemon.quantity > 0 , 'avatar-notowned': pokemon.quantity === undefined, 'avatar-captured': pokemon.quantity === 0}">
-    <img loading="lazy" *ngIf="pokemon.image" src="{{pokemon.image}}" />
+  <div
+    *ngIf="pokemon.quantity !== undefined && pokemon.quantity > 1"
+    class="quantity"
+    matBadge="{{ pokemon.quantity }}"
+  ></div>
+  <button
+    class="avatar"
+    [ngClass]="{
+      'avatar-empty': pokemon.image === '',
+      'avatar-owned': pokemon.quantity !== undefined && pokemon.quantity > 0,
+      'avatar-notowned': pokemon.quantity === undefined,
+      'avatar-captured': pokemon.quantity === 0
+    }"
+    (mouseenter)="setSelectedPokemon(pokemon)"
+    (mouseleave)="unselectPokemon()"
+  >
+    <img
+      class="pokemon-image"
+      loading="lazy"
+      *ngIf="pokemon.image"
+      src="{{ pokemon.image }}"
+    />
   </button>
-  <mat-icon class="favorite" *ngIf="pokemon.quantity === undefined">favorite_border</mat-icon>
   <div *ngIf="selectedPokemon && selectedPokemon.id === pokemon.id" class="tool-tip">
     <mat-grid-list cols="2" rowHeight="2:1" >
       <mat-grid-tile>
@@ -24,5 +41,19 @@
         </div>
       </mat-grid-tile>
     </mat-grid-list>
+  </div>
+  <div class="flex justify-around mt-1">
+    <span>#{{ pokemon.id }}</span>
+    <button (click)="handleFavoritePokemon(pokemon)">
+      <img
+        [src]="
+          pokemon.isFavorite === true
+            ? '/assets/pokedex/favoriteFilled.svg'
+            : '/assets/pokedex/favoriteUnfilled.svg'
+        "
+        alt="favorite icon"
+        class="favorite-icon h-5 w-5"
+      />
+    </button>
   </div>
 </div>

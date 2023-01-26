@@ -10,9 +10,14 @@ import { Pokemon } from '../../components/pokemon-avatar/model/pokemon';
 import { UserService } from '../../services/user.service';
 
 /** RXJS */
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of, take } from 'rxjs';
+import { doc } from '@firebase/firestore';
+import { Firestore, updateDoc } from '@angular/fire/firestore';
 
-export type PokedexPokemon = Pokemon & { quantity?: number };
+export type PokedexPokemon = Pokemon & {
+  quantity?: number;
+  isFavorite?: boolean;
+};
 type OwnedAndUnownedUserPokemons = {
   owned: PokedexPokemon[];
   unowned: PokedexPokemon[];
@@ -24,7 +29,10 @@ type OwnedAndUnownedUserPokemons = {
 export class PokedexService {
   pokedexPokemons$: Observable<PokedexPokemon[] | null> = of(null);
 
-  constructor(readonly userService: UserService) {
+  constructor(
+    private readonly firestore: Firestore,
+    readonly userService: UserService
+  ) {
     const pokemonsList = Object.values(PokemonList) as unknown as Pokemon[];
 
     this.pokedexPokemons$ = this.userService.user$.pipe(
@@ -42,9 +50,13 @@ export class PokedexService {
               acc.owned.push({
                 ...p,
                 quantity: userPokemonsMap.get(p.id)?.quantity,
+                isFavorite: user.favorites.includes(p.id),
               });
             } else {
-              acc.unowned.push(p);
+              acc.unowned.push({
+                ...p,
+                isFavorite: user.favorites.includes(p.id),
+              });
             }
 
             return acc;
@@ -55,5 +67,26 @@ export class PokedexService {
         return [...temp.owned, ...temp.unowned];
       })
     );
+  }
+
+  handleFavoritePokemon(pokemon: PokedexPokemon) {
+    this.userService.user$.pipe(take(1)).subscribe((user) => {
+      if (!user) return;
+
+      const index = user.favorites.findIndex(
+        (pokemonId) => pokemonId === pokemon.id
+      );
+
+      if (index >= 0) {
+        user.favorites.splice(index, 1);
+      } else {
+        user.favorites.push(pokemon.id);
+      }
+
+      const userDocument = doc(this.firestore, `users/${user.id}`);
+      updateDoc(userDocument, {
+        favorites: user.favorites,
+      });
+    });
   }
 }

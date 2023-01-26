@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component } from '@angular/core';
 
+import isEqual from 'lodash.isequal';
+
 /** MATERIAL */
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -38,7 +40,7 @@ import { PokedexFilters } from '../../../interfaces';
 })
 export class PokedexPageComponent {
   // Main properties
-  pokemons!: PokedexPokemon[];
+  pokemons: PokedexPokemon[] = [];
   filteredPokemons: PokedexPokemon[] = [];
 
   // Filter properties
@@ -54,11 +56,22 @@ export class PokedexPageComponent {
 
   constructor(
     public readonly dialog: MatDialog,
-    private readonly pokedexService: PokedexService
+    public readonly pokedexService: PokedexService
   ) {
     this.pokedexService.pokedexPokemons$.subscribe((pokemons) => {
       if (!pokemons) return;
-      this.pokemons = pokemons;
+
+      pokemons.forEach((pokemon) => {
+        const index = this.pokemons.findIndex((p) => p.id === pokemon.id);
+        if (index >= 0) {
+          if (!isEqual(this.pokemons[index], pokemon)) {
+            this.pokemons[index] = pokemon;
+          }
+        } else {
+          this.pokemons.push(pokemon);
+        }
+      });
+
       this.handleFilters();
     });
   }
@@ -121,6 +134,10 @@ export class PokedexPageComponent {
         this.handleFilters();
       }
     });
+  }
+
+  handleFavoritePokemon(pokemon: PokedexPokemon): void {
+    this.pokedexService.handleFavoritePokemon(pokemon);
   }
 
   trackPokemonId(index: number, pokemon: Pokemon) {

@@ -27,8 +27,9 @@
     <app-pokemon-avatar
       [pokemon]="pokemon"
       [selectedPokemon]="selectedPokemon"
-      (mouseenter)="setSelectedPokemon(pokemon)"
-      (mouseleave)="unselectPokemon()"
+      [handleFavoritePokemon]="handleFavoritePokemon.bind(this, pokemon)"
+      [setSelectedPokemon]="setSelectedPokemon"
+      [unselectPokemon]="unselectPokemon"
       *ngFor="let pokemon of filteredPokemons"
     ></app-pokemon-avatar>
   </div>

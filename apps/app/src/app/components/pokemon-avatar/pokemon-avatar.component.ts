@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserProfile } from '@angular/fire/auth';
 
 /** MATERIAL */
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -11,9 +10,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 
 /** MODELS */
 import { Pokemon } from './model/pokemon';
-
-/** RXJS */
-import { Observable } from 'rxjs';
 
 /** SERVICES */
 import { PokedexPokemon } from '../../pages/pokedex-page/pokedex.service';
@@ -35,7 +31,8 @@ import { PokedexPokemon } from '../../pages/pokedex-page/pokedex.service';
 export class PokemonAvatarComponent {
   @Input() pokemon: PokedexPokemon | null = null;
   @Input() border!: string;
-  @Input() user!: Observable<UserProfile | null>;
-  @Input() userpokemons: UserProfile['pokemons'] | undefined;
   @Input() selectedPokemon: Pokemon | null = null;
+  @Input() setSelectedPokemon!: (pokemon: Pokemon) => void;
+  @Input() unselectPokemon!: () => void;
+  @Input() handleFavoritePokemon!: (pokemon: PokedexPokemon) => void;
 }

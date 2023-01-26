@@ -12,6 +12,7 @@ export type UserProfile = {
     allowTrading: boolean;
     allowOthersToViewActivity: boolean;
   };
+  favorites: number[];
   pokemons: Array<{
     pokemonId: number;
     quantity: number;

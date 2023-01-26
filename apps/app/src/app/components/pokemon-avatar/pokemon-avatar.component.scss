@@ -9,7 +9,7 @@
   }
 
   &-owned {
-    border: 3px solid #5F021F;
+    border: 3px solid #5f021f;
   }
 
   &-notowned {
@@ -17,12 +17,16 @@
   }
 
   &-captured {
-    border: 3px solid #5F021F;
+    border: 3px solid #5f021f;
     border-style: dashed;
   }
 }
 
-img {
+.favorite-icon {
+  color: #5f021f;
+}
+
+.pokemon-image {
   object-fit: cover;
   border-radius: 50%;
   width: 80px;
