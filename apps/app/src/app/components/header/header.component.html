@@ -1,7 +1,7 @@
 <ng-template [ngIf]="authService.isLoggedIn | async">
   <div
     class="relative flex justify-between items-center max-w-screen-sm p-2 mx-auto border-2 border-black shadow-sm shadow-black h-[4.8rem] bg-primary">
-    <div class="z-50 flex items-center gap-x-2 ">
+    <div class="z-40 flex items-center gap-x-2">
       <button
         (click)="changeLanguage('fr')"
         class="w-7 h-7 flex items-center justify-center bg-card rounded-full border border-black shadow-md shadow-black hover:bg-secondary hover:text-gray-300">
@@ -14,12 +14,12 @@
       </button>
     </div>
 
-    <div class="relative z-50">
+    <div class="relative">
       <a routerLink="/" title="Home page">
         <app-header-logo [isLoggedIn]="authService.isLoggedIn | async"></app-header-logo>
       </a>
 
-      <div class="">
+      <div class="relative z-50 -bottom-3">
         <a routerLink="/" title="Home page">
           <div class="flex flex-col items-center">
             <h2 class="logo-title">Bordeaux</h2>
