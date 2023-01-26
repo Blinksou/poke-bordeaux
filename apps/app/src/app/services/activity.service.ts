@@ -105,8 +105,26 @@ export class ActivityService {
           map((activities) =>
             activities.sort((a, b) => (b.type === 'trade-ask' ? 1 : -1))
           ),
+          map((activities) => of(activities)),
           shareReplay()
         );
+      }),
+      switchMap((activities) => activities),
+      map((activities) => {
+        activities.forEach((activity) => {
+          this.userService
+            .getUserFromFirestore(activity.data.userId)
+            .subscribe((user) => {
+              if (
+                !this.isTradeAsk(activity) &&
+                !user.options.allowOthersToViewActivity
+              ) {
+                activities.splice(activities.indexOf(activity), 1);
+              }
+            });
+        });
+
+        return activities;
       })
     );
   }

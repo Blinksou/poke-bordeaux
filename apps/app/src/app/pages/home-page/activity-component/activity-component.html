@@ -1,5 +1,7 @@
 <section class="flex flex-col justify-center px-5">
-  <div class="mb-6" *ngFor="let activity of activities$ | async; trackBy: trackByActivity">
-    <app-activity-card [activity]="activity"></app-activity-card>
-  </div>
+  <ng-container *ngFor="let activity of activities$ | async; trackBy: trackByActivity">
+    <div class="mb-6">
+      <app-activity-card [activity]="activity"></app-activity-card>
+    </div>
+  </ng-container>
 </section>

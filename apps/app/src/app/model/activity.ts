@@ -3,8 +3,12 @@ import { Timestamp } from '@angular/fire/firestore';
 export interface BaseActivity<D> {
   id?: string;
   type: ActivityType;
-  data: D;
+  data: BasePayload & D;
   createdAt: Timestamp;
+}
+
+export interface BasePayload {
+  userId: string;
 }
 
 export type ActivityType = 'trade-info' | 'trade-ask' | 'capture';
@@ -15,7 +19,6 @@ export interface AskerPayload {
 }
 
 export interface TargetPayload {
-  userId: string;
   userPokemonId: number;
 }
 
