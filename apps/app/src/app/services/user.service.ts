@@ -63,4 +63,65 @@ export class UserService {
         });
       });
   }
+
+  async addPokemonToUser(userId: string, userPokemonId: number) {
+    const userDocument = doc(this.firestore, 'users', userId);
+
+    this.getUserDocument(userId)
+      .pipe(take(1))
+      .subscribe(async (user) => {
+        const pokemons = (user as UserProfile).pokemons;
+
+        const pokemon = pokemons.find(
+          (pokemon) => pokemon.pokemonId === userPokemonId
+        );
+
+        if (pokemon) {
+          await updateDoc(userDocument, {
+            pokemons: pokemons.map((pokemon) => {
+              if (pokemon.pokemonId === userPokemonId) {
+                return {
+                  ...pokemon,
+                  quantity: pokemon.quantity + 1,
+                };
+              }
+
+              return pokemon;
+            }),
+          });
+
+          return;
+        }
+
+        await updateDoc(userDocument, {
+          pokemons: [
+            ...(user as UserProfile).pokemons,
+            { pokemonId: userPokemonId, quantity: 1, isFavorite: false },
+          ],
+        });
+      });
+  }
+
+  async removePokemonFromUser(userId: string, userPokemonId: number) {
+    const userDocument = doc(this.firestore, 'users', userId);
+
+    this.getUserDocument(userId)
+      .pipe(take(1))
+      .subscribe(async (user) => {
+        const pokemons = (user as UserProfile).pokemons;
+
+        await updateDoc(userDocument, {
+          pokemons: pokemons.map((pokemon) => {
+            if (pokemon.pokemonId === userPokemonId) {
+              return {
+                ...pokemon,
+                quantity: Math.min(pokemon.quantity - 1, 0),
+              };
+            }
+
+            return pokemon;
+          }),
+        });
+      });
+  }
 }

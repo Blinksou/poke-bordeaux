@@ -65,8 +65,8 @@ export class TradeAskBehaviourComponent {
       }))
     );
 
-    this.viewModel$.subscribe(({ targetPokemon }) => {
-      this.setPokemonImage.emit(targetPokemon.image);
+    this.viewModel$.subscribe(({ askerPokemon }) => {
+      this.setPokemonImage.emit(askerPokemon.image);
       this.ref.detectChanges();
     });
   }

@@ -138,6 +138,15 @@ export class ActivityService {
   async acceptTrade(activity: BaseActivity<TradeAskActivityPayload>) {
     const activitiesCollection = collection(this.firestore, `activities`);
 
+    await this.userService.addPokemonToUser(
+      activity.data.askerId,
+      activity.data.userPokemonId
+    );
+    await this.userService.removePokemonFromUser(
+      activity.data.userId,
+      activity.data.userPokemonId
+    );
+
     await setDoc(
       doc(activitiesCollection, activity.id),
       {
