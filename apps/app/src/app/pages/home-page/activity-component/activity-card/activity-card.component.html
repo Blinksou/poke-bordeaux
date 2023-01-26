@@ -1,0 +1,15 @@
+<section class="grid grid-cols-12 card hover:bg-primary">
+  <section class="col-span-3 border-white min-h-[7.5rem] pr-1">
+    <img class="h-[7.5rem]" src="{{ pokemonImage || 'assets/pokemon/132_1.svg' }}" alt="Pokemon Image" />
+  </section>
+  <section class="col-span-9 px-5 py-3 flex flex-col justify-center">
+    <app-trade-ask-behaviour (setPokemonImage)="setPokemonImage($event)" [activity]="$any(activity)"
+                             *ngIf="isTradeAskActivity()"></app-trade-ask-behaviour>
+
+    <app-trade-info-behaviour (setPokemonImage)="setPokemonImage($event)" [activity]="$any(activity)"
+                              *ngIf="isTradeInfoActivity()"></app-trade-info-behaviour>
+
+    <app-capture-behaviour (setPokemonImage)="setPokemonImage($event)" [activity]="$any(activity)"
+                           *ngIf="isCaptureActivity()"></app-capture-behaviour>
+  </section>
+</section>

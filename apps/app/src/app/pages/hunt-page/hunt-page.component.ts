@@ -21,6 +21,7 @@ import { HuntStep } from '../../enums/hunt/HuntStep.enum';
 import { HuntService } from './hunt.service';
 import { IntervalService } from '../../services/interval.service';
 import { PokemonService } from '../../services/pokemon.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-hunt-page',
@@ -30,6 +31,7 @@ import { PokemonService } from '../../services/pokemon.service';
     EnergyStateComponent,
     PokeballListComponent,
     MatButtonModule,
+    TranslateModule,
   ],
   templateUrl: './hunt-page.component.html',
   styleUrls: ['./hunt-page.component.scss'],

@@ -27,9 +27,11 @@
           </mat-form-field>
         </div>
 
-        <button id="login-btn" class="btn btn-secondary" type="submit" [disabled]="loginForm.invalid">
-          {{'login.form.confirmLabel'|translate}}
-        </button>
+        <div class="flex justify-center">
+          <button id="login-btn" class="btn btn-secondary" type="submit" [disabled]="loginForm.invalid">
+            {{'login.form.confirmLabel'|translate}}
+          </button>
+        </div>
       </form>
     </div>
 
@@ -40,3 +42,4 @@
       </a>
     </div>
   </div>
+</div>

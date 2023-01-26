@@ -1,0 +1,13 @@
+<div appObserveVisibility (visible)="onVisible()">
+  <ng-container *ngIf="viewModel$ | async as viewModel">
+    <div class="flex justify-center mb-5">
+      {{viewModel.asker.infos.nickname || viewModel.asker.infos.name}}
+      {{ 'activity.tradeInfo.traded' | translate }}
+      {{viewModel.askerPokemon.name|titlecase}}
+      {{ 'activity.tradeInfo.for' | translate:{
+      name: viewModel.target.infos.name,
+      pokemon: viewModel.targetPokemon.name|titlecase
+    } }}
+    </div>
+  </ng-container>
+</div>

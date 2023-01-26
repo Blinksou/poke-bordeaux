@@ -1,17 +1,17 @@
 <section class="statistics">
   <header>
     <mat-icon aria-hidden="false" aria-label="Statistics" fontIcon="description"></mat-icon>
-    <h2>Statistics</h2>
+    <h2>{{ 'profile.stats.title' | translate }}</h2>
   </header>
   <ul>
     <li>
-      <p>Captured Pokemons : <b>{{stats?.capturedPokemons | number}}</b></p>
+      <p>{{ 'profile.stats.capturedPokemons' | translate }} : <b>{{stats?.capturedPokemons | number}}</b></p>
     </li>
     <li>
-      <p>Thrown Pokeballs : <b>{{stats?.thrownPokeballs | number}}</b></p>
+      <p>{{ 'profile.stats.thrownPokeballs' | translate }} : <b>{{stats?.thrownPokeballs | number}}</b></p>
     </li>
     <li>
-      <p>Trading fulfilled : <b>{{stats?.tradingFulfilled | number}}</b></p>
+      <p>{{ 'profile.stats.tradingFulfilled' | translate }} : <b>{{stats?.tradingFulfilled | number}}</b></p>
     </li>
   </ul>
 </section>

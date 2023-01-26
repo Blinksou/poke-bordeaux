@@ -1,0 +1,23 @@
+<div appObserveVisibility (visible)="onVisible()">
+  <ng-container *ngIf="viewModel$ | async as viewModel">
+    <div class="flex justify-center mb-5">
+      <ng-container *ngIf="currentUser!.id !== viewModel.user.id">
+        {{ viewModel.user.infos.nickname || viewModel.user.infos.name }}
+        {{ 'activity.capture.hasCaptured'| translate}}
+      </ng-container>
+      <ng-container *ngIf="currentUser!.id === viewModel.user.id">
+        {{ 'activity.capture.youCaptured' | translate}}
+      </ng-container>
+      {{ viewModel.pokemon.name | titlecase }}
+    </div>
+
+    <div class="mt-5 flex justify-center">
+      <div class="flex flex-row justify-center w-1/2">
+        <img *ngIf="viewModel.user.id !== currentUser!.id && viewModel.user.options.allowTrading"
+             (click)="openTradeDialog()"
+             class="cursor-pointer min-w-[33px]"
+             src="assets/action/trade.svg" alt="Trade Icon">
+      </div>
+    </div>
+  </ng-container>
+</div>

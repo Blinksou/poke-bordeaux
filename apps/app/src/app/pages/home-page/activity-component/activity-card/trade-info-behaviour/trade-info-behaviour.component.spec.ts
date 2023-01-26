@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TradeInfoBehaviourComponent } from './trade-info-behaviour.component';
 
-describe('InfoBehaviourComponent', () => {
+describe('TradeInfoBehaviourComponent', () => {
   let component: TradeInfoBehaviourComponent;
   let fixture: ComponentFixture<TradeInfoBehaviourComponent>;
 

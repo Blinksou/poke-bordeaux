@@ -12,6 +12,8 @@ module.exports = {
       colors: {
         primary: '#5F021F',
         secondary: '#2b0109',
+        layout: '#AA7B8A',
+        card: '#6f283e',
       },
     },
   },

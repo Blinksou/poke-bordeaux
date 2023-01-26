@@ -1,22 +1,39 @@
 <h2 mat-dialog-title>Filters</h2>
 <div mat-dialog-content class="mat-typography">
-    <h3>Types</h3>
-    <form class="example-form" #form="ngForm" (ngSubmit)="applyFilters(form.form)">
-        <mat-grid-list cols="4" rowHeight="1:1">
-            <mat-grid-tile *ngFor="let type of typesList; let i = index">
-                <!-- <input type="checkbox" name="check" id="checktype" class="example-margin" [(ngModel)]="type.checked" (click)="getCheckedFilters(type)" /> -->
-                <mat-checkbox labelPosition="before" name='check' id="checktype" class="example-margin" [(ngModel)]="type.checked" (click)="getCheckedFilters(type)">
-                    <!-- <img class="icon-type-selector" loading="lazy" src="{{type.image}}" /> -->
-                </mat-checkbox>
-                <label for="checktype"><img class="type-icon" src="{{type.image}}" /></label>
-
-            </mat-grid-tile>
-        </mat-grid-list>
-        <mat-slide-toggle class="toggle" ngModel name="hideknown">Hide known, not owned</mat-slide-toggle>
-        <mat-slide-toggle class="toggle" ngModel name="hideunknown">Hide unknown</mat-slide-toggle>
-        <div class="btns" mat-dialog-actions>
-            <button mat-raised-button type="submit">Apply</button>
+  <h3>Types</h3>
+  <form
+    class="example-form"
+    #form="ngForm"
+    (ngSubmit)="applyFilters(form.form)"
+  >
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-5">
+      <mat-checkbox
+        name="check"
+        (click)="handleFiltersTypes(type)"
+        [checked]="type.checked"
+        *ngFor="let type of typesList"
+      >
+        <div class="flex items-center">
+          <img
+            src="{{ type.image }}"
+            alt="{{ type.name }}"
+            class="w-7 h-7 object-contain"
+          />
+          <span>{{ type.name }}</span>
         </div>
-    </form>
-    <button mat-raised-button (click)="reset()">Close</button>
+      </mat-checkbox>
+    </div>
+    <mat-slide-toggle class="toggle" [(ngModel)]="hideKnownNotOwned" name="hideKnownNotOwned"
+      >Hide known, not owned</mat-slide-toggle
+    >
+    <mat-slide-toggle class="toggle" [(ngModel)]="hideUnknown" name="hideUnknown"
+      >Hide unknown</mat-slide-toggle
+    >
+    <div class="flex justify-center space-x-5 mt-3 items-center">
+      <button mat-raised-button type="submit">Apply</button>
+      <button type="button" mat-raised-button (click)="closeDialog()">
+        Close
+      </button>
+    </div>
+  </form>
 </div>

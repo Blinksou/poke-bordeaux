@@ -3,15 +3,28 @@ import {
   BaseActivity,
   CaptureActivityPayload,
   TradeAskActivityPayload,
+  TradeInfoActivityPayload,
 } from '../model/activity';
 import {
   addDoc,
   collection,
   collectionData,
+  doc,
   Firestore,
+  setDoc,
+  Timestamp,
 } from '@angular/fire/firestore';
-import { filter, map, Observable } from 'rxjs';
+import {
+  map,
+  Observable,
+  of,
+  shareReplay,
+  startWith,
+  switchMap,
+  take,
+} from 'rxjs';
 import { UserService } from './user.service';
+import { UserProfile } from '../model/user';
 
 @Injectable({
   providedIn: 'root',
@@ -22,14 +35,19 @@ export class ActivityService {
     private readonly userService: UserService
   ) {}
 
-  private async addActivity(activity: BaseActivity<unknown>) {
+  private async addActivity(
+    activity: Omit<BaseActivity<unknown>, 'createdAt'>
+  ) {
     const activitiesCollection = collection(this.firestore, `activities`);
 
-    return addDoc(activitiesCollection, activity);
+    return addDoc(activitiesCollection, {
+      ...activity,
+      createdAt: Timestamp.now(),
+    });
   }
 
   async addCaptureActivity(
-    activity: Omit<BaseActivity<CaptureActivityPayload>, 'type'>
+    activity: Omit<BaseActivity<CaptureActivityPayload>, 'type' | 'createdAt'>
   ) {
     return this.addActivity({
       ...activity,
@@ -38,7 +56,7 @@ export class ActivityService {
   }
 
   async addTradeInfoActivity(
-    activity: Omit<BaseActivity<CaptureActivityPayload>, 'type'>
+    activity: Omit<BaseActivity<TradeInfoActivityPayload>, 'type' | 'createdAt'>
   ) {
     return this.addActivity({
       ...activity,
@@ -47,7 +65,7 @@ export class ActivityService {
   }
 
   async addTradeAskActivity(
-    activity: Omit<BaseActivity<CaptureActivityPayload>, 'type'>
+    activity: Omit<BaseActivity<TradeAskActivityPayload>, 'type' | 'createdAt'>
   ) {
     return this.addActivity({
       ...activity,
@@ -58,35 +76,99 @@ export class ActivityService {
   getActivities() {
     const activitiesCollection = collection(this.firestore, `activities`);
 
-    const data = collectionData(activitiesCollection, {
-      idField: 'id',
-    }) as unknown as Observable<BaseActivity<unknown>[]>;
+    return this.userService.user$.pipe(
+      startWith(null),
+      switchMap((user: UserProfile | null) => {
+        if (!user) return of([]);
 
-    this.userService.user$.subscribe((user) => {
-      if (!user) return;
+        const data = collectionData(activitiesCollection, {
+          idField: 'id',
+        }) as unknown as Observable<BaseActivity<unknown>[]>;
 
-      data.pipe(
-        // Remove all trade ask that are not user's
-        filter((activities) =>
-          activities.every(
-            (activity) =>
-              activity.type !== 'trade-ask' ||
-              (this.isTradeAsk(activity) && activity.data.userId === user.id)
-          )
-        ),
-        // Get all trade ask at the top
-        map((activities) =>
-          activities.sort((a, b) => (b.type === 'trade-ask' ? 1 : -1))
-        )
-      );
-    });
-
-    return data;
+        return data.pipe(
+          map((activities) =>
+            activities.filter(
+              (activity) =>
+                activity.type !== 'trade-ask' ||
+                (this.isTradeAsk(activity) &&
+                  activity.data.userId === user.id &&
+                  activity.data.status === 'pending')
+            )
+          ),
+          // Sort by createdAt field
+          map((activities) =>
+            activities.sort(
+              (a, b) => a.createdAt.toMillis() - b.createdAt.toMillis()
+            )
+          ),
+          // Get all trade ask at the top
+          map((activities) =>
+            activities.sort((a, b) => (b.type === 'trade-ask' ? 1 : -1))
+          ),
+          shareReplay()
+        );
+      })
+    );
   }
 
   isTradeAsk(
     activity: BaseActivity<unknown>
   ): activity is BaseActivity<TradeAskActivityPayload> {
     return activity.type === 'trade-ask';
+  }
+
+  async acceptTrade(activity: BaseActivity<TradeAskActivityPayload>) {
+    const activitiesCollection = collection(this.firestore, `activities`);
+
+    await setDoc(
+      doc(activitiesCollection, activity.id),
+      {
+        data: {
+          status: 'accepted',
+        },
+      },
+      { merge: true }
+    );
+
+    this.userService
+      .getUserFromFirestore(activity.data.userId)
+      .pipe(take(1))
+      .subscribe((user) => {
+        this.userService.updateUserStats(user.id, {
+          tradingFulfilled: user.stats.tradingFulfilled + 1,
+        });
+      });
+
+    this.userService
+      .getUserFromFirestore(activity.data.askerId)
+      .pipe(take(1))
+      .subscribe((user) => {
+        this.userService.updateUserStats(user.id, {
+          tradingFulfilled: user.stats.tradingFulfilled + 1,
+        });
+      });
+
+    return this.addTradeInfoActivity({
+      data: {
+        userId: activity.data.userId,
+        userPokemonId: activity.data.userPokemonId,
+        askerId: activity.data.askerId,
+        askerPokemonId: activity.data.askerPokemonId,
+      },
+    });
+  }
+
+  async declineTrade(activity: BaseActivity<TradeAskActivityPayload>) {
+    const activitiesCollection = collection(this.firestore, `activities`);
+
+    return setDoc(
+      doc(activitiesCollection, activity.id),
+      {
+        data: {
+          status: 'declined',
+        },
+      },
+      { merge: true }
+    );
   }
 }

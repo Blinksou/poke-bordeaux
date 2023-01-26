@@ -1,15 +1,25 @@
-import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FilterPageService } from './filter-page.service';
-import { PokemonTypeFilter } from '../../../interfaces';
+
+/** FORMS */
 import {
-  FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+/** INTERFACES */
+import { PokedexFilters, PokemonTypeFilter } from '../../../interfaces';
+
+/** DATA */
+import jsonTypes from '../../../assets/pokemon/types.json';
+
+/** MATERIAL */
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -31,65 +41,51 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   templateUrl: './filter-page.component.html',
   styleUrls: ['./filter-page.component.scss'],
 })
-export class FilterPageComponent implements OnInit {
-
-  loaded!: boolean;
-  typesList: PokemonTypeFilter[] | undefined;
-
-  checked = false;
+export class FilterPageComponent {
+  typesList: PokemonTypeFilter[] = [];
   selectedTypes: PokemonTypeFilter[] = [];
-  testTypes: PokemonTypeFilter[] = [];
-
-  formGroup = this._formBuilder.group({
-    hideknown: false,
-    hideunknown: [false, Validators.requiredTrue],
-  });
+  hideUnknown = false;
+  hideKnownNotOwned = false;
 
   constructor(
     public dialogRef: MatDialogRef<FilterPageComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
-    private filterService: FilterPageService,
-    private _formBuilder: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: PokedexFilters
   ) {
-    data = this.selectedTypes
+    this.selectedTypes = data.selectedTypes;
+    this.hideUnknown = data.hideUnknown;
+    this.hideKnownNotOwned = data.hideKnownNotOwned;
+
+    this.typesList = jsonTypes.map((t) => ({
+      ...t,
+      checked: this.selectedTypes.filter(st => st.id == `${t.id}`).length > 0,
+      id: `${t.id}`
+    }));
   }
 
-  ngOnInit(): void {
-    this.getTypes();
+  applyFilters({value: formData}: FormGroup) {
+    this.dialogRef.close({
+      event: 'close',
+      data: {
+        types: this.selectedTypes,
+        hideUnknown: formData.hideUnknown,
+        hideKnownNotOwned: formData.hideKnownNotOwned,
+      },
+    });
   }
 
-  getTypes() {
-    this.loaded = false;
-    this.filterService
-      .getTypes('https://pokebuildapi.fr/api/v1/types')
-      .subscribe((response) => {
-        this.typesList = response;
-        this.loaded = true;
-      });
+  closeDialog() {
+    this.dialogRef.close();
   }
 
-  applyFilters(formGroup: FormGroup) {
-    let formData = Object.assign({});
-    formData = Object.assign(formData, formGroup.value);
-    this.dialogRef.close({ event: 'close', data: {types: this.selectedTypes, hideknown: formData.hideknown, hideunknown: formData.hideunknown} });
-  }
-
-  reset(): void {
-    console.log("before", this.selectedTypes)
-    this.selectedTypes = []
-    console.log("after", this.selectedTypes)
-  }
-
-  getCheckedFilters(type: PokemonTypeFilter) {
-    const index = this.selectedTypes.findIndex((x) => x == type);
-
-    if (!type.checked) {
-      this.selectedTypes.splice(index, 1);
+  handleFiltersTypes(type: PokemonTypeFilter) {
+    const typeIndex = this.typesList.findIndex(t => t.id === type.id);
+    this.typesList[typeIndex] = {...type, checked: !type.checked};
+  
+    if (this.typesList[typeIndex].checked) {
+      this.selectedTypes.push(this.typesList[typeIndex])
     } else {
-      this.selectedTypes.push(type);
+      this.selectedTypes = this.selectedTypes.filter(st => st.id !== type.id);
     }
-
-    console.log(this.selectedTypes);
-    return this.selectedTypes;
   }
+
 }

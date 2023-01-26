@@ -1,8 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /** CONSTANTS */
@@ -13,6 +9,7 @@ import { IncrementableCounter } from '../../../../interfaces/hunt/incrementableC
 
 /** UTILS */
 import getStringInterval from '../../../../utils/getStringInterval.util';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-energies-state',
@@ -27,14 +24,17 @@ export class EnergyStateComponent implements OnChanges {
   maxEnergies = defaultEnergiesNumber;
   nextGenerationIn = '';
 
+  constructor(private readonly translate: TranslateService) {}
+
   ngOnChanges(): void {
     if (this.energiesState.count < this.maxEnergies) {
       this.nextGenerationIn = getStringInterval(
         new Date(Date.now() + this.energiesState.nextGenerationInMs),
         new Date(),
+        this.translate.currentLang
       );
     } else {
-      this.nextGenerationIn = 'you are full of energy !';
+      this.nextGenerationIn = this.translate.instant('hunt.fullOfEnergy');
     }
   }
 }

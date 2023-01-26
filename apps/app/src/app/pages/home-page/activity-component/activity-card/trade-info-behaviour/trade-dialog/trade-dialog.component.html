@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>{{ "Demande d'échange" }}</h1>
+<div mat-dialog-content>
+
+  <form [formGroup]="tradeForm" (ngSubmit)="onSubmit()" class="flex flex-col">
+
+    <mat-form-field>
+      <mat-label>Choisissez un pokemon</mat-label>
+      <mat-select #matSelect required [formControl]="tradeForm.controls['pokemon']">
+        <mat-option *ngFor="let pokemon of pokemonsFromUser$ | async" [value]="pokemon.id">
+          {{ pokemon.name }}
+
+          <img src="{{ pokemon.image }}" alt="Pokemon Image" width="50" height="50">
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button type="submit" class="btn btn-primary" [disabled]="!tradeForm.valid">Confirmer</button>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>{{ 'Fermer' }}</button>
+</div>

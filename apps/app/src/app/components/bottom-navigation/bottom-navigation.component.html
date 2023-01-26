@@ -1,12 +1,14 @@
 <div
-  class="fixed bottom-0 left-0 right-0 z-50 w-full border border-black bg-primary"
+  class="fixed bottom-0 left-0 right-0 z-50 w-full"
   style="height: 75px"
 >
-  <div class="h-full w-full grid grid-cols-4 items-center">
-    <app-bottom-navigation-item
-      [item]="{ path: item.value, icon: item.key }"
-      *ngFor="let item of items | keyvalue"
-      class="h-full w-full"
-    ></app-bottom-navigation-item>
+  <div class="max-w-screen-sm mx-auto h-20 border border-black bg-primary">
+    <div class="h-full w-full grid grid-cols-4 items-center">
+      <app-bottom-navigation-item
+        [item]="{ path: item.value, icon: item.key }"
+        *ngFor="let item of items | keyvalue"
+        class="h-full w-full"
+      ></app-bottom-navigation-item>
+    </div>
   </div>
 </div>

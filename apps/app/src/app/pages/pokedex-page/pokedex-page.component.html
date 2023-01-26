@@ -3,13 +3,19 @@
     <mat-form-field class="example-full-width">
       <mat-label>Search...</mat-label>
       <mat-icon matPrefix mat-button>search</mat-icon>
-      <input type="tel" matInput placeholder="Search" name="search" [(ngModel)]="search">
+      <input
+        type="tel"
+        matInput
+        placeholder="Search"
+        name="search"
+        (change)="handleSearchFilter()"
+        [(ngModel)]="this.pokedexFilters.searchNameValue"
+      />
     </mat-form-field>
-    {{search}}
   </form>
   <div class="filter">
     <button mat-raised-button (click)="openDialog()">
-      <mat-icon mat-button>filter_list</mat-icon>
+      <img src="/assets/pokedex/filter.svg" />
     </button>
   </div>
 </div>
@@ -20,7 +26,7 @@
       [selectedPokemon]="selectedPokemon"
       (mouseenter)="setSelectedPokemon(pokemon)"
       (mouseleave)="unselectPokemon()"
-      *ngFor="let pokemon of pokemons; trackBy: trackPokemonId"
+      *ngFor="let pokemon of filteredPokemons"
     ></app-pokemon-avatar>
     <!-- <div
       *ngIf="selectedPokemon"
@@ -45,18 +51,14 @@
       </mat-grid-list>
     </div> -->
   </div>
-  <!-- <div
-    *ngIf="selectedPokemon"
-    class="tooltip">
-    <mat-grid-list cols="2" rowHeight="2:1" >
+  <div *ngIf="selectedPokemon" class="tooltip">
+    <mat-grid-list cols="2" rowHeight="2:1">
       <mat-grid-tile>
-        <app-pokemon-avatar
-          [pokemon]="selectedPokemon"
-        ></app-pokemon-avatar>
+        <app-pokemon-avatar [pokemon]="selectedPokemon"></app-pokemon-avatar>
       </mat-grid-tile>
       <mat-grid-tile>
         <div>
-          <p class="capitalize">{{selectedPokemon.name}}</p>
+          <p class="capitalize">{{ selectedPokemon.name }}</p>
           <ul>
             <li *ngFor="let t of selectedPokemon.types">
               <p>{{ t.name }}</p>
@@ -66,6 +68,5 @@
         </div>
       </mat-grid-tile>
     </mat-grid-list>
-  </div> -->
+  </div>
 </div>
-

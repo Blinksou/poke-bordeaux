@@ -1,16 +1,20 @@
 .logo-title {
   font-weight: 800;
-  font-size: 1.3rem;
+  font-size: 2rem;
   line-height: 25px;
-  margin-top: 0.5rem;
+  margin-top: -.6rem;
   margin-bottom: 0;
-  text-transform: uppercase;
+  color: #AA7B8A;
+  font-family: Pacifico, cursive;
+  text-shadow: 2px 0 #000000, -2px 0 #000000, 0 2px #000000, 0 -2px #000000,
+  1px 1px #000000, -1px -1px #000000, 1px -1px #000000, -1px 1px #000000;
+  //-webkit-text-stroke: 0.5px #fff;
 }
 
 .logo-subtitle {
   font-weight: 400;
   font-size: 1rem;
   line-height: 18px;
-  margin-top: 0.1rem;
+  margin-top: -.6rem;
   margin-bottom: 0;
 }
