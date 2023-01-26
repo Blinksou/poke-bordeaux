@@ -1,11 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseActivity, CaptureActivityPayload } from '../../../model/activity';
 import { UserService } from '../../../services/user.service';
 import { PokemonService } from '../../../services/pokemon.service';
-import { UserProfile } from '../../../model/user';
 import { MatDialog } from '@angular/material/dialog';
 import { TradeDialogComponent } from '../trade-info-behaviour/trade-dialog/trade-dialog.component';
+import { UserProfile } from '../../../model/user';
 import { Pokemon } from '../../../model/pokemon';
 
 @Component({
@@ -16,24 +23,35 @@ import { Pokemon } from '../../../model/pokemon';
 })
 export class CaptureBehaviourComponent implements OnInit {
   @Input() activity!: BaseActivity<CaptureActivityPayload>;
+  @Output() setPokemonImage = new EventEmitter<string>();
 
-  user!: UserProfile;
-  pokemon: Pokemon | null = null;
+  user: UserProfile | undefined;
+  pokemon: Pokemon | undefined;
 
   constructor(
-    private readonly userService: UserService,
+    public readonly userService: UserService,
     private readonly pokemonService: PokemonService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.userService
-      .getUserFromFirestore(this.activity.data.userId)
-      .subscribe((user) => (this.user = user));
-
     this.pokemonService
       .getPokemonFromId(this.activity.data.userPokemonId)
-      .subscribe((pokemon) => (this.pokemon = pokemon));
+      .subscribe((pokemon) => {
+        this.pokemon = pokemon;
+
+        this.setPokemonImage.emit(pokemon.image);
+
+        this.changeDetectorRef.detectChanges();
+      });
+
+    this.userService
+      .getUserFromFirestore(this.activity.data.userId)
+      .subscribe((user) => {
+        this.user = user;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   openTradeDialog() {

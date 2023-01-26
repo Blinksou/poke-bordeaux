@@ -12,13 +12,15 @@ import {
 } from '@angular/fire/auth';
 
 /** FIRESTORE */
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
+import { doc, Firestore, setDoc, Timestamp } from '@angular/fire/firestore';
 
 /** RXJS */
 import { catchError, first, from, map, NEVER, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginErrorDialogComponent } from '../pages/login-page/login-error-dialog/login-error-dialog.component';
 import { SignupErrorDialogComponent } from '../pages/signup-page/signup-error-dialog/signup-error-dialog.component';
+import { energyTimeGenerationInMs, hyperballTimeGenerationInMs, masterballTimeGenerationInMs, pokeballTimeGenerationInMs, superballTimeGenerationInMs } from '../pages/hunt-page/constants/generationTimes.constant';
+import { defaultEnergiesNumber, defaultHyperballsNumber, defaultMasterballsNumber, defaultPokeballsNumber, defaultSuperballsNumber } from '../pages/hunt-page/constants/defaultNumbers.constant';
 
 @Injectable({
   providedIn: 'root',
@@ -94,6 +96,16 @@ export class AuthService {
         allowTrading: true,
         allowOthersToViewActivity: true,
       },
+      hunt: {
+        energiesDate: Timestamp.fromDate(new Date(Date.now() - energyTimeGenerationInMs * defaultEnergiesNumber)),
+        pokeballs: {
+          pokeball: Timestamp.fromDate(new Date(Date.now() - pokeballTimeGenerationInMs * defaultPokeballsNumber)),
+          superball: Timestamp.fromDate(new Date(Date.now() - superballTimeGenerationInMs * defaultSuperballsNumber)),
+          hyperball: Timestamp.fromDate(new Date(Date.now() - hyperballTimeGenerationInMs * defaultHyperballsNumber)),
+          masterball: Timestamp.fromDate(new Date(Date.now() - masterballTimeGenerationInMs * defaultMasterballsNumber))
+        }
+      },
+      pokemons: [],
       stats: {
         capturedPokemons: 0,
         thrownPokeballs: 0,

@@ -7,4 +7,5 @@ export const environment = {
     apiKey: 'AIzaSyAHAW58ecJctpxzz-CTmLtEFEd08tAQ6VI',
     authDomain: 'poke-bordeaux.firebaseapp.com',
     messagingSenderId: '622454267580',
-  },}
+  },
+};

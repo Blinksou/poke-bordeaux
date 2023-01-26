@@ -1,7 +1,15 @@
 <div id="hunt-page">
-  <h2>Hunt</h2>
+  <h2 id="hunt-title">Hunt</h2>
 
-  <div *ngIf="step === 'HUNT'">
+  <div *ngIf="['BALL_SELECTION', 'RESULT', 'POKEMON_RESISTED'].includes(step) && pokemonToCapture !== null">
+    <p *ngIf="step === 'BALL_SELECTION'">A <span class="font-semibold">{{pokemonToCapture.name}}</span> appears !</p>
+    <p *ngIf="step === 'POKEMON_RESISTED'">A <span class="font-semibold">{{pokemonToCapture.name}}</span> resisted the attempt !</p>
+    <p *ngIf="step === 'RESULT' && pokemonWasCaptured">Congrats ! <span class="font-semibold">{{pokemonToCapture.name}}</span> has been captured !</p>
+    <p *ngIf="step === 'RESULT' && !pokemonWasCaptured"><span class="font-semibold">{{pokemonToCapture.name}}</span> has escaped !</p>
+    <img class="w-32 h-32 m-auto" src={{pokemonToCapture.image}} alt={{pokemonToCapture.name}}>
+  </div>
+
+  <div *ngIf="['HUNT', 'RESULT'].includes(step)">
     <app-energies-state
       *ngIf="energiesState"
       [energiesState]="energiesState"
@@ -9,20 +17,18 @@
     <button mat-raised-button (click)="goToBallSelection()">Hunt</button>
   </div>
 
-  <div *ngIf="step === 'BALL_SELECTION'">
-    <p>Pokeball Selection</p>
+  <div *ngIf="['POKEMON_RESISTED', 'BALL_SELECTION'].includes(step) && pokemonToCapture !== null">
+    <p>Choose a ball to capture the <span class="font-semibold">{{pokemonToCapture.name}}</span></p>
     <app-pokeball-list
       (selectBall)="selectBall($event)"
       [selectedBall]="selectedBall"
       [pokeballs]="pokeballsState"
     ></app-pokeball-list>
-    <button mat-raised-button (click)="capture()" [disabled]="!selectedBall">
-      CAPTURE
-    </button>
-    <button mat-raised-button (click)="giveUp()">GIVE UP</button>
-  </div>
-
-  <div *ngIf="step === 'RESULT'">
-    <p>Result</p>
+    <div class="mt-2 space-x-2">
+      <button mat-raised-button (click)="capture()" [disabled]="!selectedBall">
+        CAPTURE
+      </button>
+      <button mat-raised-button (click)="giveUp()">GIVE UP</button>
+    </div>
   </div>
 </div>
