@@ -79,7 +79,7 @@ export class UserService {
         if (pokemon) {
           await updateDoc(userDocument, {
             pokemons: pokemons.map((pokemon) => {
-              if (pokemon.pokemonId === userPokemonId) {
+              if (Number(pokemon.pokemonId) === userPokemonId) {
                 return {
                   ...pokemon,
                   quantity: pokemon.quantity + 1,
@@ -112,10 +112,11 @@ export class UserService {
 
         await updateDoc(userDocument, {
           pokemons: pokemons.map((pokemon) => {
-            if (pokemon.pokemonId === userPokemonId) {
+            console.log('pokemon mapped', pokemon);
+            if (Number(pokemon.pokemonId) === userPokemonId) {
               return {
                 ...pokemon,
-                quantity: Math.min(pokemon.quantity - 1, 0),
+                quantity: pokemon.quantity - 1,
               };
             }
 
