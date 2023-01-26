@@ -64,7 +64,11 @@ export class UserService {
       });
   }
 
-  async addPokemonToUser(userId: string, userPokemonId: number) {
+  async tradePokemon(
+    userId: string,
+    userPokemonId: number,
+    targetPokemonId: number
+  ) {
     const userDocument = doc(this.firestore, 'users', userId);
 
     this.getUserDocument(userId)
@@ -73,16 +77,23 @@ export class UserService {
         const pokemons = (user as UserProfile).pokemons;
 
         const pokemon = pokemons.find(
-          (pokemon) => pokemon.pokemonId === userPokemonId
+          (pokemon) => pokemon.pokemonId === targetPokemonId
         );
 
         if (pokemon) {
           await updateDoc(userDocument, {
             pokemons: pokemons.map((pokemon) => {
-              if (Number(pokemon.pokemonId) === userPokemonId) {
+              if (Number(pokemon.pokemonId) === targetPokemonId) {
                 return {
                   ...pokemon,
                   quantity: pokemon.quantity + 1,
+                };
+              }
+
+              if (Number(pokemon.pokemonId) === userPokemonId) {
+                return {
+                  ...pokemon,
+                  quantity: Math.max(pokemon.quantity - 1, 0),
                 };
               }
 
@@ -93,30 +104,17 @@ export class UserService {
           return;
         }
 
-        await updateDoc(userDocument, {
-          pokemons: [
-            ...(user as UserProfile).pokemons,
-            { pokemonId: userPokemonId, quantity: 1, isFavorite: false },
-          ],
-        });
-      });
-  }
-
-  async removePokemonFromUser(userId: string, userPokemonId: number) {
-    const userDocument = doc(this.firestore, 'users', userId);
-
-    this.getUserDocument(userId)
-      .pipe(take(1))
-      .subscribe(async (user) => {
-        const pokemons = (user as UserProfile).pokemons;
+        const addPokemonToTeam = [
+          ...(user as UserProfile).pokemons,
+          { pokemonId: targetPokemonId, quantity: 1, isFavorite: false },
+        ];
 
         await updateDoc(userDocument, {
-          pokemons: pokemons.map((pokemon) => {
-            console.log('pokemon mapped', pokemon);
+          pokemons: addPokemonToTeam.map((pokemon) => {
             if (Number(pokemon.pokemonId) === userPokemonId) {
               return {
                 ...pokemon,
-                quantity: pokemon.quantity - 1,
+                quantity: Math.max(pokemon.quantity - 1, 0),
               };
             }
 
