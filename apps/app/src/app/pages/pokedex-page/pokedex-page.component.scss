@@ -1,41 +1,42 @@
 .search-filters {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .example-form {
-    width: 80%;
-    height: 50px;
+  width: 80%;
+  height: 50px;
 }
 
 .filter {
-    margin-left: 10px;
-    height: 55px;
-}
+  margin-left: 10px;
+  height: 55px;
+  display: flex;
+  align-items: center;
 
-.filter button {
-    border: none;
-    height: 100%;
-    background-color: white;
+  & > img {
+    height: 40px;
+    width: 40px;
+  }
 }
 
 .example-full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .pokedex-content {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-    margin-bottom: 50px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .tooltip {
-    border: 1px solid green;
-    position: absolute;
-    top: 60px;
+  border: 1px solid green;
+  position: absolute;
+  top: 60px;
 }
