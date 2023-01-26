@@ -143,6 +143,15 @@ export class ActivityService {
       activity.data.userPokemonId
     );
     await this.userService.removePokemonFromUser(
+      activity.data.askerId,
+      activity.data.askerPokemonId
+    );
+
+    await this.userService.addPokemonToUser(
+      activity.data.userId,
+      activity.data.askerPokemonId
+    );
+    await this.userService.removePokemonFromUser(
       activity.data.userId,
       activity.data.userPokemonId
     );
