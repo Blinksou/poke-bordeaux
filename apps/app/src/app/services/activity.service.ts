@@ -14,15 +14,7 @@ import {
   setDoc,
   Timestamp,
 } from '@angular/fire/firestore';
-import {
-  map,
-  Observable,
-  of,
-  shareReplay,
-  startWith,
-  switchMap,
-  take,
-} from 'rxjs';
+import { map, Observable, of, startWith, switchMap, take } from 'rxjs';
 import { UserService } from './user.service';
 import { UserProfile } from '../model/user';
 
@@ -105,26 +97,25 @@ export class ActivityService {
           map((activities) =>
             activities.sort((a, b) => (b.type === 'trade-ask' ? 1 : -1))
           ),
-          map((activities) => of(activities)),
-          shareReplay()
+          // Add isVisible field
+          map((activities) =>
+            activities.map((activity) => {
+              return {
+                ...activity,
+                isVisible: this.userService
+                  .getUserFromFirestore(activity.data.userId)
+                  .pipe(
+                    map(
+                      (userFromActivity) =>
+                        this.isTradeAsk(activity) ||
+                        userFromActivity.options.allowOthersToViewActivity ||
+                        userFromActivity.id === user.id
+                    )
+                  ),
+              };
+            })
+          )
         );
-      }),
-      switchMap((activities) => activities),
-      map((activities) => {
-        activities.forEach((activity) => {
-          this.userService
-            .getUserFromFirestore(activity.data.userId)
-            .subscribe((user) => {
-              if (
-                !this.isTradeAsk(activity) &&
-                !user.options.allowOthersToViewActivity
-              ) {
-                activities.splice(activities.indexOf(activity), 1);
-              }
-            });
-        });
-
-        return activities;
       })
     );
   }

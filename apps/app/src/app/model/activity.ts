@@ -1,10 +1,12 @@
 import { Timestamp } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 export interface BaseActivity<D> {
   id?: string;
   type: ActivityType;
   data: BasePayload & D;
   createdAt: Timestamp;
+  isVisible?: Observable<boolean>;
 }
 
 export interface BasePayload {
