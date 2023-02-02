@@ -1,5 +1,6 @@
 <a
   class="w-full h-full flex items-center justify-center border border-black"
+  [id]="item.icon + '-page-link'"
   *ngIf="item"
   [routerLink]="item.path"
 >
