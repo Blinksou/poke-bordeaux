@@ -1,16 +1,19 @@
 import { HomePo } from '../support/app.po';
 import { LoginPo } from '../support/login.po';
 import { SignupPo } from '../support/signup.po';
+import { ProfilePo } from '../support/profile.po';
 
 describe('app', () => {
   let homePage: HomePo;
   let loginPage: LoginPo;
   let signupPage: SignupPo;
+  let profilePage: ProfilePo;
 
   beforeEach(() => {
     homePage = new HomePo();
     loginPage = new LoginPo();
     signupPage = new SignupPo();
+    profilePage = new ProfilePo();
   });
 
   afterEach(() => {
@@ -87,5 +90,20 @@ describe('app', () => {
     });
 
     // @TODO add tests for activities
+  });
+
+  describe('profile', () => {
+    it('should display profile', () => {
+      loginPage.loginAsTestDemoUser();
+      profilePage.goTo();
+      profilePage.shouldBeDisplayed();
+    });
+
+    it('should change description', () => {
+      loginPage.loginAsTestDemoUser();
+      profilePage.goTo();
+
+      profilePage.shouldChangeDescription();
+    });
   });
 });
