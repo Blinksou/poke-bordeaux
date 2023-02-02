@@ -155,6 +155,7 @@ export class AuthService {
         thrownPokeballs: 0,
         tradingFulfilled: 0,
       },
+      favorites: [],
     });
   }
 }
