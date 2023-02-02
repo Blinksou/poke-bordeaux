@@ -11,6 +11,6 @@ export class SignupPo {
     cy.get('input[id=login]').type(login);
     cy.get('input[id=password]').type(password);
     cy.get('input[id=repeat-password]').type(password, { force: true });
-    cy.get('#signup-btn').click();
+    cy.get('#signup-btn').click({ force: true });
   }
 }

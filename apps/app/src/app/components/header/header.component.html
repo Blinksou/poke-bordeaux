@@ -32,7 +32,7 @@
     </div>
 
     <ng-container *ngIf="(authService.isLoggedIn | async)">
-      <a routerLink="/signout" title="Sign out">
+      <a id="signout" routerLink="/signout" title="Sign out">
         <button
           class="m-2 w-14 h-14 flex items-center justify-center bg-card rounded-full border border-black shadow-md shadow-black hover:bg-secondary hover:text-gray-300">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
