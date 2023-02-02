@@ -78,9 +78,9 @@ export class PokedexPageComponent {
         }
       });
 
-      this.handleFilters();
-
       this.changeDetectorRef.markForCheck();
+      this.handleFilters();
+      this.handleSearchFilter();
     });
   }
 

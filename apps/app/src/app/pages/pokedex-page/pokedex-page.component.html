@@ -8,8 +8,8 @@
         matInput
         placeholder="Search"
         name="search"
-        (ngModelChange)="handleSearchFilter()"
         [(ngModel)]="this.pokedexFilters.searchNameValue"
+        (ngModelChange)="handleSearchFilter()"
       />
     </mat-form-field>
   </form>
