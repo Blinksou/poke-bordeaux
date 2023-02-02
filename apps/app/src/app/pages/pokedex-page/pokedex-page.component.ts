@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+} from '@angular/core';
 
 import isEqual from 'lodash.isequal';
 
@@ -37,6 +41,7 @@ import { PokedexFilters } from '../../../interfaces';
   ],
   templateUrl: './pokedex-page.component.html',
   styleUrls: ['./pokedex-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PokedexPageComponent {
   // Main properties
@@ -56,7 +61,8 @@ export class PokedexPageComponent {
 
   constructor(
     public readonly dialog: MatDialog,
-    public readonly pokedexService: PokedexService
+    public readonly pokedexService: PokedexService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.pokedexService.pokedexPokemons$.subscribe((pokemons) => {
       if (!pokemons) return;
@@ -73,6 +79,8 @@ export class PokedexPageComponent {
       });
 
       this.handleFilters();
+
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -101,10 +109,10 @@ export class PokedexPageComponent {
       }
 
       if (hideUnknown && pokemon.quantity === undefined) return false;
-      if (hideKnownNotOwned && pokemon.quantity === 0) return false;
 
-      return true;
+      return !(hideKnownNotOwned && pokemon.quantity === 0);
     });
+    this.changeDetectorRef.markForCheck();
   }
 
   handleSearchFilter() {
@@ -113,6 +121,7 @@ export class PokedexPageComponent {
         .toLowerCase()
         .includes(this.pokedexFilters.searchNameValue.toLowerCase())
     );
+    this.changeDetectorRef.markForCheck();
   }
 
   openDialog(): void {
@@ -132,15 +141,13 @@ export class PokedexPageComponent {
           hideUnknown: result.data.hideUnknown,
         };
         this.handleFilters();
+        this.changeDetectorRef.markForCheck();
       }
     });
   }
 
   handleFavoritePokemon(pokemon: PokedexPokemon): void {
     this.pokedexService.handleFavoritePokemon(pokemon);
-  }
-
-  trackPokemonId(index: number, pokemon: Pokemon) {
-    return pokemon.id;
+    this.changeDetectorRef.markForCheck();
   }
 }
