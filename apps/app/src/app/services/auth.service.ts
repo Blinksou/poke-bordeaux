@@ -33,6 +33,7 @@ import {
   defaultPokeballsNumber,
   defaultSuperballsNumber,
 } from '../pages/hunt-page/constants/defaultNumbers.constant';
+import { UserProfile } from '../model/user';
 
 @Injectable({
   providedIn: 'root',
@@ -108,11 +109,11 @@ export class AuthService {
     user: User,
     additionalInfos: Record<string, unknown>
   ) {
-    return await setDoc(doc(this.firestore, 'users', user.uid), {
+    const newUser: Omit<UserProfile, 'id'> = {
       infos: {
         description: 'You do not have any description',
         avatar: '',
-        name: user.email,
+        name: user.email as string,
         ...additionalInfos,
       },
       options: {
@@ -156,6 +157,8 @@ export class AuthService {
         tradingFulfilled: 0,
       },
       favorites: [],
-    });
+    };
+
+    return await setDoc(doc(this.firestore, 'users', user.uid), newUser);
   }
 }
