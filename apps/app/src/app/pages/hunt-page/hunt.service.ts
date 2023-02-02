@@ -101,14 +101,14 @@ export class HuntService {
   }
 
   /** ENERGIES */
-  private determineEnergiesNumber(energiesCount: number): number {
+  public determineEnergiesNumber(energiesCount: number): number {
     if (energiesCount > defaultEnergiesNumber) return defaultEnergiesNumber;
     if (energiesCount < 0) return 0;
 
     return energiesCount;
   }
 
-  private determineEnergiesState(savedDate: Timestamp): IncrementableCounter {
+  public determineEnergiesState(savedDate: Timestamp): IncrementableCounter {
     const currentDate = new Date();
     const difference = currentDate.getTime() - savedDate.toMillis();
     const energiesCount = Math.floor(difference / energyTimeGenerationInMs);
@@ -179,7 +179,7 @@ export class HuntService {
   }
 
   /** POKEBALLS */
-  private determinePokeballsState(pokeballs: Pokeballs): PokeballsState {
+  public determinePokeballsState(pokeballs: Pokeballs): PokeballsState {
     return [
       this.determinePokeballState(pokeballs.pokeball, PokeballType.POKEBALL),
       this.determinePokeballState(pokeballs.superball, PokeballType.SUPERBALL),
@@ -191,7 +191,7 @@ export class HuntService {
     ];
   }
 
-  private determinePokeballState(
+  public determinePokeballState(
     savedDate: Timestamp,
     pokeballType: PokeballType
   ): Pokeball {

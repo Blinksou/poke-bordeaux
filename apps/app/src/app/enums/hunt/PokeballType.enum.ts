@@ -1,6 +1,6 @@
 export enum PokeballType {
-  'POKEBALL',
-  'SUPERBALL',
-  'HYPERBALL',
-  'MASTERBALL',
+  'POKEBALL' = 'PokeBall',
+  'SUPERBALL' = 'SuperBall',
+  'HYPERBALL' = 'HyperBall',
+  'MASTERBALL' = 'MasterBall',
 }
