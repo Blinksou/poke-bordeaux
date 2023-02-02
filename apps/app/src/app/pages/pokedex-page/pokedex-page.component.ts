@@ -25,6 +25,7 @@ import { PokedexPokemon, PokedexService } from './pokedex.service';
 
 /** INTERFACES */
 import { PokedexFilters } from '../../../interfaces';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-pokedex-page',
@@ -38,6 +39,7 @@ import { PokedexFilters } from '../../../interfaces';
     MatDialogModule,
     PokemonAvatarComponent,
     MatGridListModule,
+    TranslateModule,
   ],
   templateUrl: './pokedex-page.component.html',
   styleUrls: ['./pokedex-page.component.scss'],
@@ -60,8 +62,8 @@ export class PokedexPageComponent {
   selectedPokemon: Pokemon | null = null;
 
   constructor(
-    public readonly dialog: MatDialog,
-    public readonly pokedexService: PokedexService,
+    private readonly dialog: MatDialog,
+    private readonly pokedexService: PokedexService,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.pokedexService.pokedexPokemons$.subscribe((pokemons) => {

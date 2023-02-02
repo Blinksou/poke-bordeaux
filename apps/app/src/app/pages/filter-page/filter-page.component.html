@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>Filters</h2>
+<h2 mat-dialog-title>{{ 'pokedex.filters.title' | translate }}</h2>
 <div mat-dialog-content class="mat-typography">
-  <h3>Types</h3>
+  <h3>{{ 'pokedex.filters.types' | translate }}</h3>
   <form
     class="example-form"
     #form="ngForm"
@@ -16,23 +16,29 @@
         <div class="flex items-center">
           <img
             src="{{ type.image }}"
-            alt="{{ type.name }}"
+            alt="{{ type.name | titlecase }}"
             class="w-7 h-7 object-contain"
           />
-          <span>{{ type.name }}</span>
+          {{ type.name | titlecase }}
         </div>
       </mat-checkbox>
     </div>
     <mat-slide-toggle class="toggle" [(ngModel)]="hideKnownNotOwned" name="hideKnownNotOwned"
-      >Hide known, not owned</mat-slide-toggle
+    >
+      {{ 'pokedex.filters.hideKnownNotOwned' | translate }}
+    </mat-slide-toggle
     >
     <mat-slide-toggle class="toggle" [(ngModel)]="hideUnknown" name="hideUnknown"
-      >Hide unknown</mat-slide-toggle
+    >
+      {{ 'pokedex.filters.hideUnknown' | translate }}
+    </mat-slide-toggle
     >
     <div class="flex justify-center space-x-5 mt-3 items-center">
-      <button mat-raised-button type="submit">Apply</button>
+      <button mat-raised-button type="submit">
+        {{ 'pokedex.filters.apply' | translate }}
+      </button>
       <button type="button" mat-raised-button (click)="closeDialog()">
-        Close
+        {{ 'pokedex.filters.close' | translate }}
       </button>
     </div>
   </form>

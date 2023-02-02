@@ -1,7 +1,7 @@
 <div class="search-filters">
   <form class="example-form">
     <mat-form-field class="example-full-width">
-      <mat-label>Search a pokemon..</mat-label>
+      <mat-label>{{ 'pokedex.search' | translate }}</mat-label>
       <mat-icon matPrefix mat-button color="primary">search</mat-icon>
       <input
         type="tel"
@@ -18,7 +18,7 @@
       class="flex justify-center items-center h-14 w-14 bg-card rounded-full border border-black shadow-md shadow-black hover:bg-secondary hover:text-gray-300l"
       mat-raised-button (click)="openDialog()"
     >
-      <img src="/assets/pokedex/filter.svg"  alt="filter pokemon icon"/>
+      <img src="/assets/pokedex/filter.svg" alt="filter pokemon icon" />
     </button>
   </div>
 </div>

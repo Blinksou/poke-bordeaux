@@ -23,7 +23,7 @@
     />
   </button>
   <div *ngIf="selectedPokemon && selectedPokemon.id === pokemon.id" class="tool-tip">
-    <mat-grid-list cols="2" rowHeight="2:1" >
+    <mat-grid-list cols="2" rowHeight="2:1">
       <mat-grid-tile>
         <div class="tool-tip-avatar">
           <img loading="lazy" *ngIf="pokemon.image" src="{{pokemon.image}}" />
@@ -37,7 +37,7 @@
               <img class="icon-type" loading="lazy" src="{{t.image}}" />
             </li>
           </ul>
-          <p *ngIf="pokemon.quantity">{{pokemon.quantity}} owned</p>
+          <p *ngIf="pokemon.quantity">{{pokemon.quantity}} {{ 'pokedex.owned' | translate }}</p>
         </div>
       </mat-grid-tile>
     </mat-grid-list>

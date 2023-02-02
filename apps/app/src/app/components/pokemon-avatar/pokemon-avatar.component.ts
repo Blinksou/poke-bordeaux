@@ -13,6 +13,7 @@ import { Pokemon } from './model/pokemon';
 
 /** SERVICES */
 import { PokedexPokemon } from '../../pages/pokedex-page/pokedex.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-pokemon-avatar',
@@ -24,6 +25,7 @@ import { PokedexPokemon } from '../../pages/pokedex-page/pokedex.service';
     MatBadgeModule,
     MatIconModule,
     MatGridListModule,
+    TranslateModule,
   ],
   templateUrl: './pokemon-avatar.component.html',
   styleUrls: ['./pokemon-avatar.component.scss'],

@@ -3,6 +3,7 @@ import { registerMessages } from './partials/_register.en';
 import { activityMessages } from './partials/_activity.en';
 import { profileMessages } from './partials/_profile.en';
 import { huntMessages } from './partials/_hunt.en';
+import { pokedexMessages } from './partials/_pokedex.en';
 
 export const en = {
   ...loginMessages,
@@ -10,4 +11,5 @@ export const en = {
   ...activityMessages,
   ...profileMessages,
   ...huntMessages,
+  ...pokedexMessages,
 };
