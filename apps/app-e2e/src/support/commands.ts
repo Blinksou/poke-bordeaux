@@ -18,6 +18,8 @@ declare namespace Cypress {
 
 Cypress.Commands.add('logout', () => {
   cy.visit('/signout');
+
+  cy.get('#login-title').should('exist');
 });
 
 //

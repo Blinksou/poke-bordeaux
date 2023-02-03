@@ -12,7 +12,7 @@ import { NavigationEnd, Router } from '@angular/router';
 /** RXJS */
 
 const pokemonsList: { [key: string]: Pokemon } = pokemons;
-const pokemonsArray = Object.values(pokemons);
+const pokemonsArray = Object.values(pokemons ?? []);
 
 @Injectable({
   providedIn: 'root',

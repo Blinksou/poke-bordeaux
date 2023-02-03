@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HuntPageComponent } from './hunt-page.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { FirestoreModule } from '@angular/fire/firestore';
+import { FirebaseAppModule } from '@angular/fire/app';
 
 describe('HuntPageComponent', () => {
   let component: HuntPageComponent;
@@ -8,9 +11,13 @@ describe('HuntPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ HuntPageComponent ]
-    })
-    .compileComponents();
+      imports: [
+        HuntPageComponent,
+        TranslateModule.forRoot(),
+        FirestoreModule,
+        FirebaseAppModule,
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HuntPageComponent);
     component = fixture.componentInstance;

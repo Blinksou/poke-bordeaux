@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfilePageComponent } from './profile-page.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { FirestoreModule } from '@angular/fire/firestore';
+import { FirebaseAppModule } from '@angular/fire/app';
 
 describe('ProfilePageComponent', () => {
   let component: ProfilePageComponent;
@@ -8,9 +11,13 @@ describe('ProfilePageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ ProfilePageComponent ]
-    })
-    .compileComponents();
+      imports: [
+        ProfilePageComponent,
+        TranslateModule.forRoot(),
+        FirestoreModule,
+        FirebaseAppModule,
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ProfilePageComponent);
     component = fixture.componentInstance;

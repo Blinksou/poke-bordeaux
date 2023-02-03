@@ -1,16 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-
-import { FilterPageService } from './filter-page.service';
+import { FilterPageComponent } from './filter-page.component';
 
 describe('PokedexPageService', () => {
-  let service: FilterPageService;
+  let component: FilterPageComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FilterPageService);
+    component = TestBed.inject(FilterPageComponent);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

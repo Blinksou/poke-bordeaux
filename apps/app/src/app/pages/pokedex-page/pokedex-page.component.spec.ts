@@ -8,7 +8,7 @@ describe('PokedexPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PokedexPageComponent],
+      imports: [PokedexPageComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PokedexPageComponent);

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BottomNavigationComponent } from './bottom-navigation.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('BottomNavigationComponent', () => {
   let component: BottomNavigationComponent;
@@ -8,9 +9,8 @@ describe('BottomNavigationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ BottomNavigationComponent ]
-    })
-    .compileComponents();
+      imports: [BottomNavigationComponent, RouterTestingModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BottomNavigationComponent);
     component = fixture.componentInstance;
